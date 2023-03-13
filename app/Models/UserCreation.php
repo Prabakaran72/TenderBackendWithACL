@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
+// use Spatie\Permission\Traits\HasPermissions;
 
 class UserCreation extends Model
 {
     public $table = 'user_creation';
     use HasFactory, HasRoles;
+    // , HasPermissions;
 
     /**
      * The attributes that are mass assignable.

@@ -70,6 +70,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 Route::post('login1', [UserControllerTemp::class, 'login1']);
 Route::post('validtetoken', [UserControllerTemp::class, 'validateToken']);
 
@@ -153,6 +154,7 @@ Route::post('bidcreation/corrigendumpublish/docupload/{id}', [BidmanagementCorri
 Route::get('bidcreation/creation/live_tenders', [BidCreationCreationController::class, 'live_tender']);
 Route::get('bidcreation/creation/fresh_tenders', [BidCreationCreationController::class, 'fresh_tender']);
 Route::get('bidcreation/creation/awarded_tenders', [BidCreationCreationController::class, 'awarded_tenders']);
+Route::get('bidcreation/creation/projectstatus', [BidCreationCreationController::class, 'projectstatus']);// returns running  & completed projects count for dashboard
 
 Route::get('download/tenderfeedocs/{id}', [BidCreationTenderFeeController::class, 'getdocs']);
 Route::get('download/emdfeedocs/{id}', [BidCreationEMDController::class, 'getdocs']);
@@ -204,6 +206,12 @@ Route::get('/tenderstatus/awardontract/download/{id}', [TenderStatusContractAwar
 Route::post('communicationfilesmaster/list', [CommunicationfilesmasterController::class, 'docList']);
 Route::delete('communicationfilesmaster/deletedoc/{id}', [CommunicationfilesmasterController::class, 'deletefile']);
 Route::get('download/communicationfilesmaster/{id}', [CommunicationfilesmasterController::class, 'download']);
+
+
+Route::get('/dashboard/ulbdetails', [ULBDetailsController::class, 'getulbdashboarddetails']);//Dashborad contents based on ulbdetails
+Route::get('/dashboard/bidanalysis', [ULBDetailsController::class, 'getbidanalysis']);//Dashborad contents based on ulbdetails
+Route::get('/dashboard/tenderanalysis', [ULBDetailsController::class, 'tenderanalysis']);//Dashborad contents based on ulbdetails
+
 
 // Route::put('tenderstatus/awardcontract/{id}', [TenderStatusContractAwardedController::class, 'update']);
 //  Route::post('tenderstatus/awardcontract/store', [TenderStatusContractAwardedController::class, 'insert']);

@@ -6,19 +6,42 @@ use App\Models\ProjectStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Spatie\LaravelIgnition\Recorders\DumpRecorder\Dump;
+use App\Models\User;
+
 
 class ProjectStatusController extends Controller
 {
+ 
+
+//     function __construct() {
+//         $this->middleware('permission:create|edit|view|delete', ['only' => ['index','show']]);
+//         $this->middleware('permission:create', ['only' => ['create','store']]);
+//         $this->middleware('permission:edit', ['only' => ['edit','update']]);
+//         $this->middleware('permission:delete', ['only' => ['destroy']]);
+//    }
+
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // $user=Auth::user();
+        // var_dump("Headers : ".$request->header()."    ----");
+        return $request->header("authorization");
+        // $user = auth('api')->user();
+        // $roles= $user->roles->pluck('name');
+        // $permission= $user->getPermissionsViaRoles()->pluck('name');
+        
+        // //  $roles   --- permission -- $permission";
+        // echo "roles : $roles   --- permission : $permission";
+
+        
         $ProjectStatus = ProjectStatus::orderBy('created_at', 'desc')->get();
-      
     
         if ($ProjectStatus)
             return response()->json([
@@ -120,6 +143,10 @@ class ProjectStatusController extends Controller
      */
     public function update(Request $request,  $id)
     {
+        if ($request->user()->cannot('update', $id)) {
+            abort(403);
+        }
+
         // 
         $ProjectStatus = ProjectStatus::where('projectstatus', '=', $request->projectstatus)->where('id', '!=', $id)->exists();
         if ($ProjectStatus) {

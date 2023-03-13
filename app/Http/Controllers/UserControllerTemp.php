@@ -30,7 +30,7 @@ class UserControllerTemp extends Controller
         }
 
             $user = Auth::user();
-
+           
             $token = new Token;
             $token -> tokenId = $tokenId;
             $token -> userid = $user['id'];
