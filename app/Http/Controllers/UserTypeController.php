@@ -158,4 +158,19 @@ class UserTypeController extends Controller
             ]);
         }
     }
+
+////////////////role list except admin////////////////    
+    public function getRoleList()
+    {
+        $roleList = []; 
+        $role_list = Role::where('id','!=','1')->where('name','!=','Admin')->get();
+        foreach ($role_list as $row) {
+            $roleList[] = ["value" => $row['id'], "label" =>  $row['name']];
+        }
+        return  response()->json([
+            'rolelist' =>  $roleList,
+        ]);
+    }
+
+
 }

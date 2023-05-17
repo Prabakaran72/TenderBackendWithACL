@@ -58,34 +58,26 @@ class AttendanceRegisterController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'attendance_type_id' => 'required|exists:attendance_types,id',
-        //     'from_date' => 'required',
-        //     'to_date' => 'required',
-        //     'start_time' => 'required|date_format:H:i:s',
-        //     'reason' => 'required',
-        //     'tokenid' => 'required',
-        //     'file' => 'required|array'
-        // ]);
-
-        // if ($validator->fails()) 
-        // {
-        //     return response()->json($validator->errors(), 422);
-        // }
-        // return $request->file;
-
+        
         $user = Token::where('tokenid', $request->tokenid)->first();
 
         $userid = $user['userid'];
         if ($user) {
+
+            $leave_exist = LeaveRegister::where('user_id', '=', $request->user_id)
+                                        ->where('attendance_type_id','=', $request->attendance_type_id)
+                                        ->where('from_date','=', $request->from_date)
+                                        ->where('to_date','=', $request->to_date)
+                                        ->exists();
+            if ($leave_exist) {
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Employee Leave Already Exists!!'
+                ]);
+            }
 
             $tabel = new LeaveRegister;
             $tabel->user_id = $request->user_id;
@@ -321,13 +313,12 @@ class AttendanceRegisterController extends Controller
     //    }
     // }
 
-    public function download($fileName)
+    public function download(Request $request)
     {
 
-        $doc = LeaveRegistersFile::find($fileName);
+        $doc = LeaveRegistersFile::where('id',$request->id)->where('filename',$request->fileName)->first();
 
         if ($doc) {
-
             $fileName = $doc['hasfilename'];
             //$file = public_path()."'uploads/attendanceregisterfiles/'".$fileName;
             $file = public_path('uploads/attendanceregisterfiles/' . $fileName);
@@ -393,43 +384,63 @@ class AttendanceRegisterController extends Controller
 
     public function getEmployeeLeaveList(Request $request)
     {
+        
         $userID = $request->user_id;
         $roleID = $request->role_id;
         $month = $request->from_date;
         $curr_month = Carbon::now()->month;
-
+    
         $user_list = [];
         $users = User::where('userType','!=',1)->get();
         foreach($users as $row)
         {
             $user_list[] =  ['id'=>$row->id,'name'=>$row->name]; 
         }
-
-        $leave = LeaveRegister::whereMonth('from_date',$curr_month);
-        if($userID)
-        {
-            $leave->where('user_id', $userID);
-        }
-        // if($roleID)
-        // {
-        //     $leave->where('userType', $roleID);
-        // }
-        // if($month)
-        // {
-        //     $leave->whereMonth('from_date','<=', $month);
-        // }
-        $leave = $leave->get();
-
+    
+        $leave = DB::table('leave_registers as lr')
+                ->join('users as u','u.id','lr.user_id')
+                ->join('roles as r','r.id','u.userType')
+                ->join('attendance_types as at','at.id','lr.attendance_type_id')
+                ->select(
+                    'lr.user_id',
+                    'lr.attendance_type_id',
+                    'at.attendanceType',
+                    'lr.from_date',
+                    'lr.to_date',
+                    'lr.start_time',
+                    'lr.reason',
+                    'r.id as role_ID',
+                );
+                   
+                if($userID)
+                {
+                    $leave->where('lr.user_id',$userID);
+                }
+                if($roleID)
+                {
+                    $leave->where('r.id',$roleID);
+                }
+                if($month)
+                {
+                    $leave->whereMonth('lr.from_date','=',$month);
+                } else {
+                    $leave->whereMonth('lr.from_date','=',$curr_month);
+                }
+                    $leave = $leave->get();
+                    
+    
         $result = [];
         foreach ($leave as $row) {
             $user_id = $row->user_id;
             $result[$user_id][] = [
                 'user_id' => $user_id,
                 'attendance_type_id' => $row->attendance_type_id,
+                'attendanceType' =>$row->attendanceType,
                 'from_date' => $row->from_date,
                 'to_date' => $row->to_date,
                 'start_time' => $row->start_time,
                 'reason' => $row->reason,
+                'role' => $row->role_ID,
             ];
         }
                 $holidaylist = []; 
@@ -441,12 +452,11 @@ class AttendanceRegisterController extends Controller
                 {
                     $holidaylist[] = ['id'=>$row->id,'date'=>$row->date,'occasion'=>$row->occasion,'remarks'=>$row->remarks]; 
                 }
-
+    
         if ($holiday)
         return response()->json([
             'status' => 200,
             'userlist' => $user_list,
-          //  'empleavelist' => $leave,
             'result' => $result,
             'holiday' => $holidaylist,
         ]);
@@ -456,5 +466,48 @@ class AttendanceRegisterController extends Controller
                 'message' => 'The provided credentials are incorrect.'
             ]);
         }
+    }
+    public function userbasedindex(Request $request)
+    {
+        
+        $user = Token::where('tokenid',$request->tokenid)->first();
+
+        if($user['userid'])
+        {  
+            if( $user['userid']==1) //if logged user is a admin user
+            {
+                $leave_register = LeaveRegister::orderBy('created_at', 'desc')->get();
+            }
+            else{  //if logged user is not an admin user
+                $leave_register = LeaveRegister::where('user_id',$user['userid'])->orderBy('created_at', 'desc')->get();
+            }
+        $leavereglist = [];
+        
+
+        foreach ($leave_register as $row) {
+            $userdata = User::where('id', $row->user_id)->first();
+            $attendancetype = AttendanceType::where('id', $row->attendance_type_id)->first();
+            $leavereglist[] = ['id' => $row->id, 'user_name' => $userdata->userName, 'leavedate' => $row->from_date, 'leavetype' => $attendancetype->attendanceType, 'reason' => $row->reason];
+        }
+
+
+        if ($leave_register)
+            return response()->json([
+                'status' => 200,
+                'leaveregister' => $leavereglist
+            ]);
+        else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'The provided credentials are incorrect.'
+            ]);
+        }
+    }
+    else{
+        return response()->json([
+            'status' => 404,
+            'message' => 'The provided credentials are incorrect.'
+        ]);
+    }
     }
 }

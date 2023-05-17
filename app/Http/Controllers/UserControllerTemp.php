@@ -522,7 +522,6 @@ class UserControllerTemp extends Controller
 /********************EMP LIST***************************** */
 public function getEmployeeList()
 {
-    
     $employee_list = User::where("activeStatus", "=", "active")
                 ->where('userType','!=','1')
                 ->get();

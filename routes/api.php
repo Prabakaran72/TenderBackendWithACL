@@ -222,10 +222,13 @@ Route::post('ulbreport/ulblist', [ULBDetailsController::class, 'getulbreport']);
 Route::post('ulbreport/populb', [ULBDetailsController::class, 'setpopupUlb']);//ulb popup page  
 
 
+
 Route::post('usertype', [UserTypeController::class, 'store']);
 Route::get('usertype', [UserTypeController::class, 'index']);
 Route::get('usertype/options', [UserTypeController::class, 'getoptions']);
 // Route::get('userOptions', [UserControllerTemp::class, 'getoptions']);
+
+Route::get('rolelist', [UserTypeController::class, 'getRoleList']);
 Route::get('bdmoptions', [UserControllerTemp::class, 'getBdmUsersList']);
 Route::get('bdmlist', [UserControllerTemp::class, 'getBdmList']);
 
@@ -268,7 +271,9 @@ Route::get("getcallhistory/list/{id}",[CallHistoryController::class,'getCallHist
 Route::POST("calltobdm/updateAssignedCustomer",[CalltobdmController::class,'updateAssignedCustomer']);
 Route::post('getdaywisereport/list',[DayWiseReportController::class,'getDayWiseReport']);
 
+
 //attendanceregisterroutes
+Route::post('attendanceregister/entrylist',[AttendanceRegisterController::class,'userbasedindex']);
 // Route::post('attendanceregister',[AttendanceRegisterController::class,'store']);
  Route::post('attendanceregister/fileList',[AttendanceRegisterController::class,'getFilesList']);
 // Route::get('attendanceregister/{id}',[AttendanceRegisterController::class,'show']);
@@ -277,8 +282,10 @@ Route::post('getdaywisereport/list',[DayWiseReportController::class,'getDayWiseR
 Route::get('userlist', [AttendanceRegisterController::class,'UserList']);
 Route::get('attendancetypelist', [AttendanceTypeController::class,'getAttendanceTypeList']);
 Route::get('attendancefile/{id}/{fileName}', [AttendanceRegisterController::class, 'download']);
+Route::post('attendance/docdownload', [AttendanceRegisterController::class, 'download']);
 Route::delete('destroyfile/{id}',[AttendanceRegisterController::class,'destroyFile']);
 Route::post('getempleave/list',[AttendanceRegisterController::class,'getEmployeeLeaveList']);//For Attendance Report
+
 
 
 /*********************************
