@@ -108,10 +108,22 @@ class AttendanceRegisterController extends Controller
                     $another_table->created_by = $userid;
                     $another_table->save();
                 }
-                if ($another_table) {
+                if ($another_table || $inserted_id) {
                     return response()->json([
                         'status' => 200,
-                        'message' => 'Attendance FIle Created Successfully!'
+                        'message' => 'Attendance Entry Added Successfully!'
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => 400,
+                        'message' => 'Provided Credentials are Incorrect!'
+                    ]);
+                }
+            }else{
+                if ($inserted_id) {
+                    return response()->json([
+                        'status' => 200,
+                        'message' => 'Attendance Entry Added Successfully!'
                     ]);
                 } else {
                     return response()->json([
@@ -120,6 +132,7 @@ class AttendanceRegisterController extends Controller
                     ]);
                 }
             }
+
         }
     }
 
@@ -387,8 +400,18 @@ class AttendanceRegisterController extends Controller
         
         $userID = $request->user_id;
         $roleID = $request->role_id;
-        $month = $request->from_date;
-        $curr_month = Carbon::now()->month;
+        
+        if(empty($request->from_date))
+        {
+            $month = Carbon::now()->month;
+            $year = Carbon::now()->year;
+        }
+        else
+        {
+            $date = Carbon::createFromFormat('m-Y', $request->from_date);
+            $year = $date->year;
+            $month = $date->month;
+        }
     
         $user_list = [];
         $users = User::where('userType','!=',1)->get();
@@ -405,6 +428,7 @@ class AttendanceRegisterController extends Controller
                     'lr.user_id',
                     'lr.attendance_type_id',
                     'at.attendanceType',
+                    'at.icon_class',
                     'lr.from_date',
                     'lr.to_date',
                     'lr.start_time',
@@ -414,28 +438,27 @@ class AttendanceRegisterController extends Controller
                    
                 if($userID)
                 {
-                    $leave->where('lr.user_id',$userID);
+                    $leave->where('lr.user_id',$userID)->where('lr.user_id','!=',1);
                 }
                 if($roleID)
                 {
-                    $leave->where('r.id',$roleID);
+                    $leave->where('r.id',$roleID)->where('r.id','!=',1);
                 }
-                if($month)
-                {
+                
                     $leave->whereMonth('lr.from_date','=',$month);
-                } else {
-                    $leave->whereMonth('lr.from_date','=',$curr_month);
-                }
+                    $leave->whereYear('lr.from_date','=',$year);
+               
                     $leave = $leave->get();
-                    
-    
+              
         $result = [];
-        foreach ($leave as $row) {
+        foreach ($leave as $row) 
+        {
             $user_id = $row->user_id;
             $result[$user_id][] = [
                 'user_id' => $user_id,
                 'attendance_type_id' => $row->attendance_type_id,
                 'attendanceType' =>$row->attendanceType,
+                'icon_class' =>$row->icon_class,
                 'from_date' => $row->from_date,
                 'to_date' => $row->to_date,
                 'start_time' => $row->start_time,
@@ -445,7 +468,8 @@ class AttendanceRegisterController extends Controller
         }
                 $holidaylist = []; 
                 $holiday = Holiday::orderBy('created_at', 'ASC')
-                        ->whereMonth('date',$curr_month)
+                        ->whereMonth('date',$month)
+                        ->whereYear('date',$year)
                         ->get();
         
                 foreach($holiday as $row)
@@ -460,13 +484,15 @@ class AttendanceRegisterController extends Controller
             'result' => $result,
             'holiday' => $holidaylist,
         ]);
-        else {
+        else 
+        {
             return response()->json([
                 'status' => 404,
                 'message' => 'The provided credentials are incorrect.'
             ]);
         }
     }
+    
     public function userbasedindex(Request $request)
     {
         

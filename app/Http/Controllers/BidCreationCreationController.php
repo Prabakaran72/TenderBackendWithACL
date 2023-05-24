@@ -293,8 +293,19 @@ class BidCreationCreationController extends Controller
           
             $queryBuilder = TenderCreation::leftjoin('bid_creation__creations','tender_creations.id','bid_creation__creations.tendercreation')
             ->join('customer_creation_profiles','tender_creations.customername','customer_creation_profiles.id')
+            ->join('state_masters as sm','sm.id','customer_creation_profiles.state')
             ->leftjoin('bid_management_tender_or_bid_stauses', 'bid_creation__creations.id', 'bid_management_tender_or_bid_stauses.bidid')
-            ->select('tender_creations.id AS tenderid', 'bid_creation__creations.id AS bidid', 'tender_creations.nitdate', 'tender_creations.customername', 'bid_creation__creations.quality', 'bid_creation__creations.unit', 'bid_creation__creations.submissiondate', 'customer_creation_profiles.customer_name')
+            ->select(
+                'tender_creations.id AS tenderid', 
+                'bid_creation__creations.id AS bidid', 
+                'tender_creations.nitdate', 
+                'tender_creations.customername',
+                'bid_creation__creations.quality', 
+                'bid_creation__creations.unit', 
+                'bid_creation__creations.submissiondate', 
+                'customer_creation_profiles.customer_name',
+                'sm.state_name',
+                )
             ->addselect(DB::raw("(CASE 
             WHEN bid_management_tender_or_bid_stauses.status = 'Cancel' THEN 'Tender Cancel'
             WHEN bid_management_tender_or_bid_stauses.status = 'Retender'  THEN 'Retender'

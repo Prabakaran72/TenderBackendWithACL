@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('other_expenses', function (Blueprint $table) {
-            //
+        Schema::table('attendance_types', function (Blueprint $table) {
+            $table->string('icon_class')->after('attendanceType');
         });
     }
 
@@ -25,11 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('other_expenses', function (Blueprint $table) {
-            //
-            $table->unsignedBigInteger('expenses_app_id')->nullable();
-            $table->foreign('expenses_app_id')->nullable()->references('id')->on('expenses_approvals')->onDelete('restrict')->onUpdate('NO ACTION');
-        
+        Schema::table('attendance_types', function (Blueprint $table) {
+            $table->dropColumn('icon_class');
         });
     }
 };

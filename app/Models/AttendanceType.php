@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class AttendanceType extends Model
 {
     use HasFactory;
-    protected $fillable  = ['attendanceType','acitveStatus','created_by','edited_by'];
+    protected $fillable  = ['attendanceType','acitveStatus','icon_class','created_by','edited_by'];
 }

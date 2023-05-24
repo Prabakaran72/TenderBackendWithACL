@@ -68,8 +68,9 @@ use App\Http\Controllers\OtherExpenseController;
 use App\Http\Controllers\CallHistoryController;
 use App\Http\Controllers\DayWiseReportController;
 use App\Http\Controllers\AttendanceRegisterController;
-
-
+use App\Http\Controllers\ExpensesApprovalController;
+use App\Http\Controllers\OtherExpensesController;
+use App\Http\Controllers\HolidaysController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -291,30 +292,40 @@ Route::post('getempleave/list',[AttendanceRegisterController::class,'getEmployee
 /*********************************
  * other expesive Naveen
  */
+/******************************* */
+
+/*********************************
+ * Expenses type
+ */
 Route::get('expensetype/list', [ExpenseTypeController::class, 'getExpenseTypeList']);
 Route::get('otherexpsubfiledownload/{id}/{fileName}', [OtherExpenseSubController::class, 'download']);
 Route::get('callcreation/getCallMainList/{token}', [CallCreationController::class, 'getCallMainList']);     
 Route::get('customernamelist', [ExpenseTypeController::class, 'customerNameList']);
-Route::post('callnumber', [ExpenseTypeController::class, 'CallNumber']);
 Route::get('expansetypelist/{expid}', [ExpenseTypeController::class, 'ExpanseTypeList']);
 Route::post('fileupload/{id}', [ExpenseTypeController::class, 'Fileupload']);
-Route::post('/expensestore', [ExpenseTypeController::class, 'Expensestore']);
-Route::post('/expenseinv', [ExpenseTypeController::class, 'ExpInvoice']);
 Route::get('expenseshow/{id}',[ExpenseTypeController::class,'Expenseshow']);
-Route::get('downloadfile/{filename}', [ExpenseTypeController::class,'downloadFile']);
 Route::post('expenseshowupdate/{id}',[ExpenseTypeController::class,'Expenseshowupdate']);
 Route::delete('expensedestroy/{id}',[ExpenseTypeController::class,'Expensedestroy']);
-Route::post('/expensesub', [ExpenseTypeController::class, 'ExpSub']);
-Route::post('/editsub', [ExpenseTypeController::class, 'EditSub']);
-Route::post('/subupdate', [ExpenseTypeController::class, 'SubUpdate']);
-Route::get('/otherexpensesubdel/{id}', [ExpenseTypeController::class, 'Expensedestroy']);
-Route::post('/mainlist', [ExpenseTypeController::class, 'Mainlist']);
-Route::get('/updatedl/{id}', [ExpenseTypeController::class, 'GetDel']);
-Route::delete('deleteMain/{id}',[ExpenseTypeController::class,'deleteMain']);
-Route::post('/finalSubmit', [ExpenseTypeController::class, 'finalSubmit']);
-Route::post('expenses/staffList', [ExpenseTypeController::class, 'get_staff_name_limits']);
-Route::post('/getlimit', [ExpenseTypeController::class, 'lmitAmount']);
-/******************************* */
+
+/*** Other Expesive   */
+
+Route::post('expenses/staffList', [OtherExpensesController::class, 'get_staff_name_limits']);
+Route::post('/expenseinv', [OtherExpensesController::class, 'ExpInvoice']);
+Route::get('/updatedl/{id}', [OtherExpensesController::class, 'GetDel']);
+Route::post('/finalSubmit', [OtherExpensesController::class, 'finalSubmit']);
+Route::post('/expensesub', [OtherExpensesController::class, 'ExpSub']);
+Route::get('/otherexpensesubdel/{id}', [OtherExpensesController::class, 'Expensedestroy']);
+Route::post('/editsub', [OtherExpensesController::class, 'EditSub']);
+Route::post('otherExpcustomer/list', [OtherExpensesController::class, 'getList']);
+Route::post('callnumber', [OtherExpensesController::class, 'CallNumber']);
+Route::post('/getlimit', [OtherExpensesController::class, 'lmitAmount']);
+Route::post('/expensestore', [OtherExpensesController::class, 'Expensestore']);
+Route::post('/subupdate', [OtherExpensesController::class, 'SubUpdate']);
+Route::post('/mainlist', [OtherExpensesController::class, 'Mainlist']);
+Route::delete('deleteMain/{id}',[OtherExpensesController::class,'deleteMain']);
+// Route::get('downloadfile/{filename}', [OtherExpensesController::class,'downloadFile']);
+Route::post('/expense/downloadfile', [OtherExpensesController::class,'downloadFile']);
+/*** Rembusment*/
 
 Route::post('expensesapp/expapp', [ExpensesApprovalController::class, 'index']);
 Route::post('expensesapp/staffList', [ExpensesApprovalController::class, 'get_staff_name']);
@@ -322,6 +333,8 @@ Route::post('expensesapp/getsublist', [ExpensesApprovalController::class, 'shows
 Route::post('expensesapp/storeData', [ExpensesApprovalController::class, 'store']);
 Route::post('expensesapp/popupsub', [ExpensesApprovalController::class, 'popupsub']);
 Route::post('expensesapp/UpdateApproval', [ExpensesApprovalController::class, 'UpdateApproval']);
+
+/**** */
 
 
 
@@ -398,6 +411,7 @@ Route::resources([
     'otherexpense' => OtherExpensesController::class,
     'otherexpensesub' => OtherExpenseSubController::class,
     'attendanceregister'=>AttendanceRegisterController::class,
+    'holidays'=>HolidaysController::class,
 ]);
 
 
