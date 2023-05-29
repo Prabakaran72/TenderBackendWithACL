@@ -553,7 +553,7 @@ public function Expensedestroy($id)
 public function get_staff_name_limits()
  {
 
-     $get_staff = User:: join('expense_type_has__limits', 'users.userType', '=', 'expense_type_has__limits.userType_id')
+     $get_staff = User::leftjoin('expense_type_has__limits', 'users.userType', '=', 'expense_type_has__limits.userType_id')
      ->groupBy('users.id')
      ->get(['users.*', 'expense_type_has__limits.isUnlimited','expense_type_has__limits.limit']);
 

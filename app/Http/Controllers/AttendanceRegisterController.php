@@ -405,12 +405,17 @@ class AttendanceRegisterController extends Controller
         {
             $month = Carbon::now()->month;
             $year = Carbon::now()->year;
+           
+           
         }
         else
         {
+        //    return 'from date = '.$request->from_date;
             $date = Carbon::createFromFormat('m-Y', $request->from_date);
             $year = $date->year;
             $month = $date->month;
+           
+          
         }
     
         $user_list = [];
