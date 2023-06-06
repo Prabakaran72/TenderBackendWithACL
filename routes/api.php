@@ -336,7 +336,7 @@ Route::post('expensesapp/getsublist', [ExpensesApprovalController::class, 'shows
 Route::post('expensesapp/storeData', [ExpensesApprovalController::class, 'store']);
 Route::post('expensesapp/popupsub', [ExpensesApprovalController::class, 'popupsub']);
 Route::post('expensesapp/UpdateApproval', [ExpensesApprovalController::class, 'UpdateApproval']);
-
+Route::post('expensesapp/printView', [ExpensesApprovalController::class, 'PrintView']);
 /**** */
 
 

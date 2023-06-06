@@ -160,27 +160,6 @@ class BusinessForecastController extends Controller
                  'message' => 'The provided credentials are Invalid'
              ]);
          }
-
-            // $callTypeList= [];
-            //         foreach($business_forecast as $calltypes){
-            //             $callTypeList[] = ["value" => $calltypes['id'], "label" =>  $calltypes['name']];
-            //         }
-            //         return response()->json([
-            //             'bizzforecast' =>  $callTypeList,
-            //         ]);
-
-        
-        // $business_forecast_name = BusinessForecast::find($id);
-        // $business_forecast = BusinessForecast::where("id",$id)->get();
-    
-        // $callTypeList= [];
-        // foreach($business_forecast as $calltypes){
-        //     $callTypeList[] = ["value" => $calltypes['id'], "label" =>  $calltypes['name']];
-        // }
-        // return response()->json([
-        //     'bizzforecast1' => $business_forecast_name,
-        //     'bizzforecast' =>  $callTypeList,
-        // ]);
     }
 
     /**

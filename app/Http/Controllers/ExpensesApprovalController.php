@@ -414,4 +414,43 @@ return response()->json([
     {
         //
     }
+
+    public function PrintView(Request $request){
+        $printId=$request->id;
+         
+          
+          $exp_app = DB::table('expenses_approvals as a')
+            ->join('users as b', 'a.Staff_id', '=', 'b.id')
+            ->select('a.*', 'b.userName')
+            ->where('a.id', $printId)
+            ->first();
+            
+            $withCall = DB::table('expenses_approvals as a')
+            ->leftJoin('other_expenses as b', 'b.expenses_app_id', '=', 'a.id')
+            ->leftJoin('other_expense_subs as c', 'c.mainid', '=', 'b.id')
+            ->leftJoin('call_log_creations as d', 'd.id', '=', 'c.call_no')
+            ->leftJoin('customer_creation_profiles as e', 'e.id', '=', 'c.customer_id')
+            ->select('a.ex_app_no', 'b.entry_date', 'd.callid', 'e.customer_name', 'c.amount')
+            ->where('a.id', $printId)
+            ->where('c.need_call_against_expense', '1')
+            ->get();
+        
+            $otherExpense = DB::table('expenses_approvals as a')
+            ->leftJoin('other_expenses as b', 'b.expenses_app_id', '=', 'a.id')
+            ->leftJoin('other_expense_subs as c', 'c.mainid', '=', 'b.id')
+            ->leftJoin('expense_types as d', 'd.id', '=', 'c.expense_type_id')
+            ->select('a.ex_app_no', 'b.entry_date', 'b.expense_no', 'd.expenseType', 'c.description_sub', 'c.amount')
+            ->where('a.id', $printId)
+            ->where('c.need_call_against_expense', '0')
+            ->get();
+        
+            return response()->json([
+                'status' => 200,
+                'exapp' => $exp_app,
+                'withCall' =>$withCall,
+                'otherExpense'=>$otherExpense,
+            ]);
+           
+                
+            }
 }
