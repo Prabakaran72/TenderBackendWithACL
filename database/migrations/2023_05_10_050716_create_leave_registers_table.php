@@ -23,6 +23,8 @@ return new class extends Migration
             $table->date('to_date')->format('d/m/Y');
             $table->time('start_time', 0)->format('H:i:s');
             $table->string('reason')->nullable();
+            $table->decimal('latitude', 10, 8);
+            $table->decimal('longitude', 11, 8);
             $table->integer('created_by');
             $table->integer('edited_by')->nullable();
             $table->timestamp('created_at')->useCurrent();

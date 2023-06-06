@@ -118,6 +118,7 @@ class CallHistoryController extends Controller
      */
     public function show($id)
     {
+        
         $show_call_history = DB::table('call_histories as ch')
         ->join('call_log_creations as clc', 'clc.id', 'ch.main_id')
         ->join('customer_creation_profiles as cc', 'cc.id', 'ch.customer_id')
@@ -125,8 +126,9 @@ class CallHistoryController extends Controller
         ->join('business_forecasts as bf', 'bf.id', 'ch.bizz_forecast_id')
         ->leftJoin('business_forecast_statuses as bfs', 'bfs.id', 'ch.bizz_forecast_status_id')
         ->join('users as u', 'u.id', 'ch.executive_id')
+        
        // ->join('call_procurement_types as pt', 'pt.id', 'ch.procurement_type_id')
-        ->where('ch.main_id', $id)
+        // ->where('ch.main_id', $id)
         ->select(
             'ch.id as chid',
             'ch.main_id',
@@ -154,12 +156,17 @@ class CallHistoryController extends Controller
             'ch.additional_info',
             'ch.remarks',
         )
-        ->latest('ch.id')->first();
-       // ->get();
+        
+         ->where('ch.main_id', $id)
+         ->latest('ch.id')->first();
+        // dd($show_call_history);
+       //->get();
+       
     if ($show_call_history)
         return response()->json([
             'status' => 200,
-            'showcallhistory' => $show_call_history
+            'showcallhistory' => $show_call_history,
+            // 'count' => $count,
         ]);
     else {
         return response()->json([
@@ -245,50 +252,52 @@ class CallHistoryController extends Controller
     public function getCallHistory($id)
     {
         $call_history = DB::table('call_histories as ch')
-        ->join('call_log_creations as clc', 'clc.id', 'ch.main_id')
-        ->join('customer_creation_profiles as cc', 'cc.id', 'ch.customer_id')
-        ->join('call_types_mst as ct', 'ct.id', 'ch.call_type_id')
-        ->join('business_forecasts as bf', 'bf.id', 'ch.bizz_forecast_id')
-        ->leftJoin('business_forecast_statuses as bfs', 'bfs.id', 'ch.bizz_forecast_status_id')
-        ->join('users as u', 'u.id', 'ch.executive_id')
-       // ->join('call_procurement_types as pt', 'pt.id', 'ch.procurement_type_id')
-        ->where('ch.main_id',$id)
-        ->select(
-            'ch.id as chid',
-            'ch.main_id',
-            'clc.callid',
-            'cc.id as ccid',
-            'cc.customer_name',
-            'ct.id as ctid',
-            'ct.name as callname',
-            'bf.id as bfid',
-            'bf.name as bizzname',
-            'bfs.id as bfsid',
-            'bfs.status_name as bizzstatusname',
-            'u.id as uid',
-            'u.name as username',
-            // 'pt.id as ptid',
-            // 'pt.name as proname',
-            'ch.call_date',
-            'ch.action',
-            'ch.next_followup_date',
-            'ch.description',
-            'ch.close_date',
-            'ch.additional_info',
-            'ch.remarks',
-        )
-        ->get();
-    if ($call_history)
-        return response()->json([
-            'status' => 200,
-            'getcallhistory' => $call_history
-        ]);
-    else {
-        return response()->json([
-            'status' => 404,
-            'message' => 'The provided credentials are incorrect.'
-        ]);
+            ->join('call_log_creations as clc', 'clc.id', 'ch.main_id')
+            ->join('customer_creation_profiles as cc', 'cc.id', 'ch.customer_id')
+            ->join('call_types_mst as ct', 'ct.id', 'ch.call_type_id')
+            ->join('business_forecasts as bf', 'bf.id', 'ch.bizz_forecast_id')
+            ->leftJoin('business_forecast_statuses as bfs', 'bfs.id', 'ch.bizz_forecast_status_id')
+            ->join('users as u', 'u.id', 'ch.executive_id')
+            // ->join('call_procurement_types as pt', 'pt.id', 'ch.procurement_type_id')
+            ->where('ch.main_id', $id)
+            ->select(
+                'ch.id as chid',
+                'ch.main_id',
+                'clc.callid',
+                'cc.id as ccid',
+                'cc.customer_name',
+                'ct.id as ctid',
+                'ct.name as callname',
+                'bf.id as bfid',
+                'bf.name as bizzname',
+                'bfs.id as bfsid',
+                'bfs.status_name as bizzstatusname',
+                'u.id as uid',
+                'u.name as username',
+                // 'pt.id as ptid',
+                // 'pt.name as proname',
+                'ch.call_date',
+                'ch.action',
+                'ch.next_followup_date',
+                'ch.description',
+                'ch.close_date',
+                'ch.additional_info',
+                'ch.remarks'
+            )
+            ->get();
+    
+        if ($call_history) {
+            return response()->json([
+                'status' => 200,
+                'getcallhistory' => $call_history
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'The provided credentials are incorrect.'
+            ]);
+        }
     }
-    }
+    
 
 }

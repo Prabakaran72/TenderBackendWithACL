@@ -173,4 +173,25 @@ class AttendanceTypeController extends Controller
 
         ]);
     }
+
+    public function AttendanceTypeTable(Request $request)
+    {
+        $user = Token::where("tokenid", $request->tokenid)->first();
+        if($user['userid'])
+        {
+        $header = ['Attendance Type','Status'];
+        $accessor = ['attendanceType','activeStatus'];
+
+        $attendanceType = AttendanceType::get();
+            if ($attendanceType) {
+                return response()->json([
+                    'status' => 200,
+                    'title' => 'AttendanceTypeMaster',
+                    'header' => $header,
+                    'accessor' => $accessor,
+                    'data' => $attendanceType,
+                ]);
+            }
+        }
+    }
 }

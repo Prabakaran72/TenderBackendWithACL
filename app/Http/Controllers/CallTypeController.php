@@ -207,4 +207,30 @@ class CallTypeController extends Controller
 
         ]);
     }
+
+    public function CallTypeTable(Request $request)
+    {
+        $user = Token::where("tokenid", $request->tokenid)->first();
+        if($user['userid'])
+        {
+        $header = ['Call Type','Status'];
+        $accessor=['name','activeStatus'];
+        
+        $call = CallType::orderBy('created_at', 'desc')->get();
+        if ($call)
+            return response()->json([
+                'status' => 200,
+                'title' => 'CallType',
+                'header' => $header,
+                'accessor' => $accessor,
+                'data' => $call
+            ]);
+        else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'The provided credentials are incorrect.'
+            ]);
+        }
+    }
+    }
 }

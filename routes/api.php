@@ -289,6 +289,9 @@ Route::post('getempleave/list',[AttendanceRegisterController::class,'getEmployee
 
 
 
+
+
+
 /*********************************
  * other expesive Naveen
  */
@@ -335,6 +338,40 @@ Route::post('expensesapp/popupsub', [ExpensesApprovalController::class, 'popupsu
 Route::post('expensesapp/UpdateApproval', [ExpensesApprovalController::class, 'UpdateApproval']);
 Route::post('expensesapp/printView', [ExpensesApprovalController::class, 'PrintView']);
 /**** */
+
+
+//ReactDataTable - APIs
+
+Route::post('projecttypetable', [ProjectTypeController::class, 'ProjectTypeTable']);
+Route::post('unitstable', [UnitMasterController::class, 'UnitMasterTable']);
+Route::post('projectstatustable', [ProjectStatusController::class, 'ProjectStatusTable']);
+Route::post('customersubcategorytable', [CustomerSubCategoryController::class, 'CustSubCatTable']);
+Route::post('tendertypestable', [TenderTypeMasterController::class, 'TenderTypesTable']);
+Route::post('zonetable', [ZoneMasterController::class, 'ZoneMasterTable']);
+Route::post('bizzforecasttable', [BusinessForecastController::class, 'BizzForecastTable']);
+Route::post('expensetypetable', [ExpenseTypeController::class, 'ExpenseTypeTable']);
+Route::post('calltypetable', [CallTypeController::class, 'CallTypeTable']);
+Route::post('attendancetypetable', [AttendanceTypeController::class, 'AttendanceTypeTable']);
+
+Route::post('bidlisttable', [BidCreationCreationController::class, 'BidManagementListTable']);
+Route::post('tendertrackertable', [TenderCreationController::class, 'TenderTrackerTable']);
+
+Route::post('communicationfilestable', [CommunicationfilesmasterController::class, 'CommunicationFilesTable']);
+
+Route::post('callbookingtable', [CallCreationController::class, 'CallBookTable']);
+Route::post('calltobdmtable',[UserControllerTemp::class,'BDMOptionsTable']);
+Route::post('assigncallstable', [CustomerCreationProfileController::class, 'AssignCallsTable']);
+Route::post('callreportstable',[DayWiseReportController::class,'CallReportTable']);
+
+Route::post('otherexpensestable', [OtherExpensesController::class, 'OtherExpTable']);
+
+///////////////////////////////ReactTable API Ends/////////////////////////////////////////////////////////
+
+
+
+
+// Route::get('holidaytable',[HolidaysController::class,'HolidayMasterTable']);
+
 
 
 

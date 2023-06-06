@@ -385,4 +385,58 @@ class TenderCreationController extends Controller
 
         ]);
     }
+
+    public function TenderTrackerTable(Request $request)
+    {
+        
+        $user = Token::where("tokenid", $request->tokenid)->first();
+        if($user['userid'])
+        {
+            $header = ['Location Name','State','Quantity','Unit','Price per unit','Estimate Project value(INR)','Tender / Processing Fee(INR)','EMD(INR)','EMD Mode','Per Bid Date','Submission Date'];
+            $accessor = ['location','state_code','quality','unit','priceperunit','estprojectvalue','tenderfeevalue','emdamt','emdmode','prebiddate','submissiondate'];
+
+            $qty_type = $request->quality;
+            $state = $request->state;
+    
+            $tendertracker = BidCreation_Creation::join('state_masters', 'bid_creation__creations.state', '=', 'state_masters.id')
+    
+                ->select('bid_creation__creations.*', 'state_masters.state_code')
+                ->where(function ($query) use ($qty_type, $request) {
+                    if ($qty_type == 'morethan50') {
+                        return $query->where('quality', '>', 50000);
+                    } else if ($qty_type == 'between') {
+                        return $query->whereBetween('quality', ['50000', '100000']);
+                    } else if ($qty_type == 'lessthan1lk') {
+                        return $query->where('quality', '<', 100000);
+                    }
+                })
+                ->where(function ($query1) use ($state, $request) {
+                    if ($state != '' || $state != null) {
+                        return $query1->where('state', $state);
+                    }
+                })
+    
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+                $count = count($tendertracker);
+
+            if ($tendertracker)
+                return response()->json([
+                    'status' => 200,
+                    'title' => 'TenderTracker',
+                    'header' => $header,
+                    'accessor' => $accessor,
+                    'data' => $tendertracker,
+                    'count' => $count,
+                ]);
+            else {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'The provided credentials are incorrect.'
+                ]);
+            }
+        }
+
+    }
 }

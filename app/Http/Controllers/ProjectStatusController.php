@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProjectStatus;
+use App\Models\Token;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -209,5 +210,31 @@ class ProjectStatusController extends Controller
             'projectstatusList' =>  $producttypeList,
             'sqlquery' => $query
         ]);
+    }
+
+    public function ProjectStatusTable(Request $request)
+    {
+        $user = Token::where("tokenid", $request->tokenid)->first();
+        if($user['userid'])
+        {
+        $header = ['Project Status','Status'];
+        $accessor = ['projectstatus','status'];
+
+        $ProjectStatus = ProjectStatus::orderBy('created_at', 'desc')->get();
+        if ($ProjectStatus)
+            return response()->json([
+                'status' => 200,
+                'title' => 'ProjectStatus',
+                'header' => $header,
+                'accessor' => $accessor,
+                'data' => $ProjectStatus
+            ]);
+        else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'The provided credentials are incorrect.'
+            ]);
+        }  
+    } 
     }
 }

@@ -513,6 +513,68 @@ class CallCreationController extends Controller
     }
 
 
+    public function CallBookTable(Request $request)
+    {
+        $user = Token::where("tokenid", $request->tokenid)->first();
+        if($user['userid'])
+        {
+            $header = ['Call ID','Customer Name','Executive Name','Mode','Call Type','Started','Completed','Next Follow Up'];
+            $accessor = ['callid','customer_name','username','mode','callname','call_date','close_date','next_followup_date'];
+
+            $call_log = DB::table('call_log_creations as clc')
+            ->leftjoin('customer_creation_profiles as cc', 'cc.id', 'clc.customer_id')
+            ->leftjoin('call_types_mst as ct', 'ct.id', 'clc.call_type_id')
+            ->leftjoin('business_forecasts as bf', 'bf.id', 'clc.bizz_forecast_id')
+            ->leftjoin('business_forecast_statuses as bfs', 'bfs.id', 'clc.bizz_forecast_status_id')
+            ->leftjoin('users as u', 'u.id', 'clc.executive_id')
+            ->leftjoin('call_procurement_types as pt', 'pt.id', 'clc.procurement_type_id')
+            ->select(
+                'clc.callid',
+                'cc.id',
+                'cc.customer_name',
+                'ct.id',
+                'ct.name as callname',
+                'bf.id',
+                'bf.name as bizzname',
+                'bfs.id',
+                'bfs.status_name as bizzstatusname',
+                'u.id',
+                'u.name as username',
+                'pt.id',
+                'pt.name as proname',
+                'clc.id',
+                'clc.call_date',
+                'clc.action',
+                'clc.next_followup_date',
+                'clc.close_date',
+                'clc.additional_info',
+                'clc.remarks',
+            )
+            ->where("clc.created_by",$user['userid'])
+            ->get();
+
+            
+        if ($call_log)
+            return response()->json([
+                'status' => 200,
+                'title' => 'CallBooking',
+                'header' => $header,
+                'accessor' => $accessor,
+                'data' =>$call_log,
+                
+            ]);
+        else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'The provided credentials are incorrect.'
+            ]);
+        }
+            
+           
+        }
+    }
+
+
 // callcount for dashboard and bdm users 
 // public function getCallCountAnalysis(Request $request)
 // {
