@@ -16,6 +16,8 @@ class LeaveRegister extends Model
         'to_date',
         'start_time',
         'reason',
+        'latitude',
+        'longitude',
         'created_by',
     ];
 }

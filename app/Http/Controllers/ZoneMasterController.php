@@ -216,4 +216,32 @@ class ZoneMasterController extends Controller
             'message' => 'Zone Has been Removed!'
         ]);
     }
+
+
+    public function ZoneMasterTable(Request $request)
+    {
+        $user = Token::where("tokenid", $request->tokenid)->first();
+        if($user['userid'])
+        {
+
+        $header = ['Zone Name','Status'];
+        $accessor = ['zone_name','active_status'];
+        $zonemaster=ZoneMaster::select('*')->get();
+        if ($zonemaster)
+        return response()->json([
+            'status' => 200,
+            'title' => 'ZoneMaster',
+            'header' => $header,
+            'accessor' => $accessor,
+            'data' => $zonemaster
+        ]);
+    else {
+        return response()->json([
+            'status' => 404,
+            'message' => 'The provided credentials are incorrect.'
+        ]);
+    }
+    }  
+   
+    }
 }

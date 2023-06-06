@@ -88,6 +88,8 @@ class AttendanceRegisterController extends Controller
             $tabel->to_date = $todate;
             $tabel->start_time = $request->start_time;
             $tabel->reason = $request->reason;
+            $tabel->latitude = $request->latitude;
+            $tabel->longitude = $request->longitude;
             $tabel->created_by = $userid;
             $tabel->save();
             $inserted_id = $tabel->id;
@@ -136,12 +138,7 @@ class AttendanceRegisterController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
 
 
     public function show($id)
@@ -395,108 +392,9 @@ class AttendanceRegisterController extends Controller
         }
     }
 
-    // public function getEmployeeLeaveList(Request $request)
-    // {
-        
-    //     $userID = $request->user_id;
-    //     $roleID = $request->role_id;
-        
-    //     if(empty($request->from_date))
-    //     {
-    //         $month = Carbon::now()->month;
-    //         $year = Carbon::now()->year;
-    //     }
-    //     else
-    //     {
-    //         $date = Carbon::createFromFormat('m-Y', $request->from_date);
-    //         $year = $date->year;
-    //         $month = $date->month;
-    //     }
-    
-    //     $user_list = [];
-    //     $users = User::where('userType','!=',1)->get();
-    //     foreach($users as $row)
-    //     {
-    //         $user_list[] =  ['id'=>$row->id,'name'=>$row->name]; 
-    //     }
-    
-    //     $leave = DB::table('leave_registers as lr')
-    //             ->join('users as u','u.id','lr.user_id')
-    //             ->join('roles as r','r.id','u.userType')
-    //             ->join('attendance_types as at','at.id','lr.attendance_type_id')
-    //             ->select(
-    //                 'lr.user_id',
-    //                 'lr.attendance_type_id',
-    //                 'at.attendanceType',
-    //                 'at.icon_class',
-    //                 'lr.from_date',
-    //                 'lr.to_date',
-    //                 'lr.start_time',
-    //                 'lr.reason',
-    //                 'r.id as role_ID',
-    //             );
-                   
-    //             if($userID)
-    //             {
-    //                 $leave->where('lr.user_id',$userID)->where('lr.user_id','!=',1);
-    //             }
-    //             if($roleID)
-    //             {
-    //                 $leave->where('r.id',$roleID)->where('r.id','!=',1);
-    //             }
-                
-    //                 $leave->whereMonth('lr.from_date','=',$month);
-    //                 $leave->whereYear('lr.from_date','=',$year);
-               
-    //                 $leave = $leave->get();
-              
-    //     $result = [];
-    //     foreach ($leave as $row) 
-    //     {
-    //         $user_id = $row->user_id;
-    //         $result[$user_id][] = [
-    //             'user_id' => $user_id,
-    //             'attendance_type_id' => $row->attendance_type_id,
-    //             'attendanceType' =>$row->attendanceType,
-    //             'icon_class' =>$row->icon_class,
-    //             'from_date' => $row->from_date,
-    //             'to_date' => $row->to_date,
-    //             'start_time' => $row->start_time,
-    //             'reason' => $row->reason,
-    //             'role' => $row->role_ID,
-    //         ];
-    //     }
-    //             $holidaylist = []; 
-    //             $holiday = Holiday::orderBy('created_at', 'ASC')
-    //                     ->whereMonth('date',$month)
-    //                     ->whereYear('date',$year)
-    //                     ->get();
-        
-    //             foreach($holiday as $row)
-    //             {
-    //                 $holidaylist[] = ['id'=>$row->id,'date'=>$row->date,'occasion'=>$row->occasion,'remarks'=>$row->remarks]; 
-    //             }
-    
-    //     if ($holiday)
-    //     return response()->json([
-    //         'status' => 200,
-    //         'userlist' => $user_list,
-    //         'result' => $result,
-    //         'holiday' => $holidaylist,
-    //     ]);
-    //     else 
-    //     {
-    //         return response()->json([
-    //             'status' => 404,
-    //             'message' => 'The provided credentials are incorrect.'
-    //         ]);
-    //     }
-    // }
-
-    public function getEmployeeLeaveList(Request $request)
+    public function getEmployeeLeaveListOLD(Request $request)
     {
-       
-
+        
         $userID = $request->user_id;
         $roleID = $request->role_id;
         
@@ -509,7 +407,113 @@ class AttendanceRegisterController extends Controller
         }
         else
         {
-            $date = Carbon::parse($request->from_date);
+        //    return 'from date = '.$request->from_date;
+            $date = Carbon::createFromFormat('m-Y', $request->from_date);
+            $year = $date->year;
+            $month = $date->month;
+           
+          
+        }
+    
+        $user_list = [];
+        $users = User::where('userType','!=',1)->get();
+        foreach($users as $row)
+        {
+            $user_list[] =  ['id'=>$row->id,'name'=>$row->name]; 
+        }
+    
+        $leave = DB::table('leave_registers as lr')
+                ->join('users as u','u.id','lr.user_id')
+                ->join('roles as r','r.id','u.userType')
+                ->join('attendance_types as at','at.id','lr.attendance_type_id')
+                ->select(
+                    'lr.user_id',
+                    'lr.attendance_type_id',
+                    'at.attendanceType',
+                    'at.icon_class',
+                    'lr.from_date',
+                    'lr.to_date',
+                    'lr.start_time',
+                    'lr.reason',
+                    'r.id as role_ID',
+                );
+                   
+                if($userID)
+                {
+                    $leave->where('lr.user_id',$userID)->where('lr.user_id','!=',1);
+                }
+                if($roleID)
+                {
+                    $leave->where('r.id',$roleID)->where('r.id','!=',1);
+                }
+                
+                    $leave->whereMonth('lr.from_date','=',$month);
+                    $leave->whereYear('lr.from_date','=',$year);
+               
+                    $leave = $leave->get();
+              
+        $result = [];
+        foreach ($leave as $row) 
+        {
+            $user_id = $row->user_id;
+            $result[$user_id][] = [
+                'user_id' => $user_id,
+                'attendance_type_id' => $row->attendance_type_id,
+                'attendanceType' =>$row->attendanceType,
+                'icon_class' =>$row->icon_class,
+                'from_date' => $row->from_date,
+                'to_date' => $row->to_date,
+                'start_time' => $row->start_time,
+                'reason' => $row->reason,
+                'role' => $row->role_ID,
+            ];
+        }
+                $holidaylist = []; 
+                $holiday = Holiday::orderBy('created_at', 'ASC')
+                        ->whereMonth('date',$month)
+                        ->whereYear('date',$year)
+                        ->get();
+        
+                foreach($holiday as $row)
+                {
+                    $holidaylist[] = ['id'=>$row->id,'date'=>$row->date,'occasion'=>$row->occasion,'remarks'=>$row->remarks]; 
+                }
+    
+        if ($holiday)
+        return response()->json([
+            'status' => 200,
+            'userlist' => $user_list,
+            'result' => $result,
+            'holiday' => $holidaylist,
+        ]);
+        else 
+        {
+            return response()->json([
+                'status' => 404,
+                'message' => 'The provided credentials are incorrect.'
+            ]);
+        }
+    }
+
+    public function getEmployeeLeaveList(Request $request)
+    {
+       
+
+        $userID = $request->user_id;
+        $roleID = $request->role_id;
+       
+        
+        if(empty($request->from_date))
+        {
+            $month = Carbon::now()->month;
+            $year = Carbon::now()->year;
+           
+           
+        }
+        else
+        {
+             $date = Carbon::parse($request->from_date);
+            //$date = Carbon::createFromFormat('m-Y', $request->from_date);
             $year = $date->year;
             $month = $date->month;
            

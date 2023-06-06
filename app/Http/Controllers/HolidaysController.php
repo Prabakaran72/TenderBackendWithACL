@@ -247,4 +247,40 @@ class HolidaysController extends Controller
             ]);
         }
     }
+
+
+        public function HolidayMasterTable()
+        {
+            
+            $header=['Occasion','Date','Remarks','Action'];
+            $accessor=['date','occasion','remarks','action'];
+            $holidaylist = []; 
+            $holiday_data = Holiday::orderBy('created_at', 'desc')->get();
+    
+            if ($holiday_data)
+            {
+             
+            foreach($holiday_data as $row)
+            {   
+                    $holidaylist[] = ['id'=>$row->id,'date'=>$row->date,'occasion'=>$row->occasion,'remarks' => $row->remarks]; 
+            }
+          
+                    return response()->json([
+                    'status' => 200,
+                    'title' => 'HolidayMaster',
+                    'header' => $header,
+                    'accessor' => $accessor,
+                    'data' => $holidaylist,
+                  
+                ]);
+            }
+            else
+             {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'The provided credentials are incorrect.'
+                ]);
+             }
+        }
+
 }

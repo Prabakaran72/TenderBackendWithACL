@@ -877,4 +877,30 @@ class ExpenseTypeController extends Controller
             ]);
         }
     }
+
+    public function ExpenseTypeTable(Request $request)
+    {
+        $user = Token::where("tokenid", $request->tokenid)->first();
+        if($user['userid'])
+        {
+        $header = ['ExpenseType Type','Status'];
+        $accessor = ['expenseType','active_status'];
+
+        $ExpenseType = ExpenseType::orderBy('created_at', 'desc')->get();
+        if ($ExpenseType)
+            return response()->json([
+                'status' => 200,
+                'title' => 'ExpenseType',
+                'header' => $header,
+                'accessor' => $accessor,
+                'data' => $ExpenseType
+            ]);
+        else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'The provided credentials are incorrect.'
+            ]);
+        }
+        }
+    }
 }

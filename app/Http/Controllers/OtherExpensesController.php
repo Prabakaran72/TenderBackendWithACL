@@ -659,5 +659,47 @@ public function lmitAmount(Request $request)
  
 }
 
+public function OtherExpTable(Request $request)
+{
+    $user = Token::where("tokenid", $request->tokenid)->first();
+    if($user['userid'])
+    {
+        $header = ['Entry Date','Expense No','Branch Name / Staff Name','Total Amount','View'];
+        $accessor = ['entry_date','expense_no','userName','expense_amount','view'];
+
+        $fromdate = $request->fromdate;
+        $todate = $request->todate;
+        $excutive = $request->executive;
+   
+        $other_exapp = OtherExpenses::join('users', 'other_expenses.executive_id', '=', 'users.id')
+   
+            ->when($excutive, function ($query) use ($excutive) {
+   
+                return $query->where('other_expenses.executive_id', $excutive);
+            })
+            ->when($fromdate, function ($query) use ($fromdate, $todate) {
+                return $query->whereBetween('other_expenses.entry_date', [$fromdate, $todate]);
+            })
+   
+   
+            ->get(['other_expenses.*', 'users.userName', DB::raw("round((select sum(amount) from other_expense_subs where  mainid=other_expenses.id ),2) as expense_amount")]);
+   
+        if ($other_exapp) {
+            return response()->json([
+                'status' => 200,
+                'title' => 'OtherExpenses',
+                'header' => $header,
+                'accessor' => $accessor,
+                'data' => $other_exapp,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'No data'
+            ]);
+        }
+    }
+
+}
 
 }

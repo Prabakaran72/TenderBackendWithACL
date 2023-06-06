@@ -188,110 +188,112 @@ class DayWiseReportController extends Controller
     }
 
 
-/*************TESTING*****************************/
-// public function getDayWiseReportTest(Request $request)
-//     {
-//       try{
+public function CallReportTable(Request $request)
+{
+    $user = Token::where("tokenid", $request->tokenid)->first();
+    if($user['userid'])
+    {
+        $header = ['Call No','Customer Name','Status','Next Follow Up Date','Started','Finished'];
+        $accessor = ['callid','customer_name','action','next_followup_date','call_date','close_date'];
 
-        
-//          $from_date = $request->from_date;
-//          $to_date = $request->to_date;
-//          $countryID = $request->country_id;
-//          $stateID = $request->state_id;
-//          $districtID = $request->district_id;
-//          $customerID = $request->customer_id;
-//          $executiveID = $request->executive_id;
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        $countryID = $request->country_id;
+        $stateID = $request->state_id;
+        $districtID = $request->district_id;
+        $customerID = $request->customer_id;
+        $executiveID = $request->executive_id;
 
-
-//         $daywisereport = DB::table('call_log_creations as clc')
-//                         ->join('customer_creation_profiles as ccp','ccp.id','clc.customer_id')
-//                         ->join('users as u','u.id','clc.executive_id')
-//                         ->select(
-//                             'clc.id',
-//                             'clc.callid',
-//                             'clc.customer_id',
-//                             'ccp.customer_name',
-//                             'ccp.country',
-//                             'ccp.state',
-//                             'ccp.district',
-//                             'u.userType',
-//                             'u.userName',
-//                             'clc.executive_id',
-//                             'clc.action',
-//                             'clc.call_date',
-//                             'clc.close_date',
-//                             'clc.next_followup_date',
-
-//                         );
-                        
-//                        if($from_date && $to_date) {
-
-//                            $from_date_formatted = date('Y-m-d 00:00:00', strtotime($from_date));
-//                            $to_date_formatted = date('Y-m-d 23:59:59', strtotime($to_date));
-//                            $daywisereport->whereBetween('clc.call_date', [$from_date_formatted, $to_date_formatted]);
-//                         } 
-//                         elseif($from_date) {
-                        
-//                            $daywisereport->whereDate('clc.call_date', $from_date);
-                          
-//                         } 
-//                         elseif($to_date) {
-                            
-//                             $daywisereport->whereDate('clc.call_date', $to_date);
-                          
-//                         }
-//                         if($countryID)
-//                         {
-                          
-//                             $daywisereport->where('ccp.country', $countryID);
-//                         }
-//                         if($stateID)
-//                         {
+       $daywisereport = DB::table('call_log_creations as clc')
+                       ->join('customer_creation_profiles as ccp','ccp.id','clc.customer_id')
+                       ->join('users as u','u.id','clc.executive_id')
+                       ->select(
+                           'clc.id',
+                           'clc.callid',
+                           'clc.customer_id',
+                           'ccp.customer_name',
+                           'ccp.country',
+                           'ccp.state',
+                           'ccp.district',
+                           'u.userType',
+                           'u.userName',
+                           'clc.executive_id',
+                           'clc.action',
+                           'clc.call_date',
+                           'clc.close_date',
+                           'clc.next_followup_date',
+                       );
+                      
+                      if($from_date && $to_date) {
+                    
+                           $from_date_formatted = date('Y-m-d 00:00:00', strtotime($from_date));
+                           $to_date_formatted = date('Y-m-d 23:59:59', strtotime($to_date));
+                           $daywisereport->whereBetween('clc.call_date', [$from_date_formatted, $to_date_formatted]);
+                       } 
+                       elseif($from_date) {
                        
-//                             $daywisereport->where('ccp.state', $stateID);
-//                         }
-//                         if($districtID)
-//                         {
-                            
-//                             $daywisereport->where('ccp.district', $districtID);
-//                         }
-//                         if($customerID)
-//                         {
-                          
-//                             $daywisereport->where('clc.customer_id', $customerID);
-//                         }
-//                         if($executiveID)
-//                         {
+                          $daywisereport->whereDate('clc.call_date', $from_date);
+                         
+                       } 
+                       elseif($to_date) {
                            
-//                             $daywisereport->where('clc.executive_id', $executiveID);
-//                         }
+                           $daywisereport->whereDate('clc.call_date', $to_date);
+                         
+                       }
+                       if($countryID)
+                       {
+                         
+                           $daywisereport->where('ccp.country', $countryID);
+                       }
+                       if($stateID)
+                       {
+                      
+                           $daywisereport->where('ccp.state', $stateID);
+                       }
+                       if($districtID)
+                       {
+                           
+                           $daywisereport->where('ccp.district', $districtID);
+                       }
+                       if($customerID)
+                       {
+                         
+                           $daywisereport->where('clc.customer_id', $customerID);
+                       }
+                       if($executiveID)
+                       {
+                          
+                           $daywisereport->where('clc.executive_id', $executiveID);
+                       }
 
-//                         $daywisereport = $daywisereport->get();
-//                         $count = count($daywisereport);
-//                         if ($daywisereport)
-//                         return response()->json([
-//                             'status' => 200,
-//                             'daywisereport' => $daywisereport,
-//                             'count' => $count,
-//                         ]);
-//                         else {
-//                             return response()->json([
-//                                 'status' => 404,
-//                                 'message' => 'The provided credentials are incorrect.'
-//                             ]);
-//                         }
-//                     } catch(\Exception $e) {
-//                         return response()->json([
-//                             'status' => 500,
-//                             'message' => 'Internal server error.',
-//                             'error' => $e->getMessage(),
-//                         ]);
-//                     }
+           
+                       $daywisereport = $daywisereport->get();
 
-//     }
+                   //     $query = str_replace(array('?'), array('\'%s\''), $daywisereport->toSql());
+                   //     $query = vsprintf($query, $daywisereport->getBindings());
+                   //    return $query;
 
+                    
+                       
 
-/**************************************************/
+                       if ($daywisereport)
+                       return response()->json([
+                           'status' => 200,
+                           'title' => 'CallReport',
+                           'header' => $header,
+                           'accessor' => $accessor,
+                           'data' => $daywisereport,
+                           
+                       ]);
+                       else {
+                           return response()->json([
+                               'status' => 404,
+                               'message' => 'The provided credentials are incorrect.'
+                           ]);
+                       }
+                    }
+
+}
 
 
 
