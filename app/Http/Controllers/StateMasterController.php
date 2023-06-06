@@ -6,7 +6,7 @@ use App\Models\StateMaster;
 use App\Models\CountryMaster;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use App\Models\Token;
 use Illuminate\Support\Facades\DB;
 
 class StateMasterController extends Controller
@@ -312,5 +312,49 @@ class StateMasterController extends Controller
         ]);
     }
 
+    public function StateMasterTable(Request $request)
+    {
+        $user = Token::where('tokenid', $request->tokenid)->first();   
+        $userid = $user['userid'];
+        $accessor =[];
+        if($userid)
+        {
+            $tableName = 'state_masters';
+            $header=['COUNTRY','STATE NAME','CATEGORY','STATE CODE','STATUS'];
+            $state = DB::table('state_masters')
+            ->join('country_masters','country_masters.id','=','state_masters.country_id')
+            ->where('country_masters.country_status','=','Active')
+            ->select('country_masters.*','state_masters.*')
+            ->orderBy('country_masters.country_name', 'asc')
+            ->orderBy('state_masters.state_name', 'asc')
+            ->get();
 
+           foreach($state[0] as $key => $value){
+
+            
+            if ($key === 'state_name' || $key === 'country_name' || $key === 'category' || $key === 'state_code' || $key === 'state_status') 
+            {
+                $accessor[] = $key;
+            }
+           }
+    
+    
+            if ($state)
+                return response()->json([
+                    'status' => 200,
+                    'data' => $state,
+                    'header'=>$header,
+                    'title'=>'State Master',
+                    'accessor'=> $accessor,
+                ]);
+            else 
+            {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'The provided credentials are incorrect.'
+                ]);
+            }
+        }
+
+    }
 }

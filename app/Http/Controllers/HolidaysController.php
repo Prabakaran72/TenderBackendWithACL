@@ -283,4 +283,53 @@ class HolidaysController extends Controller
              }
         }
 
+        public function HolidayMaster(Request $request)
+        {
+            $holidaylist = []; 
+            $holiday_data = Holiday::orderBy('created_at', 'desc')->get();
+            $accessor =[];
+            $header=['Occasion','Date','Remarks'];
+            if ($holiday_data)
+            {
+    
+            foreach($holiday_data as $row)
+            {
+                $role = DB::table('model_has_roles as m')
+                ->Join('roles as r', 'r.id', '=', 'm.role_id')
+                ->where('m.model_id', $row->created_by)
+                ->select('r.id as id','r.name as name')
+                ->first();
+               
+                if($role->id !=1 && $role->name != 'Admin')
+                {
+    
+                    $holidaylist[] = ['id'=>$row->id,'date'=>$row->date,'occasion'=>$row->occasion,'remarks'=>$row->remarks]; 
+    
+                }
+               
+            }
+    
+            foreach($holidaylist[0] as $key => $value ){
+    
+                if($key === 'occasion' || $key === 'date' || $key === 'remarks'){
+                    $accessor[]=$key;
+                }
+                   
+               }
+                    return response()->json([
+                    'status' => 200,
+                    'data' => $holidaylist,
+                    'header'=> $header,
+                    'title'=>'Holiday Master',
+                    'accessor'=>  $accessor,
+                ]);
+            }
+            else
+             {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'The provided credentials are incorrect.'
+                ]);
+             }
+        }
 }

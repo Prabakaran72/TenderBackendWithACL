@@ -834,52 +834,104 @@ else {
 
 
   
-   
-   
+    public function ULBDetailsMaster(Request $request){
 
-
-/***
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * DB::raw("(SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where c.population2011  > 2000000 and b.customer_sub_category=a.id) as more_20"),
-
-         DB::raw("(SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where `population2011` BETWEEN 1000000 AND 2000000 and b.customer_sub_category=a.id) as btw_10_20"),
-
-         DB::raw("(SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where `population2011` BETWEEN 500000 AND 1000000 and b.customer_sub_category=a.id) as btw_5_10"),
-
-         DB::raw("(SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where `population2011` BETWEEN 300000 AND 500000 and b.customer_sub_category=a.id) as btw_3_5"),
-
-         DB::raw("(SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where `population2011` BETWEEN 100000 AND 300000 and b.customer_sub_category=a.id) as btw_1_3"),
-         DB::raw("(SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where c.population2011 < 100000 and b.customer_sub_category=a.id) as bel_1"),
-         DB::raw("(
-            (SELECT count(*) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where c.population2011 >  2000000 and b.customer_sub_category=a.id)
-             +
-            (SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where `population2011` BETWEEN 1000000 AND 2000000 and b.customer_sub_category=a.id)
-             +
-            (SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where `population2011` BETWEEN 500000 AND 1000000 and b.customer_sub_category=a.id)
-             +
-            (SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where `population2011` BETWEEN 300000 AND 500000 and b.customer_sub_category=a.id)
-             +
-             (SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where `population2011` BETWEEN 100000 AND 300000 and b.customer_sub_category=a.id)
-             +
-            (SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where c.population2011 < 100000 and b.customer_sub_category=a.id)
-         
-         ) as total")
- */
-
-
-
-
-
-
-
-
-
+        $accessor =[];
+        $getquery='';
+        $header = ['ULB List','Number of City','> 20 Lakh','10 - 20 Lakh','5 - 10 Lakh','3 - 5 Lakh','1 - 3 Lakh','< 1 Lakh'];
+        $customer_category =$request->category;
+        $state =$request->State;
+        $group =$request->group;
+        if($customer_category!=''){$cat="b.customer_category='".$customer_category."'";}else{$cat='';}
+        if($state!=''){$state1="b.state=".$state;}else{$state1='';}
+        if($group!=''){$smart_city="b.smart_city='".$group."'";}else{$smart_city='';}
+        $val =$cat.'@@'.$state1.'@@'.$smart_city;
+        
+        $explode =explode('@@',$val);
+        
+        foreach($explode as $record ){
+            if($record!=''){
+                $getquery.=$record.' and ';
+            }
+           
+            
+        }
+        
+             $UlbReport = DB::table('customer_sub_categories as a')
+             ->join("customer_creation_profiles as b", "a.id", "b.customer_sub_category")
+             ->where("a.status", "!=","InActive")
+             ->when($customer_category, function ($query) use ($customer_category) {
+                            
+                return $query->where('b.customer_category', $customer_category);
+                      
+        })
+        ->when($group, function ($query) use ($group) {
+                            
+            return $query->where('b.smart_city', $group);
+                  
+        })
+        ->when($state, function ($query) use ($state) {
+                            
+            return $query->where('b.state', $state);
+                  
+        })
+             
+             ->select('a.customersubcategory',
+             DB::raw('count(b.id) as customers'),
+             DB::raw("(SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where $getquery c.population2011  > 2000000 and b.customer_sub_category=a.id) as more_20"),
+        
+                 DB::raw("(SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where $getquery `population2011` BETWEEN 1000000 AND 2000000 and b.customer_sub_category=a.id) as btw_10_20"),
+        
+                 DB::raw("(SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where $getquery  `population2011` BETWEEN 500000 AND 1000000 and b.customer_sub_category=a.id) as btw_5_10"),
+        
+                 DB::raw("(SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where $getquery `population2011` BETWEEN 300000 AND 500000 and b.customer_sub_category=a.id) as btw_3_5"),
+        
+                 DB::raw("(SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where $getquery `population2011` BETWEEN 100000 AND 300000 and b.customer_sub_category=a.id) as btw_1_3"),
+                 DB::raw("(SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where $getquery c.population2011 < 100000 and b.customer_sub_category=a.id) as bel_1"),
+                 DB::raw("(
+                    (SELECT count(*) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where $getquery c.population2011 >  2000000 and b.customer_sub_category=a.id)
+                     +
+                    (SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where $getquery  `population2011` BETWEEN 1000000 AND 2000000 and b.customer_sub_category=a.id)
+                     +
+                    (SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where $getquery `population2011` BETWEEN 500000 AND 1000000 and b.customer_sub_category=a.id)
+                     +
+                    (SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where $getquery `population2011` BETWEEN 300000 AND 500000 and b.customer_sub_category=a.id)
+                     +
+                     (SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where $getquery `population2011` BETWEEN 100000 AND 300000 and b.customer_sub_category=a.id)
+                     +
+                    (SELECT count(b.id) FROM  customer_creation_profiles as b  join u_l_b_details as c on b.id=c.cust_creation_mainid where $getquery c.population2011 < 100000 and b.customer_sub_category=a.id)
+                 
+                 ) as total")
+             
+             
+             )
+             ->groupBy("b.customer_sub_category")
+             ->orderBy("a.id", "asc")
+               ->get();
+        
+        
+            foreach($UlbReport[0] as $key => $value){
+    
+                $accessor[] = $key;
+            }
+           
+             if ($UlbReport)
+             
+             return response()->json([
+                 'status' => 200,
+                 'data' => $UlbReport, 
+                 'header'=> $header,
+                'title'=>'ULB Report List',
+                'accessor'=>  $accessor,
+        
+             ]);
+         else {
+             return response()->json([
+                 'list' => "No content"
+             ], 204);
+         }
+        
+    }
 
 
 

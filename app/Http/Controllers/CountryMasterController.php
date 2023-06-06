@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\CountryMaster;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\DB;
+use App\Models\Token;
 
 
 class CountryMasterController extends Controller
@@ -187,5 +188,31 @@ class CountryMasterController extends Controller
             'countryList' =>  $countryList,
 
         ]);
+    }
+
+    public function CountryMasterTable(Request $request)
+    {
+        $user = Token::where('tokenid', $request->tokenid)->first();   
+        $userid = $user['userid'];
+        $accessor =[];
+        if( $userid){
+            $header=['Country Name','STATUS'];
+            $country = DB::table('country_masters')->orderBy('created_at', 'desc')->get();
+            foreach($country[0] as $key => $value ){
+                if($key === 'country_name' || $key === 'country_status'){
+                    $accessor[] = $key;
+                }
+                
+            } 
+    
+            return response()->json([
+                'status'=>200,
+                'data'=> $country,
+                'header'=> $header,
+                'title'=>'Country Master',
+                'accessor'=> $accessor,
+            ]);
+        }
+       
     }
 }

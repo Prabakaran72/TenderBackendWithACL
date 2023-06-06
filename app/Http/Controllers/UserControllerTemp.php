@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use App\Models\User;
-
 use App\Models\Token;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Contracts\Service\Attribute\Required;
@@ -612,6 +611,41 @@ public function getEmployeeList()
             }
 
         }
+    }
+    public function UserMasterTable(Request $request){
+        $user = Token::where('tokenid', $request->tokenid)->first();   
+        $userid = $user['userid'];
+        if($userid){
+            $tableName = 'users';
+            $header=['User Name','User Type (Role)','Mobile','E-mail','Login Id','Password','Status'];
+            $specificColumns = ['userName','userType','email','mobile','name','password','activeStatus'];
+            $columnNames = DB::select("SHOW COLUMNS FROM $tableName");
+            $filteredColumns = array_intersect($specificColumns, array_column($columnNames, 'Field'));
+            $userlist = DB::table('users as u')->select('u.*','m.role_id','r.name as role_name')
+            ->join('model_has_roles as m','m.model_id','u.id')
+            ->join('roles as r','r.id','m.role_id')
+            ->get();
+
+            $modifiedAccessor = array_map(function ($value)
+            {
+               if ($value === "userType")
+                {
+                   return "role_name";
+               } elseif ($value === "state_id") 
+               {
+                   return "state_name";
+               }
+               return $value;
+           }, $filteredColumns);
+            
+            return response()->json([
+                'data'=>$userlist,
+                'header'=>$header,
+                'title'=>'User Master',
+                'accessor'=> $filteredColumns,
+            ]);
+        }
+  
     }
 
 }

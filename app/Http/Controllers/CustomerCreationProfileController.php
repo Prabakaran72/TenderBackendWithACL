@@ -793,4 +793,52 @@ public function AssignCallsTable(Request $request)
 }
 
 
+public function CustomerCreationMaster(Request $request)
+{
+
+    $user = Token::where('tokenid', $request->tokenid)->first();   
+    $userid = $user['userid'];
+    if($userid){
+        $tableName = 'customer_creation_profiles';
+        $header = ['Customer Name','State Name','City Name','Customer Group'];
+        $specificColumns = ['customer_name','state','city','smart_city'];
+        $columnNames = DB::select("SHOW COLUMNS FROM $tableName");
+        $filteredColumns = array_intersect($specificColumns, array_column($columnNames, 'Field'));
+    $customercreationList = DB::table('customer_creation_profiles')
+    ->join('country_masters','country_masters.id','customer_creation_profiles.country')
+    ->join('state_masters','state_masters.id','customer_creation_profiles.state')
+    ->join('district_masters','district_masters.id','customer_creation_profiles.district')
+    ->join('city_masters','city_masters.id','customer_creation_profiles.city')
+    ->where([
+        'customer_creation_profiles.delete_status'=>0,
+    ])
+    ->select(
+        'customer_creation_profiles.id',
+        'customer_creation_profiles.customer_name',
+        'country_masters.country_name',
+        'state_masters.state_name',
+        'city_masters.city_name',
+        'customer_creation_profiles.smart_city'
+    )
+    ->get();
+
+    $modifiedAccessor = array_map(function ($value) {
+        if ($value === "state") {
+            return "state_name";
+        } elseif ($value === "city") {
+            return "city_name";
+        }
+        return $value;
+    }, $filteredColumns);
+   
+        return  response()->json([
+           
+            'data' => $customercreationList,
+            'header'=>$header,
+            'title'=>'Customer Creation',
+            'accessor'=> $modifiedAccessor,
+        ]);
+    }
+}
+
 }

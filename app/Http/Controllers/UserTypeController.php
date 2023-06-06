@@ -7,6 +7,7 @@ use App\Models\Token;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class UserTypeController extends Controller
 {
@@ -172,5 +173,27 @@ class UserTypeController extends Controller
         ]);
     }
 
+    public function UserTypeMaster(Request $request){
+
+        $user = Token::where('tokenid', $request->tokenid)->first();   
+        $userid = $user['userid'];
+        if( $userid)
+        {
+            $tableName = 'roles';
+            $header=['User Type (role)','Status'];
+            $specificColumns = ['name','activeStatus'];
+            $columnNames = DB::select("SHOW COLUMNS FROM $tableName");
+            $filteredColumns = array_intersect($specificColumns, array_column($columnNames, 'Field'));
+            $userType = Role::orderBy('id', 'asc')->get();
+
+            return response()->json([
+                'status'=>200,
+                'Data'=>$userType,
+                'header'=>$header,
+                'title'=>'District Master',
+                'accessor'=> $filteredColumns,
+            ]);
+        }
+    }
 
 }

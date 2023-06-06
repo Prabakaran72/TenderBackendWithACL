@@ -367,7 +367,24 @@ Route::post('otherexpensestable', [OtherExpensesController::class, 'OtherExpTabl
 
 ///////////////////////////////ReactTable API Ends/////////////////////////////////////////////////////////
 
+Route::middleware(['token.auth'])->group(function(){
+    Route::post('districtmastertable',[DistrictMasterController::class,'DistrictMasterTable']);
+    Route::post('citymastertable',[CityMasterController::class,'CityMasterTable']);
+    Route::post('statemastertable',[StateMasterController::class,'StateMasterTable']);
+    Route::post('countrymastertable',[CountryMasterController::class,'CountryMasterTable']);
+    Route::post('competitormastertable',[CompetitorProfileCreationController::class,'CompetitorMasterTable']);
+    Route::post('customercreationmaster',[CustomerCreationProfileController::class,'CustomerCreationMaster']);
+    Route::post('permissionmastertable',[PermissionController::class,'PermissionMasterTable']);
+    Route::post('usermastertable',[UserControllerTemp::class,'UserMasterTable']);
+    Route::post('usertypemaster',[UserTypeController::class,'UserTypeMaster']);
+    Route::post('bidcreationmaster',[BidCreationCreationController::class,'BidCreationMaster']);
+    Route::post('ulbdetailsmaster',[ULBDetailsController::class,'ULBDetailsMaster']);
+    Route::post('attendancemaster',[AttendanceRegisterController::class,'AttendanceMaster']);
+    Route::post('attendancemasterreport',[AttendanceRegisterController::class,'AttendanceMasterReport']);
+    Route::post('holidaymaster',[HolidaysController::class,'HolidayMaster']);
+    Route::post('expensesapprovalmaster',[ExpensesApprovalController::class,'ExpensesApprovalMaster']);
 
+});
 
 
 // Route::get('holidaytable',[HolidaysController::class,'HolidayMasterTable']);

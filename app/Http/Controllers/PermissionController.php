@@ -8,6 +8,7 @@ use App\Models\role_has_permission;
 use App\Models\sub_module_menu;
 use App\Models\role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PermissionController extends Controller
 {
@@ -136,10 +137,9 @@ class PermissionController extends Controller
 
     public function destroy($role_id)
     {
-
         try {
             $permissions = role_has_permission::where('role_id',  $role_id)->delete();
-            if ($deleteuserCreation) {
+            if ($permissions) {
                 return response()->json([
                     'status' => 200,
                     'message' => "Deleted Successfully!"
@@ -160,5 +160,38 @@ class PermissionController extends Controller
                 "errormessage" => $error
             ]);
         }
+    }
+
+    public function PermissionMasterTable(Request $request)
+    {
+        $user = Token::where('tokenid', $request->tokenid)->first();   
+        $userid = $user['userid'];
+        if($userid)
+        {
+            $tableName = 'roles';
+            $header=['User Type (Role)'];
+            $specificColumns = ['name'];
+            $columnNames = DB::select("SHOW COLUMNS FROM $tableName");
+            $filteredColumns = array_intersect($specificColumns, array_column($columnNames, 'Field'));
+            $roles = role_has_permission::groupBy('role_id')->select('role_id')->get();
+
+            if ($roles)
+            {
+                foreach($roles as $role)
+                {
+                    $roleName = role::find($role['role_id']);
+                    $role['name'] = $roleName['name'];
+                }
+    
+    
+                return response()->json([
+                    'data'=>$roles,
+                    'header'=>$header,
+                    'title'=>'User Permission Master',
+                    'accessor'=> $filteredColumns,
+                ]);
+            }
+        }
+       
     }
 }
