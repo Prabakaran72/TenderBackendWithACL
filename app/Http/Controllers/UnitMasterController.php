@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use App\Models\UnitMaster;
+use App\Models\Token;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -167,4 +168,43 @@ class UnitMasterController extends Controller
             'unitList' =>  $unitList
         ]);
     }
+
+    public function UnitMasterTable(Request $request)
+    {
+        $user = Token::where("tokenid", $request->tokenid)->first();
+        if($user['userid'])
+        {
+
+        $header = ['Unit Name','Status'];
+        // $accessor = [
+        //     [
+        //         'unit_name' => 'UnitName',
+        //         'unit_status' => 'UnitStatus',
+        //         'action' => 'action'
+        //     ]
+        // ];
+        $accessor = ['unit_name','unit_status']; 
+ 
+
+        $unit = UnitMaster::orderBy('created_at', 'desc')->get();
+
+        if ($unit)
+            return response()->json([
+                'status' => 200,
+                'title' => 'UnitMaster',
+                'header' => $header,
+                'accessor' => $accessor,
+                'data' => $unit,
+                
+            ]);
+        else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'The provided credentials are incorrect.'
+            ]);
+        }
+    }
+    }
+
+
 }

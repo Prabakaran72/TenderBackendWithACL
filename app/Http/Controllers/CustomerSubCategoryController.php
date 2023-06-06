@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CustomerSubCategory;
 use App\Models\CustomerCreationProfile;
+use App\Models\Token;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -211,5 +212,32 @@ class CustomerSubCategoryController extends Controller
             'CustomerSubCategoryList' =>  $CustomerSubCategoryList,
             'sqlquery' => $query
         ]);
+    }
+
+    public function CustSubCatTable(Request $request)
+    {
+        $user = Token::where("tokenid", $request->tokenid)->first();
+        if($user['userid'])
+        {
+
+        $header = ['Customer Sub Category','Status'];
+        $accessor = ['customersubcategory','status'];
+
+        $CustomerSubCategory = CustomerSubCategory::orderBy('created_at', 'desc')->get();
+        if ($CustomerSubCategory)
+            return response()->json([
+                'status' => 200,
+                'title' => 'CustomerSubCategory',
+                'header' => $header,
+                'accessor' => $accessor,
+                'data' => $CustomerSubCategory
+            ]);
+        else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'The provided credentials are incorrect.'
+            ]);
+        }
+    }
     }
 }

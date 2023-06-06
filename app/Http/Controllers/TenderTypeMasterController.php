@@ -200,7 +200,32 @@ class TenderTypeMasterController extends Controller
     }
 
 
-   
+   public function TenderTypesTable(Request $request)
+   {
+    $user = Token::where("tokenid", $request->tokenid)->first();
+    if($user['userid'])
+    {
+
+    $header = ['TENDER TYPE NAME','STATUS'];
+    $accessor = ['tendertype','tendertype_status'];
+
+    $tenderType = TenderTypeMaster::orderBy('created_at', 'desc')->get(); 
+    if ($tenderType)
+        return response()->json([
+            'status' => 200,
+            'title' => 'TenderTypeMaster',
+            'header' => $header,
+            'accessor' => $accessor,
+            'data' => $tenderType
+        ]);
+    else {
+        return response()->json([
+            'status' => 404,
+            'message' => 'The provided credentials are incorrect.'
+        ]);
+    }
+    }
+   }
 
 
 
