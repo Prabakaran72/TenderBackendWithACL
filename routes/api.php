@@ -89,7 +89,7 @@ Route::get('customersubcategory/list/{profileid}', [CustomerSubCategoryControlle
 Route::get('state/list/{id}', [StateMasterController::class, 'getStateList']);
 Route::get('state-list/{id}', [StateMasterController::class, 'getStates']);
 Route::get('state/list/{id}/{category}/{savedstate}', [StateMasterController::class, 'getStateListOptions']);
-Route::get('unit/list', [UnitMasterController::class, 'getunitList']);
+Route::post('unit/list', [UnitMasterController::class, 'getunitList']);
 Route::get('state/zonefilteredlist/{cid}/{id}', [StateMasterController::class, 'getZoneFilteredStateList']);
 
 Route::get('tendercreation/list/{id}', [TenderCreationController::class, 'getTenderList']);
@@ -123,9 +123,9 @@ Route::get('customerOptions', [CustomerCreationProfileController::class, 'getOpt
 Route::post('customercreationcontact/getlist', [CustomerCreationContactPersonController::class, 'getlist']);
 Route::post('customercreationbankdetails/getlist', [CustomerCreationBankDetailsController::class, 'getlist']);
 Route::post('customercreationsmwprojectstatus/getlist', [CustomerCreationSWMProjectStatusController::class, 'getlist']);
-Route::get('projecttype/list/{profileid}', [ProjectTypeController::class, 'getList']);
-Route::get('projecttype/list', [ProjectTypeController::class, 'getListofProjectType']);
-Route::get('projectstatus/list/{profileid}', [ProjectStatusController::class, 'getList']);
+Route::post('projecttype/list/{profileid}', [ProjectTypeController::class, 'getList']);
+Route::post('projecttype/list', [ProjectTypeController::class, 'getListofProjectType']);
+Route::post('projectstatus/list/{profileid}', [ProjectStatusController::class, 'getList']);
 Route::get('competitorprofile/getcompno/{compid}', [CompetitorProfileCreationController::class, 'getCompNo']);
 Route::get('competitorbranch/branchlist/{compid}', [CompetitorDetailsBranchesController::class, 'getbranchList']);
 Route::get('competitordetails/turnoverlist/{compid}', [CompetitorDetailsTurnOverController::class, 'getTurnOverList']);
@@ -201,7 +201,7 @@ Route::get('tenderstatus/complist', [CompetitorProfileCreationController::class,
 Route::get('bidmanagement/tenderstatus/acceptedbidders/{id}', [TenderStatusBiddersController::class, 'getAcceptedBidders']);
 Route::post('tenderstatus/bidderstenderstatus/{id}', [TenderStatusBiddersController::class, 'BiddersTenderStatus']);
 Route::get('technicalevalution/qualifiedlist/{id}', [TenderStatusTechEvaluationController::class, 'getQualifiedList']);
-Route::get('unitmasters/getUnitList', [UnitMasterController::class, 'getListofUnits']);
+Route::post('unitmasters/getUnitList', [UnitMasterController::class, 'getListofUnits']);
 Route::get('tenderstatus/techevaluation/{id}', [TenderStatusTechEvaluationController::class, 'getTechEvaluationList']);
 Route::get('/tenderstatus/techevaluation/download/{id}', [TenderStatusTechEvaluationController::class, 'download']);
 Route::get('/tenderstatus/financialevaluation/getleastbidder/{id}', [TenderStatusFinancialEvaluationsController::class, 'getleastbidder']);
@@ -342,8 +342,9 @@ Route::post('expensesapp/printView', [ExpensesApprovalController::class, 'PrintV
 
 //ReactDataTable - APIs
 
-Route::post('projecttypetable', [ProjectTypeController::class, 'ProjectTypeTable']);
+
 Route::post('unitstable', [UnitMasterController::class, 'UnitMasterTable']);
+Route::post('projecttypetable', [ProjectTypeController::class, 'ProjectTypeTable']);
 Route::post('projectstatustable', [ProjectStatusController::class, 'ProjectStatusTable']);
 Route::post('customersubcategorytable', [CustomerSubCategoryController::class, 'CustSubCatTable']);
 Route::post('tendertypestable', [TenderTypeMasterController::class, 'TenderTypesTable']);
@@ -366,6 +367,13 @@ Route::post('callreportstable',[DayWiseReportController::class,'CallReportTable'
 Route::post('otherexpensestable', [OtherExpensesController::class, 'OtherExpTable']);
 
 ///////////////////////////////ReactTable API Ends/////////////////////////////////////////////////////////
+
+//GETtoPOST-APIs
+
+Route::post('unit', [UnitMasterController::class, 'index']);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -391,7 +399,7 @@ Route::resources([
     'state' => StateMasterController::class,
     'country' => CountryMasterController::class,
     'tendertype' => TenderTypeMasterController::class,
-    'unit' => UnitMasterController::class,
+    'unitZ' => UnitMasterController::class,
     'tendercreation' => TenderCreationController::class,
     'city' => CityMasterController::class,
     'district' => DistrictMasterController::class,

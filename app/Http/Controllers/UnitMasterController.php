@@ -7,8 +7,11 @@ use Illuminate\Support\Facades\Validator;
 
 class UnitMasterController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $user = Token::where("tokenid", $request->tokenid)->first();
+        if($user['userid'])
+        {
         $unit = UnitMaster::orderBy('created_at', 'desc')->get();
 
         if ($unit)
@@ -22,6 +25,7 @@ class UnitMasterController extends Controller
                 'message' => 'The provided credentials are incorrect.'
             ]);
         }
+    }
     }
 
 
@@ -139,7 +143,30 @@ class UnitMasterController extends Controller
     }
 
 
-    public function getunitList(){
+    public function getunitList(Request $request)
+    {
+        $user = Token::where("tokenid", $request->tokenid)->first();
+        if($user['userid'])
+        {
+            $units = UnitMaster::where("unit_status", "=", "Active")
+            ->get();
+
+            
+            $unitList = array();
+            foreach($units as $unit){
+                $unitList[] = ["value" => $unit['id'], "label" =>  $unit['unit_name']] ;
+            }
+            return  response()->json([
+                'unitList' =>  $unitList
+            ]);
+        }
+    }
+
+    public function getListofUnits(Request $request)
+    {
+        $user = Token::where("tokenid", $request->tokenid)->first();
+        if($user['userid'])
+        {
 
         $units = UnitMaster::where("unit_status", "=", "Active")
         ->get();
@@ -153,20 +180,6 @@ class UnitMasterController extends Controller
             'unitList' =>  $unitList
         ]);
     }
-
-    public function getListofUnits(){
-
-        $units = UnitMaster::where("unit_status", "=", "Active")
-        ->get();
-
-        
-        $unitList = array();
-        foreach($units as $unit){
-            $unitList[] = ["value" => $unit['id'], "label" =>  $unit['unit_name']] ;
-        }
-        return  response()->json([
-            'unitList' =>  $unitList
-        ]);
     }
 
     public function UnitMasterTable(Request $request)

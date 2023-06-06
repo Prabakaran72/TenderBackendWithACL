@@ -17,7 +17,7 @@ class ProjectStatusController extends Controller
      */
     public function index()
     {
-        //
+        
         $ProjectStatus = ProjectStatus::orderBy('created_at', 'desc')->get();
       
     
@@ -185,7 +185,12 @@ class ProjectStatusController extends Controller
         }
     }
 
-    public function getList($profileid){
+    public function getList(Request $request,$profileid)
+    {
+        
+        $user = Token::where("tokenid", $request->tokenid)->first();
+        if($user['userid'])
+        {
         
         DB::enableQueryLog(); 
 
@@ -210,6 +215,7 @@ class ProjectStatusController extends Controller
             'projectstatusList' =>  $producttypeList,
             'sqlquery' => $query
         ]);
+    }
     }
 
     public function ProjectStatusTable(Request $request)
