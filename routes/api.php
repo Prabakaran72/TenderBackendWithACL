@@ -84,12 +84,12 @@ Route::post('logout', [UserControllerTemp::class, 'logout']);
 Route::post('createState', [UserControllerTemp::class, 'login1']);
 Route::get('country/list', [CountryMasterController::class, 'getList']);
 Route::get('country/list/{savedcountry}', [CountryMasterController::class, 'getListofcountry']);
-Route::get('customersubcategory/list/{profileid}', [CustomerSubCategoryController::class, 'getList']);
+
 
 Route::get('state/list/{id}', [StateMasterController::class, 'getStateList']);
 Route::get('state-list/{id}', [StateMasterController::class, 'getStates']);
 Route::get('state/list/{id}/{category}/{savedstate}', [StateMasterController::class, 'getStateListOptions']);
-Route::post('unit/list', [UnitMasterController::class, 'getunitList']);
+
 Route::get('state/zonefilteredlist/{cid}/{id}', [StateMasterController::class, 'getZoneFilteredStateList']);
 
 Route::get('tendercreation/list/{id}', [TenderCreationController::class, 'getTenderList']);
@@ -103,7 +103,7 @@ Route::get('tendercreation-list/{id}', [TenderCreationController::class, 'getTen
 // Route::get('state/list/{id}', [StateMasterController::class, 'getStateList']);
 
 // Route::get('tendertype/{id}', [TenderTypeMasterController::class, 'show']);
-Route::get('tendertype/list', [TenderTypeMasterController::class, 'getList']);
+
 // Route::get('state/list/{id}/{category}/{savedstate}', [StateMasterController::class, 'getStateListOptions']);
 
 
@@ -116,16 +116,15 @@ Route::post('customercreation/profile', [CustomerCreationProfileController::clas
 Route::get('customercreation/getcustno/{stateid}', [CustomerCreationProfileController::class, 'getCustNo']);
 Route::get('customercreation/profile/getFormNo', [CustomerCreationProfileController::class, 'getFormNo']);
 Route::post('customer/list', [CustomerCreationProfileController::class, 'getList']);
-Route::get('tendercreation/list', [TenderTypeMasterController::class, 'getList']);
 Route::get('customerOptions', [CustomerCreationProfileController::class, 'getOptions']);
 
 // Route::get('customercreation/contact/getFormNo', [CustomerCreationContactPersonController::class, 'getFormNo']);
 Route::post('customercreationcontact/getlist', [CustomerCreationContactPersonController::class, 'getlist']);
 Route::post('customercreationbankdetails/getlist', [CustomerCreationBankDetailsController::class, 'getlist']);
 Route::post('customercreationsmwprojectstatus/getlist', [CustomerCreationSWMProjectStatusController::class, 'getlist']);
-Route::post('projecttype/list/{profileid}', [ProjectTypeController::class, 'getList']);
-Route::post('projecttype/list', [ProjectTypeController::class, 'getListofProjectType']);
-Route::post('projectstatus/list/{profileid}', [ProjectStatusController::class, 'getList']);
+
+
+
 Route::get('competitorprofile/getcompno/{compid}', [CompetitorProfileCreationController::class, 'getCompNo']);
 Route::get('competitorbranch/branchlist/{compid}', [CompetitorDetailsBranchesController::class, 'getbranchList']);
 Route::get('competitordetails/turnoverlist/{compid}', [CompetitorDetailsTurnOverController::class, 'getTurnOverList']);
@@ -201,7 +200,7 @@ Route::get('tenderstatus/complist', [CompetitorProfileCreationController::class,
 Route::get('bidmanagement/tenderstatus/acceptedbidders/{id}', [TenderStatusBiddersController::class, 'getAcceptedBidders']);
 Route::post('tenderstatus/bidderstenderstatus/{id}', [TenderStatusBiddersController::class, 'BiddersTenderStatus']);
 Route::get('technicalevalution/qualifiedlist/{id}', [TenderStatusTechEvaluationController::class, 'getQualifiedList']);
-Route::post('unitmasters/getUnitList', [UnitMasterController::class, 'getListofUnits']);
+
 Route::get('tenderstatus/techevaluation/{id}', [TenderStatusTechEvaluationController::class, 'getTechEvaluationList']);
 Route::get('/tenderstatus/techevaluation/download/{id}', [TenderStatusTechEvaluationController::class, 'download']);
 Route::get('/tenderstatus/financialevaluation/getleastbidder/{id}', [TenderStatusFinancialEvaluationsController::class, 'getleastbidder']);
@@ -251,7 +250,7 @@ Route::get('userpermissions', [PermissionController::class, 'getPermissionList']
 Route::delete('userpermission/{role_id}', [PermissionController::class, 'destroy']);
 Route::get('permisions/{usertype}', [PermissionController::class, 'getSavedData']);
 Route::get('usertypeOptionsForPermission', [PermissionController::class, 'getoptions']);
-Route::get('/calltype/list',[CallTypeController::class, 'getCallTypeList']);
+
 
 Route::get('bizzlist/list/{id}', [CallCreationController::class, 'getBizzList']);
 Route::get('statuslist/list/{id}', [CallCreationController::class, 'getStatusList']);
@@ -264,7 +263,7 @@ Route::get('callcreation/doclist/{id}', [CallLogFilesController::class, 'getUplo
 Route::get('callcreation/docdownload/{id}', [CallLogFilesController::class, 'download']);
 Route::get('dashboard/callcount', [CallLogFilesController::class, 'getCallCounts']);
 Route::post('callcreation/callnolist', [CallCreationController::class, 'usersCallList']);
-Route::get('expensetype/list', [ExpenseTypeController::class, 'getExpenseTypeList']);
+
 
 Route::get('otherexpsubfiledownload/{id}/{fileName}', [OtherExpenseSubController::class, 'download']);
 Route::get('callcreation/getCallMainList/{token}', [CallCreationController::class, 'getCallMainList']);
@@ -281,7 +280,7 @@ Route::post('attendanceregister/entrylist',[AttendanceRegisterController::class,
 // Route::put('attendanceregister/{id}', [AttendanceRegisterController::class,'update']);
 // Route::delete('attendanceregister/{id}',[AttendanceRegisterController::class,'destroy']);
 Route::get('userlist', [AttendanceRegisterController::class,'UserList']);
-Route::get('attendancetypelist', [AttendanceTypeController::class,'getAttendanceTypeList']);
+
 Route::get('attendancefile/{id}/{fileName}', [AttendanceRegisterController::class, 'download']);
 Route::post('attendance/docdownload', [AttendanceRegisterController::class, 'download']);
 Route::delete('destroyfile/{id}',[AttendanceRegisterController::class,'destroyFile']);
@@ -300,13 +299,10 @@ Route::post('getempleave/list',[AttendanceRegisterController::class,'getEmployee
 /*********************************
  * Expenses type
  */
-Route::get('expensetype/list', [ExpenseTypeController::class, 'getExpenseTypeList']);
+
 Route::get('otherexpsubfiledownload/{id}/{fileName}', [OtherExpenseSubController::class, 'download']);
 Route::get('callcreation/getCallMainList/{token}', [CallCreationController::class, 'getCallMainList']);     
-Route::get('customernamelist', [ExpenseTypeController::class, 'customerNameList']);
-Route::get('expansetypelist/{expid}', [ExpenseTypeController::class, 'ExpanseTypeList']);
 Route::post('fileupload/{id}', [ExpenseTypeController::class, 'Fileupload']);
-Route::get('expenseshow/{id}',[ExpenseTypeController::class,'Expenseshow']);
 Route::post('expenseshowupdate/{id}',[ExpenseTypeController::class,'Expenseshowupdate']);
 Route::delete('expensedestroy/{id}',[ExpenseTypeController::class,'Expensedestroy']);
 
@@ -368,10 +364,45 @@ Route::post('otherexpensestable', [OtherExpensesController::class, 'OtherExpTabl
 
 ///////////////////////////////ReactTable API Ends/////////////////////////////////////////////////////////
 
-//GETtoPOST-APIs
 
-Route::post('unit', [UnitMasterController::class, 'index']);
+//Middleware
+Route::middleware(['token.auth'])->group(function(){
+    Route::post('districtmastertable',[DistrictMasterController::class,'DistrictMasterTable']);
+    Route::post('citymastertable',[CityMasterController::class,'CityMasterTable']);
+    Route::post('statemastertable',[StateMasterController::class,'StateMasterTable']);
+    Route::post('countrymastertable',[CountryMasterController::class,'CountryMasterTable']);
+    Route::post('competitormastertable',[CompetitorProfileCreationController::class,'CompetitorMasterTable']);
+    Route::post('customercreationmaster',[CustomerCreationProfileController::class,'CustomerCreationMaster']);
+    Route::post('permissionmastertable',[PermissionController::class,'PermissionMasterTable']);
+    Route::post('usermastertable',[UserControllerTemp::class,'UserMasterTable']);
+    Route::post('usertypemaster',[UserTypeController::class,'UserTypeMaster']);
+    Route::post('bidcreationmaster',[BidCreationCreationController::class,'BidCreationMaster']);
+    Route::post('ulbdetailsmaster',[ULBDetailsController::class,'ULBDetailsMaster']);
+    Route::post('attendancemaster',[AttendanceRegisterController::class,'AttendanceMaster']);
+    Route::post('attendancemasterreport',[AttendanceRegisterController::class,'AttendanceMasterReport']);
+    Route::post('holidaymaster',[HolidaysController::class,'HolidayMaster']);
+    Route::post('expensesapprovalmaster',[ExpensesApprovalController::class,'ExpensesApprovalMaster']);
 
+
+    // Masters
+    Route::post('unit/list', [UnitMasterController::class, 'getunitList']);
+    Route::post('unitmasters/getUnitList', [UnitMasterController::class, 'getListofUnits']);
+    // Route::post('unit', [UnitMasterController::class, 'index']);
+    Route::post('projecttype/list/{profileid}', [ProjectTypeController::class, 'getList']);
+    Route::post('projecttype/list', [ProjectTypeController::class, 'getListofProjectType']);
+    Route::post('projectstatus/list/{profileid}', [ProjectStatusController::class, 'getList']);
+    Route::post('customersubcategory/list/{profileid}', [CustomerSubCategoryController::class, 'getList']);
+    Route::post('tendertype/list', [TenderTypeMasterController::class, 'getList']);
+    Route::post('tendercreation/list', [TenderTypeMasterController::class, 'getList']);
+    Route::post('expensetype/list', [ExpenseTypeController::class, 'getExpenseTypeList']);
+    Route::post('customernamelist', [ExpenseTypeController::class, 'customerNameList']);
+    Route::post('expansetypelist/{expid}', [ExpenseTypeController::class, 'ExpanseTypeList']);
+    Route::post('expenseshow/{id}',[ExpenseTypeController::class,'Expenseshow']);
+    Route::post('calltype/list',[CallTypeController::class, 'getCallTypeList']);
+    Route::post('attendancetypelist', [AttendanceTypeController::class,'getAttendanceTypeList']);
+
+
+});
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -399,7 +430,7 @@ Route::resources([
     'state' => StateMasterController::class,
     'country' => CountryMasterController::class,
     'tendertype' => TenderTypeMasterController::class,
-    'unitZ' => UnitMasterController::class,
+    'unit' => UnitMasterController::class,
     'tendercreation' => TenderCreationController::class,
     'city' => CityMasterController::class,
     'district' => DistrictMasterController::class,

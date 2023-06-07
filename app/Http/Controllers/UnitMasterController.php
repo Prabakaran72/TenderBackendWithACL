@@ -7,11 +7,9 @@ use Illuminate\Support\Facades\Validator;
 
 class UnitMasterController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $user = Token::where("tokenid", $request->tokenid)->first();
-        if($user['userid'])
-        {
+        
         $unit = UnitMaster::orderBy('created_at', 'desc')->get();
 
         if ($unit)
@@ -25,7 +23,7 @@ class UnitMasterController extends Controller
                 'message' => 'The provided credentials are incorrect.'
             ]);
         }
-    }
+    
     }
 
 
@@ -143,11 +141,9 @@ class UnitMasterController extends Controller
     }
 
 
-    public function getunitList(Request $request)
+    public function getunitList()
     {
-        $user = Token::where("tokenid", $request->tokenid)->first();
-        if($user['userid'])
-        {
+        
             $units = UnitMaster::where("unit_status", "=", "Active")
             ->get();
 
@@ -159,14 +155,12 @@ class UnitMasterController extends Controller
             return  response()->json([
                 'unitList' =>  $unitList
             ]);
-        }
+        
     }
 
-    public function getListofUnits(Request $request)
+    public function getListofUnits()
     {
-        $user = Token::where("tokenid", $request->tokenid)->first();
-        if($user['userid'])
-        {
+        
 
         $units = UnitMaster::where("unit_status", "=", "Active")
         ->get();
@@ -179,7 +173,7 @@ class UnitMasterController extends Controller
         return  response()->json([
             'unitList' =>  $unitList
         ]);
-    }
+    
     }
 
     public function UnitMasterTable(Request $request)

@@ -188,11 +188,8 @@ class ProjectTypeController extends Controller
     }
 
     
-    public function getList(Request $request,$profileid)
+    public function getList($profileid)
     {
-        $user = Token::where("tokenid", $request->tokenid)->first();
-        if($user['userid'])
-        {
         
         DB::enableQueryLog(); 
 
@@ -217,15 +214,12 @@ class ProjectTypeController extends Controller
             'projectTypeList' =>  $producttypeList,
             'sqlquery' => $query
         ]);
-    }
+    
     }
 
-    public function getListofProjectType(Request $request)
+    public function getListofProjectType()
     {
         
-        $user = Token::where("tokenid", $request->tokenid)->first();
-        if($user['userid'])
-        {    
         DB::enableQueryLog(); 
 
         $projectypes = ProjectType::where("status", "=", "Active")
@@ -249,7 +243,7 @@ class ProjectTypeController extends Controller
             'projectTypeList' =>  $producttypeList,
             'sqlquery' => $query
         ]);
-    }
+    
     }
 
     public function ProjectTypeTable(Request $request)
