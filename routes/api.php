@@ -92,8 +92,7 @@ Route::get('state/list/{id}/{category}/{savedstate}', [StateMasterController::cl
 
 Route::get('state/zonefilteredlist/{cid}/{id}', [StateMasterController::class, 'getZoneFilteredStateList']);
 
-Route::get('tendercreation/list/{id}', [TenderCreationController::class, 'getTenderList']);
-Route::get('tendercreation-list/{id}', [TenderCreationController::class, 'getTender']);
+
 
 
 // Route::get('customer/list', [CustomerCreationMainController::class, 'getList']);
@@ -156,9 +155,7 @@ Route::post('bidcreation/corrigendumpublish/docupload/list', [BidmanagementCorri
 Route::get('download/corrigendumpublishdocs/{fileName}', [BidmanagementCorrigendumPublishController::class, 'download']);
 Route::post('bidcreation/corrigendumpublish/docupload/{id}', [BidmanagementCorrigendumPublishController::class, 'update']);
 //brindha updated on 21-01-2023
-Route::get('bidcreation/creation/live_tenders', [BidCreationCreationController::class, 'live_tender']);
-Route::get('bidcreation/creation/fresh_tenders', [BidCreationCreationController::class, 'fresh_tender']);
-Route::get('bidcreation/creation/awarded_tenders', [BidCreationCreationController::class, 'awarded_tenders']);
+
 
 Route::get('download/tenderfeedocs/{id}', [BidCreationTenderFeeController::class, 'getdocs']);
 Route::get('download/emdfeedocs/{id}', [BidCreationEMDController::class, 'getdocs']);
@@ -192,9 +189,9 @@ Route::get('/file-import', [ImportCustomerController::class, 'importView'])->nam
 
 Route::post('/legacystatement', [BidCreationCreationController::class, 'getlegacylist']);
 
-Route::get('/bidcreation/creation/getlastbidno/{id}', [BidCreationCreationController::class, 'getLastBidno']);
+
 Route::get('/customercreation/getstatecode/{id}', [StateMasterController::class, 'getStateCode']);
-Route::get('/tendertrack/list', [TenderCreationController::class, 'gettendertrack']);
+
 Route::post('/tendertrack/creation/tracklist', [TenderCreationController::class, 'gettrackList']);
 Route::get('tenderstatus/complist', [CompetitorProfileCreationController::class, 'getListOfComp']);
 Route::get('bidmanagement/tenderstatus/acceptedbidders/{id}', [TenderStatusBiddersController::class, 'getAcceptedBidders']);
@@ -210,13 +207,13 @@ Route::get('financialevaluation/getstoreddata/{id}',[TenderStatusFinancialEvalua
 Route::get('/tenderstatus/awardontract/download/{id}', [TenderStatusContractAwardedController::class, 'download']);
 Route::post('communicationfilesmaster/list', [CommunicationfilesmasterController::class, 'docList']);
 Route::delete('communicationfilesmaster/deletedoc/{id}', [CommunicationfilesmasterController::class, 'deletefile']);
-Route::get('download/communicationfilesmaster/{id}', [CommunicationfilesmasterController::class, 'download']);
 
-Route::get('/dashboard/getCallCountAnalysis', [CallCreationController::class, 'getCallCountAnalysis']);//Dashborad contents based on bdmcalldetails
+
+
 Route::get('/dashboard/ulbdetails', [ULBDetailsController::class, 'getulbyearlydetails']);//Dashborad contents based on ulbdetails
 Route::get('/dashboard/bidanalysis', [ULBDetailsController::class, 'getbidanalysis']);//Dashborad contents based on ulbdetails
 Route::get('/dashboard/tenderanalysis', [ULBDetailsController::class, 'tenderanalysis']);//Dashborad contents based on ulbdetails
-Route::get('bidcreation/creation/projectstatus', [BidCreationCreationController::class, 'projectstatus']);// returns running  & completed projects count for dashboard
+
 Route::get('/dashboard/ulbpopdetails', [ULBDetailsController::class, 'getulbpopulationdetails']);//Dashborad contents based on ulbdetails
 Route::post('ulbreport/ulblist', [ULBDetailsController::class, 'getulbreport']);//ulb report page  
 Route::post('ulbreport/populb', [ULBDetailsController::class, 'setpopupUlb']);//ulb popup page  
@@ -252,12 +249,9 @@ Route::get('permisions/{usertype}', [PermissionController::class, 'getSavedData'
 Route::get('usertypeOptionsForPermission', [PermissionController::class, 'getoptions']);
 
 
-Route::get('bizzlist/list/{id}', [CallCreationController::class, 'getBizzList']);
-Route::get('statuslist/list/{id}', [CallCreationController::class, 'getStatusList']);
-Route::get('calldownload/{id}/{fileName}', [CallCreationController::class, 'download']);
+
 Route::post('callupload', [CallCreationController::class, 'callfileupload']);
-Route::get('user/list', [CallCreationController::class, 'getUserList']);
-Route::get('procurementlist/list', [CallCreationController::class, 'getProcurementList']);
+
 
 Route::get('callcreation/doclist/{id}', [CallLogFilesController::class, 'getUplodedDocList']);
 Route::get('callcreation/docdownload/{id}', [CallLogFilesController::class, 'download']);
@@ -266,7 +260,7 @@ Route::post('callcreation/callnolist', [CallCreationController::class, 'usersCal
 
 
 Route::get('otherexpsubfiledownload/{id}/{fileName}', [OtherExpenseSubController::class, 'download']);
-Route::get('callcreation/getCallMainList/{token}', [CallCreationController::class, 'getCallMainList']);
+
 Route::get("getcallhistory/list/{id}",[CallHistoryController::class,'getCallHistory']);
 Route::POST("calltobdm/updateAssignedCustomer",[CalltobdmController::class,'updateAssignedCustomer']);
 Route::post('getdaywisereport/list',[DayWiseReportController::class,'getDayWiseReport']);
@@ -301,7 +295,7 @@ Route::post('getempleave/list',[AttendanceRegisterController::class,'getEmployee
  */
 
 Route::get('otherexpsubfiledownload/{id}/{fileName}', [OtherExpenseSubController::class, 'download']);
-Route::get('callcreation/getCallMainList/{token}', [CallCreationController::class, 'getCallMainList']);     
+// Route::get('callcreation/getCallMainList/{token}', [CallCreationController::class, 'getCallMainList']);     
 Route::post('fileupload/{id}', [ExpenseTypeController::class, 'Fileupload']);
 Route::post('expenseshowupdate/{id}',[ExpenseTypeController::class,'Expenseshowupdate']);
 Route::delete('expensedestroy/{id}',[ExpenseTypeController::class,'Expensedestroy']);
@@ -401,6 +395,29 @@ Route::middleware(['token.auth'])->group(function(){
     Route::post('calltype/list',[CallTypeController::class, 'getCallTypeList']);
     Route::post('attendancetypelist', [AttendanceTypeController::class,'getAttendanceTypeList']);
 
+    //Tenders
+    Route::post('bidcreation/creation/live_tenders', [BidCreationCreationController::class, 'live_tender']);
+    Route::post('bidcreation/creation/fresh_tenders', [BidCreationCreationController::class, 'fresh_tender']);
+    Route::post('bidcreation/creation/awarded_tenders', [BidCreationCreationController::class, 'awarded_tenders']);
+    Route::post('/bidcreation/creation/getlastbidno/{id}', [BidCreationCreationController::class, 'getLastBidno']);
+    Route::post('bidcreation/creation/projectstatus', [BidCreationCreationController::class, 'projectstatus']);// returns running  & completed projects count for dashboard
+
+    Route::post('tendercreation/list/{id}', [TenderCreationController::class, 'getTenderList']);//not working
+    Route::post('tendercreation-list/{id}', [TenderCreationController::class, 'getTender']);//not working
+    Route::post('/tendertrack/list', [TenderCreationController::class, 'gettendertrack']);
+
+    //Library
+    Route::post('download/communicationfilesmaster/{id}', [CommunicationfilesmasterController::class, 'download']);
+
+    //CallLogs
+    Route::post('/dashboard/getCallCountAnalysis', [CallCreationController::class, 'getCallCountAnalysis']);//Dashborad contents based on bdmcalldetails
+    Route::post('bizzlist/list/{id}', [CallCreationController::class, 'getBizzList']);
+    Route::post('statuslist/list/{id}', [CallCreationController::class, 'getStatusList']);
+    Route::post('calldownload/{id}/{fileName}', [CallCreationController::class, 'download']);
+    Route::post('user/list', [CallCreationController::class, 'getUserList']);
+    Route::post('procurementlist/list', [CallCreationController::class, 'getProcurementList']);
+    Route::post('callcreation/getCallMainList/{token}', [CallCreationController::class, 'getCallMainList']);
+    
 
 });
 
