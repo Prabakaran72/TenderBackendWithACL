@@ -412,4 +412,42 @@ class CommunicationfilesmasterController extends Controller
         }
 
     }
+
+    public function CommunicationFilesTable(Request $request)
+    {
+        $user = Token::where("tokenid", $request->tokenid)->first();
+        if($user['userid'])
+        {
+            $header = ['Date','From','To','Medium','Med. reference no','Files'];
+            $accessor = ['date','from','tovalue','medium','med_refrence_no','files'];
+
+        DB::enableQueryLog(); 
+        $communicationFiles = DB::table('communicationfilesmasters')
+        ->select('*')
+        ->addselect(DB::raw("(CASE 
+            WHEN from_ulb THEN (SELECT customer_name FROM customer_creation_profiles where id=from_ulb)
+            ELSE `from`
+            END) as fromvalue"))
+        ->addselect(DB::raw("(CASE 
+            WHEN to_ulb THEN (SELECT customer_name FROM customer_creation_profiles where id=to_ulb)
+            ELSE `to`
+            END) as tovalue"))
+        ->orderBy('id', 'DESC')
+        ->get();
+        $sqlquery = DB::getQueryLog();
+        
+        $SQL = str_replace(array('?'), array('\'%s\''),  $sqlquery[0]['query']);
+        $SQL = vsprintf($SQL, $sqlquery[0]['bindings']);
+          
+
+        return response()->json([
+            'title' => 'CommunicationFiles',
+            'header' => $header,
+            'accessor' => $accessor,
+            'data' =>   $communicationFiles,
+            'bidcreationList' => [],
+            // 'sql' => $SQL
+        ]);
+    }
+    }
 }

@@ -62,7 +62,19 @@ use App\Http\Controllers\ExpenseTypeController;
 use App\Http\Controllers\AttendanceEntryController;
 use App\Http\Controllers\AttendanceTypeController;
 use App\Http\Controllers\CallCreationController;
+<<<<<<< HEAD
 use App\Http\Controllers\BusinessForecastStatusController;
+=======
+use App\Http\Controllers\CallLogFilesController;
+use App\Http\Controllers\OtherExpenseSubController;
+use App\Http\Controllers\OtherExpenseController;
+use App\Http\Controllers\CallHistoryController;
+use App\Http\Controllers\DayWiseReportController;
+use App\Http\Controllers\AttendanceRegisterController;
+use App\Http\Controllers\ExpensesApprovalController;
+use App\Http\Controllers\OtherExpensesController;
+use App\Http\Controllers\HolidaysController;
+>>>>>>> origin/navin
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -82,7 +94,7 @@ Route::get('state/list/{id}', [StateMasterController::class, 'getStateList']);
 Route::get('state-list/{id}', [StateMasterController::class, 'getStates']);
 Route::get('state/list/{id}/{category}/{savedstate}', [StateMasterController::class, 'getStateListOptions']);
 Route::get('unit/list', [UnitMasterController::class, 'getunitList']);
-
+Route::get('state/zonefilteredlist/{cid}/{id}', [StateMasterController::class, 'getZoneFilteredStateList']);
 
 Route::get('tendercreation/list/{id}', [TenderCreationController::class, 'getTenderList']);
 Route::get('tendercreation-list/{id}', [TenderCreationController::class, 'getTender']);
@@ -107,7 +119,7 @@ Route::post('customercreationmain/getmainid', [CustomerCreationMainController::c
 Route::post('customercreation/profile', [CustomerCreationProfileController::class, 'getProfileFromData']);
 Route::get('customercreation/getcustno/{stateid}', [CustomerCreationProfileController::class, 'getCustNo']);
 Route::get('customercreation/profile/getFormNo', [CustomerCreationProfileController::class, 'getFormNo']);
-Route::get('customer/list', [CustomerCreationProfileController::class, 'getList']);
+Route::post('customer/list', [CustomerCreationProfileController::class, 'getList']);
 Route::get('tendercreation/list', [TenderTypeMasterController::class, 'getList']);
 Route::get('customerOptions', [CustomerCreationProfileController::class, 'getOptions']);
 
@@ -172,8 +184,8 @@ Route::get('download/letterofacceptance/workorderimage/{woid}', [BidManagementWo
 Route::post('letteracceptance/creation/update/{id}', [BidManagementWorkOrderLetterOfAcceptenceController::class, 'update']);
 
 Route::post('/workorder/creation/communicationfiles/{id}', [BidManagementWorkOrderCommunicationFilesController::class, 'store']);
-Route::post('/workorder/creation/communicationfileUpload/', [BidManagementWorkOrderCommunicationFilesController::class, 'communicationfileUpload']);
-Route::post('/workorder/creation/communicationfileUploadlist/', [BidManagementWorkOrderCommunicationFilesController::class, 'communicationfileUploadlist']);
+Route::post('/workorder/creation/communicationfileUpload', [BidManagementWorkOrderCommunicationFilesController::class, 'communicationfileUpload']);
+Route::post('/workorder/creation/communicationfileUploadlist', [BidManagementWorkOrderCommunicationFilesController::class, 'communicationfileUploadlist']);
 Route::get('/workorder/creation/communicationfiledelete/{id}', [BidManagementWorkOrderCommunicationFilesController::class, 'communicationfiledelete']);
 
 Route::get('/competitorprofile/getlastcompno/{id}', [CompetitorProfileCreationController::class, 'getLastCompno']);
@@ -205,7 +217,7 @@ Route::post('communicationfilesmaster/list', [CommunicationfilesmasterController
 Route::delete('communicationfilesmaster/deletedoc/{id}', [CommunicationfilesmasterController::class, 'deletefile']);
 Route::get('download/communicationfilesmaster/{id}', [CommunicationfilesmasterController::class, 'download']);
 
-
+Route::get('/dashboard/getCallCountAnalysis', [CallCreationController::class, 'getCallCountAnalysis']);//Dashborad contents based on bdmcalldetails
 Route::get('/dashboard/ulbdetails', [ULBDetailsController::class, 'getulbyearlydetails']);//Dashborad contents based on ulbdetails
 Route::get('/dashboard/bidanalysis', [ULBDetailsController::class, 'getbidanalysis']);//Dashborad contents based on ulbdetails
 Route::get('/dashboard/tenderanalysis', [ULBDetailsController::class, 'tenderanalysis']);//Dashborad contents based on ulbdetails
@@ -215,11 +227,19 @@ Route::post('ulbreport/ulblist', [ULBDetailsController::class, 'getulbreport']);
 Route::post('ulbreport/populb', [ULBDetailsController::class, 'setpopupUlb']);//ulb popup page  
 
 
+
 Route::post('usertype', [UserTypeController::class, 'store']);
 Route::get('usertype', [UserTypeController::class, 'index']);
 Route::get('usertype/options', [UserTypeController::class, 'getoptions']);
-Route::get('userOptions', [UserControllerTemp::class, 'getoptions']);
+// Route::get('userOptions', [UserControllerTemp::class, 'getoptions']);
 
+Route::get('rolelist', [UserTypeController::class, 'getRoleList']);
+Route::get('bdmoptions', [UserControllerTemp::class, 'getBdmUsersList']);
+Route::get('bdmlist', [UserControllerTemp::class, 'getBdmList']);
+
+Route::get('employeelist', [UserControllerTemp::class, 'getEmployeeList']);
+Route::post('getbdmdetails', [UserControllerTemp::class, 'getbdmdetails']); // Collecting particular BDM User details, to dispaly BDM name and All
+Route::post('filteredcustomerlist', [CustomerCreationProfileController::class, 'getFilteredCustomerList']);
 
 
 Route::get('usertype/{id}', [UserTypeController::class, 'show']);
@@ -252,6 +272,138 @@ Route::post('forecaststatus/geteditdata', [BusinessForecastStatusController::cla
 Route::post('forecaststatus/destroy', [BusinessForecastStatusController::class, 'destroy']);
 /******************************************* */
 
+Route::get('callcreation/doclist/{id}', [CallLogFilesController::class, 'getUplodedDocList']);
+Route::get('callcreation/docdownload/{id}', [CallLogFilesController::class, 'download']);
+Route::get('dashboard/callcount', [CallLogFilesController::class, 'getCallCounts']);
+Route::post('callcreation/callnolist', [CallCreationController::class, 'usersCallList']);
+Route::get('expensetype/list', [ExpenseTypeController::class, 'getExpenseTypeList']);
+
+Route::get('otherexpsubfiledownload/{id}/{fileName}', [OtherExpenseSubController::class, 'download']);
+Route::get('callcreation/getCallMainList/{token}', [CallCreationController::class, 'getCallMainList']);
+Route::get("getcallhistory/list/{id}",[CallHistoryController::class,'getCallHistory']);
+Route::POST("calltobdm/updateAssignedCustomer",[CalltobdmController::class,'updateAssignedCustomer']);
+Route::post('getdaywisereport/list',[DayWiseReportController::class,'getDayWiseReport']);
+
+
+//attendanceregisterroutes
+Route::post('attendanceregister/entrylist',[AttendanceRegisterController::class,'userbasedindex']);
+// Route::post('attendanceregister',[AttendanceRegisterController::class,'store']);
+ Route::post('attendanceregister/fileList',[AttendanceRegisterController::class,'getFilesList']);
+// Route::get('attendanceregister/{id}',[AttendanceRegisterController::class,'show']);
+// Route::put('attendanceregister/{id}', [AttendanceRegisterController::class,'update']);
+// Route::delete('attendanceregister/{id}',[AttendanceRegisterController::class,'destroy']);
+Route::get('userlist', [AttendanceRegisterController::class,'UserList']);
+Route::get('attendancetypelist', [AttendanceTypeController::class,'getAttendanceTypeList']);
+Route::get('attendancefile/{id}/{fileName}', [AttendanceRegisterController::class, 'download']);
+Route::post('attendance/docdownload', [AttendanceRegisterController::class, 'download']);
+Route::delete('destroyfile/{id}',[AttendanceRegisterController::class,'destroyFile']);
+Route::post('getempleave/list',[AttendanceRegisterController::class,'getEmployeeLeaveList']);//For Attendance Report
+
+
+
+
+
+
+/*********************************
+ * other expesive Naveen
+ */
+/******************************* */
+
+/*********************************
+ * Expenses type
+ */
+Route::get('expensetype/list', [ExpenseTypeController::class, 'getExpenseTypeList']);
+Route::get('otherexpsubfiledownload/{id}/{fileName}', [OtherExpenseSubController::class, 'download']);
+Route::get('callcreation/getCallMainList/{token}', [CallCreationController::class, 'getCallMainList']);     
+Route::get('customernamelist', [ExpenseTypeController::class, 'customerNameList']);
+Route::get('expansetypelist/{expid}', [ExpenseTypeController::class, 'ExpanseTypeList']);
+Route::post('fileupload/{id}', [ExpenseTypeController::class, 'Fileupload']);
+Route::get('expenseshow/{id}',[ExpenseTypeController::class,'Expenseshow']);
+Route::post('expenseshowupdate/{id}',[ExpenseTypeController::class,'Expenseshowupdate']);
+Route::delete('expensedestroy/{id}',[ExpenseTypeController::class,'Expensedestroy']);
+
+/*** Other Expesive   */
+
+Route::post('expenses/staffList', [OtherExpensesController::class, 'get_staff_name_limits']);
+Route::post('/expenseinv', [OtherExpensesController::class, 'ExpInvoice']);
+Route::get('/updatedl/{id}', [OtherExpensesController::class, 'GetDel']);
+Route::post('/finalSubmit', [OtherExpensesController::class, 'finalSubmit']);
+Route::post('/expensesub', [OtherExpensesController::class, 'ExpSub']);
+Route::get('/otherexpensesubdel/{id}', [OtherExpensesController::class, 'Expensedestroy']);
+Route::post('/editsub', [OtherExpensesController::class, 'EditSub']);
+Route::post('otherExpcustomer/list', [OtherExpensesController::class, 'getList']);
+Route::post('callnumber', [OtherExpensesController::class, 'CallNumber']);
+Route::post('/getlimit', [OtherExpensesController::class, 'lmitAmount']);
+Route::post('/expensestore', [OtherExpensesController::class, 'Expensestore']);
+Route::post('/subupdate', [OtherExpensesController::class, 'SubUpdate']);
+Route::post('/mainlist', [OtherExpensesController::class, 'Mainlist']);
+Route::delete('deleteMain/{id}',[OtherExpensesController::class,'deleteMain']);
+// Route::get('downloadfile/{filename}', [OtherExpensesController::class,'downloadFile']);
+Route::post('/expense/downloadfile', [OtherExpensesController::class,'downloadFile']);
+/*** Rembusment*/
+
+Route::post('expensesapp/expapp', [ExpensesApprovalController::class, 'index']);
+Route::post('expensesapp/staffList', [ExpensesApprovalController::class, 'get_staff_name']);
+Route::post('expensesapp/getsublist', [ExpensesApprovalController::class, 'showsub']);
+Route::post('expensesapp/storeData', [ExpensesApprovalController::class, 'store']);
+Route::post('expensesapp/popupsub', [ExpensesApprovalController::class, 'popupsub']);
+Route::post('expensesapp/UpdateApproval', [ExpensesApprovalController::class, 'UpdateApproval']);
+Route::post('expensesapp/printView', [ExpensesApprovalController::class, 'PrintView']);
+/**** */
+
+
+//ReactDataTable - APIs
+
+Route::post('projecttypetable', [ProjectTypeController::class, 'ProjectTypeTable']);
+Route::post('unitstable', [UnitMasterController::class, 'UnitMasterTable']);
+Route::post('projectstatustable', [ProjectStatusController::class, 'ProjectStatusTable']);
+Route::post('customersubcategorytable', [CustomerSubCategoryController::class, 'CustSubCatTable']);
+Route::post('tendertypestable', [TenderTypeMasterController::class, 'TenderTypesTable']);
+Route::post('zonetable', [ZoneMasterController::class, 'ZoneMasterTable']);
+Route::post('bizzforecasttable', [BusinessForecastController::class, 'BizzForecastTable']);
+Route::post('expensetypetable', [ExpenseTypeController::class, 'ExpenseTypeTable']);
+Route::post('calltypetable', [CallTypeController::class, 'CallTypeTable']);
+Route::post('attendancetypetable', [AttendanceTypeController::class, 'AttendanceTypeTable']);
+
+Route::post('bidlisttable', [BidCreationCreationController::class, 'BidManagementListTable']);
+Route::post('tendertrackertable', [TenderCreationController::class, 'TenderTrackerTable']);
+
+Route::post('communicationfilestable', [CommunicationfilesmasterController::class, 'CommunicationFilesTable']);
+
+Route::post('callbookingtable', [CallCreationController::class, 'CallBookTable']);
+Route::post('calltobdmtable',[UserControllerTemp::class,'BDMOptionsTable']);
+Route::post('assigncallstable', [CustomerCreationProfileController::class, 'AssignCallsTable']);
+Route::post('callreportstable',[DayWiseReportController::class,'CallReportTable']);
+
+Route::post('otherexpensestable', [OtherExpensesController::class, 'OtherExpTable']);
+
+///////////////////////////////ReactTable API Ends/////////////////////////////////////////////////////////
+
+Route::middleware(['token.auth'])->group(function(){
+    Route::post('districtmastertable',[DistrictMasterController::class,'DistrictMasterTable']);
+    Route::post('citymastertable',[CityMasterController::class,'CityMasterTable']);
+    Route::post('statemastertable',[StateMasterController::class,'StateMasterTable']);
+    Route::post('countrymastertable',[CountryMasterController::class,'CountryMasterTable']);
+    Route::post('competitormastertable',[CompetitorProfileCreationController::class,'CompetitorMasterTable']);
+    Route::post('customercreationmaster',[CustomerCreationProfileController::class,'CustomerCreationMaster']);
+    Route::post('permissionmastertable',[PermissionController::class,'PermissionMasterTable']);
+    Route::post('usermastertable',[UserControllerTemp::class,'UserMasterTable']);
+    Route::post('usertypemaster',[UserTypeController::class,'UserTypeMaster']);
+    Route::post('bidcreationmaster',[BidCreationCreationController::class,'BidCreationMaster']);
+    Route::post('ulbdetailsmaster',[ULBDetailsController::class,'ULBDetailsMaster']);
+    Route::post('attendancemaster',[AttendanceRegisterController::class,'AttendanceMaster']);
+    Route::post('attendancemasterreport',[AttendanceRegisterController::class,'AttendanceMasterReport']);
+    Route::post('holidaymaster',[HolidaysController::class,'HolidayMaster']);
+    Route::post('expensesapprovalmaster',[ExpensesApprovalController::class,'ExpensesApprovalMaster']);
+
+});
+
+
+// Route::get('holidaytable',[HolidaysController::class,'HolidayMasterTable']);
+
+
+
+
 /*
 ## Resource Laravel Routes Example
 Route::post(['ulb',[UlbMasterController::class,'store']]);//
@@ -262,6 +414,7 @@ Route::put/patch(['ulb/{id}',[UlbMasterController::class,'update']]);
 ## Patch =>update/modify
 Route::delete(['ulb/{id}',[UlbMasterController::class,'destroy']]);
 */
+
 Route::resources([
     'ulb' => UlbMasterController::class,
     'state' => StateMasterController::class,
@@ -319,6 +472,12 @@ Route::resources([
     'expensetype' => ExpenseTypeController::class,
     'attendancetype'=> AttendanceTypeController::class,
     'callcreation' => CallCreationController::class,
+    'callfileupload'=> CallLogFilesController::class,
+    'callhistory'=> CallHistoryController::class,
+    'otherexpense' => OtherExpensesController::class,
+    'otherexpensesub' => OtherExpenseSubController::class,
+    'attendanceregister'=>AttendanceRegisterController::class,
+    'holidays'=>HolidaysController::class,
 ]);
 
 

@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class AttendanceEntry extends Model
 {
     use HasFactory;
-    protected $fillable  = ['userId','attendanceType','created_by','edited_by'];
+    protected $fillable  = ['userId','attendanceType','icon_class','created_by','edited_by'];
 }

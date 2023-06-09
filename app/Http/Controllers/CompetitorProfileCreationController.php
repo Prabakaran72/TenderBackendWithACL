@@ -5,6 +5,7 @@ use App\Models\CompetitorProfileCreation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Token;
+use Illuminate\Support\Facades\DB;
 class CompetitorProfileCreationController extends Controller
 {
     
@@ -217,5 +218,33 @@ if ($validator->fails()) {
         }
     }
 
+    public function CompetitorMasterTable(Request $request)
+    {
 
+    $user = Token::where('tokenid', $request->tokenid)->first();   
+    $userid = $user['userid'];
+    if($userid)
+    {
+            $tableName = 'competitor_profile_creations';
+            $header=['Competitor No','Competitor Name','Mobile Number',' Email Id'];
+            $specificColumns = ['compNo','compName','mobile','email'];
+            $columnNames = DB::select("SHOW COLUMNS FROM $tableName");
+            $filteredColumns = array_intersect($specificColumns, array_column($columnNames, 'Field'));
+        $competitor = CompetitorProfileCreation::where('id','!=','')
+                    ->select('id','compNo','compName','mobile','email') 
+                    ->orderBy('id')
+                    ->get();
+                   
+                        return response()->json([
+                            'data'=>$competitor,
+                            'header'=>$header,
+                            'title'=>'Competitor Master',
+                            'accessor'=> $filteredColumns,
+                        ]);
+                    }
+    
+
+
+
+    }
 }

@@ -160,27 +160,6 @@ class BusinessForecastController extends Controller
                  'message' => 'The provided credentials are Invalid'
              ]);
          }
-
-            // $callTypeList= [];
-            //         foreach($business_forecast as $calltypes){
-            //             $callTypeList[] = ["value" => $calltypes['id'], "label" =>  $calltypes['name']];
-            //         }
-            //         return response()->json([
-            //             'bizzforecast' =>  $callTypeList,
-            //         ]);
-
-        
-        // $business_forecast_name = BusinessForecast::find($id);
-        // $business_forecast = BusinessForecast::where("id",$id)->get();
-    
-        // $callTypeList= [];
-        // foreach($business_forecast as $calltypes){
-        //     $callTypeList[] = ["value" => $calltypes['id'], "label" =>  $calltypes['name']];
-        // }
-        // return response()->json([
-        //     'bizzforecast1' => $business_forecast_name,
-        //     'bizzforecast' =>  $callTypeList,
-        // ]);
     }
 
     /**
@@ -264,5 +243,37 @@ class BusinessForecastController extends Controller
                 'message' => 'The Provided Credentials are Incorrect.'
             ]);
         }
+    }
+
+    public function BizzForecastTable(Request $request)
+    {
+        $user = Token::where("tokenid", $request->tokenid)->first();
+        if($user['userid'])
+        {
+
+        $header = ['Call Type','Business Forecast','Status'];
+        $accessor = ['calltype_name','name','activeStatus'];
+        $business_forecast = BusinessForecast::leftJoin('call_types_mst','call_types_mst.id','business_forecasts.call_type_id')
+                            ->select(
+                            'business_forecasts.*',
+                            'call_types_mst.name as calltype_name'
+                            )
+                            ->get();
+
+       if ($business_forecast)
+           return response()->json([
+               'status' => 200,
+               'title' => 'BusinessForecast',
+               'header' => $header,
+               'accessor' => $accessor,
+               'data' => $business_forecast
+           ]);
+       else {
+           return response()->json([
+               'status' => 404,
+               'message' => 'The provided credentials are incorrect.'
+           ]);
+       }
+    }
     }
 }

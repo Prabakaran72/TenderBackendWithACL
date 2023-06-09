@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProjectType;
 use App\Models\CustomerCreationProfile;
+use App\Models\Token;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -239,5 +240,32 @@ class ProjectTypeController extends Controller
             'projectTypeList' =>  $producttypeList,
             'sqlquery' => $query
         ]);
+    }
+
+    public function ProjectTypeTable(Request $request)
+    {
+        $user = Token::where("tokenid", $request->tokenid)->first();
+        if($user['userid'])
+        {
+
+        $header = ['Project Type','Status'];
+        $accessor = ['projecttype','status'];
+        
+        $projecttype = ProjectType::orderBy('created_at', 'desc')->get();
+        if ($projecttype)
+            return response()->json([
+                'status' => 200,
+                'title' => 'ProjectType',
+                'header' => $header,
+                'accessor' => $accessor,
+                'data' => $projecttype,
+            ]);
+        else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'The provided credentials are incorrect.'
+            ]);
+        }  
+    } 
     }
 }
