@@ -62,6 +62,7 @@ use App\Http\Controllers\ExpenseTypeController;
 use App\Http\Controllers\AttendanceEntryController;
 use App\Http\Controllers\AttendanceTypeController;
 use App\Http\Controllers\CallCreationController;
+use App\Http\Controllers\BusinessForecastStatusController;
 use App\Http\Controllers\CallLogFilesController;
 use App\Http\Controllers\OtherExpenseSubController;
 use App\Http\Controllers\OtherExpenseController;
@@ -71,6 +72,7 @@ use App\Http\Controllers\AttendanceRegisterController;
 use App\Http\Controllers\ExpensesApprovalController;
 use App\Http\Controllers\OtherExpensesController;
 use App\Http\Controllers\HolidaysController;
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -259,6 +261,14 @@ Route::get('calldownload/{id}/{fileName}', [CallCreationController::class, 'down
 Route::post('callupload', [CallCreationController::class, 'callfileupload']);
 Route::get('user/list', [CallCreationController::class, 'getUserList']);
 Route::get('procurementlist/list', [CallCreationController::class, 'getProcurementList']);
+/*****************Business Forecast Status Creation***************** */
+Route::post('forecaststatus/forecast', [BusinessForecastStatusController::class, 'ForecastList']);
+Route::post('forecaststatus/store', [BusinessForecastStatusController::class, 'store']);
+Route::post('forecaststatus/edit', [BusinessForecastStatusController::class, 'update']);
+Route::post('forecaststatus/show', [BusinessForecastStatusController::class, 'show']);
+Route::post('forecaststatus/geteditdata', [BusinessForecastStatusController::class, 'edit']);
+Route::post('forecaststatus/destroy', [BusinessForecastStatusController::class, 'destroy']);
+/******************************************* */
 
 Route::get('callcreation/doclist/{id}', [CallLogFilesController::class, 'getUplodedDocList']);
 Route::get('callcreation/docdownload/{id}', [CallLogFilesController::class, 'download']);
