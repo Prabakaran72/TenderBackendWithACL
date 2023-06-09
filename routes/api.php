@@ -62,7 +62,7 @@ use App\Http\Controllers\ExpenseTypeController;
 use App\Http\Controllers\AttendanceEntryController;
 use App\Http\Controllers\AttendanceTypeController;
 use App\Http\Controllers\CallCreationController;
-
+use App\Http\Controllers\BusinessForecastStatusController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -243,6 +243,14 @@ Route::get('calldownload/{id}/{fileName}', [CallCreationController::class, 'down
 Route::post('callupload', [CallCreationController::class, 'callfileupload']);
 Route::get('user/list', [CallCreationController::class, 'getUserList']);
 Route::get('procurementlist/list', [CallCreationController::class, 'getProcurementList']);
+/*****************Business Forecast Status Creation***************** */
+Route::post('forecaststatus/forecast', [BusinessForecastStatusController::class, 'ForecastList']);
+Route::post('forecaststatus/store', [BusinessForecastStatusController::class, 'store']);
+Route::post('forecaststatus/edit', [BusinessForecastStatusController::class, 'update']);
+Route::post('forecaststatus/show', [BusinessForecastStatusController::class, 'show']);
+Route::post('forecaststatus/geteditdata', [BusinessForecastStatusController::class, 'edit']);
+Route::post('forecaststatus/destroy', [BusinessForecastStatusController::class, 'destroy']);
+/******************************************* */
 
 /*
 ## Resource Laravel Routes Example
