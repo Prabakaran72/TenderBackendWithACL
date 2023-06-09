@@ -62,9 +62,7 @@ use App\Http\Controllers\ExpenseTypeController;
 use App\Http\Controllers\AttendanceEntryController;
 use App\Http\Controllers\AttendanceTypeController;
 use App\Http\Controllers\CallCreationController;
-<<<<<<< HEAD
 use App\Http\Controllers\BusinessForecastStatusController;
-=======
 use App\Http\Controllers\CallLogFilesController;
 use App\Http\Controllers\OtherExpenseSubController;
 use App\Http\Controllers\OtherExpenseController;
