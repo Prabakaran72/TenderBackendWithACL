@@ -109,13 +109,12 @@ Route::get('state/zonefilteredlist/{cid}/{id}', [StateMasterController::class, '
 Route::get('district/list/{countryid}/{stateid}', [DistrictMasterController::class, 'getDistrictList']);
 Route::get('district/list/{countryid}/{stateid}/{saveddistrict}', [DistrictMasterController::class, 'getDistrictListofstate']);
 Route::get('city/list/{countryid}/{stateid}/{districtid}/{savedcity}', [CityMasterController::class, 'getCityList']);
-Route::get('ulb-list/{savedulb}', [CustomerCreationProfileController::class, 'getUlbs']);
+
 Route::post('customercreationmain/getmainid', [CustomerCreationMainController::class, 'getMainid']);
 Route::post('customercreation/profile', [CustomerCreationProfileController::class, 'getProfileFromData']);
-Route::get('customercreation/getcustno/{stateid}', [CustomerCreationProfileController::class, 'getCustNo']);
-Route::get('customercreation/profile/getFormNo', [CustomerCreationProfileController::class, 'getFormNo']);
+
 Route::post('customer/list', [CustomerCreationProfileController::class, 'getList']);
-Route::get('customerOptions', [CustomerCreationProfileController::class, 'getOptions']);
+
 
 // Route::get('customercreation/contact/getFormNo', [CustomerCreationContactPersonController::class, 'getFormNo']);
 Route::post('customercreationcontact/getlist', [CustomerCreationContactPersonController::class, 'getlist']);
@@ -133,43 +132,41 @@ Route::get('competitordetails/prosconslist/{compid}', [CompetitorDetailsProsCons
 Route::get('competitordetails/qclist/{compid}', [CompetitorDetailsQualityCertificatesController::class, 'getQCList']);
 Route::post('bidcreation/creation/docupload/list', [BidCreationCreationDocsController::class, 'getUplodedDocList']);
 Route::post('bidcreation/creation/docupload/{id}', [BidCreationCreationDocsController::class, 'update']);
-Route::get('download/BidDocs/{fileName}', [BidCreationCreationDocsController::class, 'download']);
+
 
 
 // Route::post('competitordetails/competitorqcertificate/updatewithimage'
 Route::get('competitordetails/wolist/{compid}', [CompetitorDetailsWorkOrderController::class, 'getWOList']);
 Route::post('bidcreation/creation/bidlist', [BidCreationCreationController::class, 'getBidList']);
 
-Route::get('moilization/getMobList/{mobId}', [BidManagementWorkOrderMobilizationAdvanceController::class, 'getMobList']);
-Route::get('ProjectDetails/getProList/{proid}', [BidManagementWorkOrderProjectDetailsController::class, 'getProList']);
+
+
 
 Route::post('bidcreation/prebidqueries/docupload/list', [BidmanagementPreBidQueriesController::class, 'getUplodedDocList']);
-Route::get('download/prebidqueriesdocs/{fileName}', [BidmanagementPreBidQueriesController::class, 'download']);
+
 Route::post('bidcreation/prebidqueries/docupload/{id}', [BidmanagementPreBidQueriesController::class, 'update']);
 
-Route::get('workorder/getComList/{comId}', [BidManagementWorkOrderCommunicationFilesController::class, 'getComList']);
-Route::get('tenderstatus/getbidder/{id}', [BidManagementTenderStatusBiddersController::class, 'getBidders']);
+
+
 Route::post('tenderstatus/updatestatus/{id}', [BidManagementTenderStatusBiddersController::class, 'updateStatus']);
 
 Route::post('bidcreation/corrigendumpublish/docupload/list', [BidmanagementCorrigendumPublishController::class, 'getUplodedDocList']);
-Route::get('download/corrigendumpublishdocs/{fileName}', [BidmanagementCorrigendumPublishController::class, 'download']);
+
 Route::post('bidcreation/corrigendumpublish/docupload/{id}', [BidmanagementCorrigendumPublishController::class, 'update']);
 //brindha updated on 21-01-2023
 
 
-Route::get('download/tenderfeedocs/{id}', [BidCreationTenderFeeController::class, 'getdocs']);
-Route::get('download/emdfeedocs/{id}', [BidCreationEMDController::class, 'getdocs']);
+
+
 Route::get('download/userfile/{id}', [UserControllerTemp::class, 'getdocs']);
-Route::get('download/bidsubmittedstatusdocs/{id}', [BidCreationBidSubmittedStatusController::class, 'getdocs']);
-Route::get('download/BidManagementTenderOrBidStausDocs/{id}', [BidManagementTenderOrBidStausController::class, 'getdocs']);
+
+
 
 
 // Route::post('bidcreation/getWorkList/list', [BidmanagementCorrigendumPublishController::class, 'getWorkList']);
-Route::get('download/workorderimage/{woid}', [BidManagementWorkOrderWorkOrderController::class, 'wodownload']);
-Route::get('download/agreementimage/{agid}', [BidManagementWorkOrderWorkOrderController::class, 'agdownload']);
-Route::get('download/sitehandoverimage/{shoid}', [BidManagementWorkOrderWorkOrderController::class, 'shodownload']);
+
 Route::post('workorder/creation/Workorder/update/{workid}', [BidManagementWorkOrderWorkOrderController::class, 'update']);
-Route::get('workorder/creation/Workorder/getimagename/{workid}', [BidManagementWorkOrderWorkOrderController::class, 'getimagename']);
+
 Route::post('download/files', [FileDownloadHandlingController::class, 'download']);
 
 Route::get('download/letterofacceptance/workorderimage/{woid}', [BidManagementWorkOrderLetterOfAcceptenceController::class, 'wodownload']);
@@ -178,10 +175,10 @@ Route::post('letteracceptance/creation/update/{id}', [BidManagementWorkOrderLett
 Route::post('/workorder/creation/communicationfiles/{id}', [BidManagementWorkOrderCommunicationFilesController::class, 'store']);
 Route::post('/workorder/creation/communicationfileUpload', [BidManagementWorkOrderCommunicationFilesController::class, 'communicationfileUpload']);
 Route::post('/workorder/creation/communicationfileUploadlist', [BidManagementWorkOrderCommunicationFilesController::class, 'communicationfileUploadlist']);
-Route::get('/workorder/creation/communicationfiledelete/{id}', [BidManagementWorkOrderCommunicationFilesController::class, 'communicationfiledelete']);
+
 
 Route::get('/competitorprofile/getlastcompno/{id}', [CompetitorProfileCreationController::class, 'getLastCompno']);
-Route::get('/competitordetails/commFilesList/{id}', [BidManagementWorkOrderCommunicationFilesController::class, 'getComList']);
+
 Route::get('/download/competitorqcertificate/{id}', [CompetitorDetailsQualityCertificatesController::class, 'download']);
 Route::get('/download/competitorworkorder/{id}/{type}', [CompetitorDetailsWorkOrderController ::class, 'download']);
 
@@ -253,15 +250,13 @@ Route::get('usertypeOptionsForPermission', [PermissionController::class, 'getopt
 Route::post('callupload', [CallCreationController::class, 'callfileupload']);
 
 
-Route::get('callcreation/doclist/{id}', [CallLogFilesController::class, 'getUplodedDocList']);
-Route::get('callcreation/docdownload/{id}', [CallLogFilesController::class, 'download']);
-Route::get('dashboard/callcount', [CallLogFilesController::class, 'getCallCounts']);
+
 Route::post('callcreation/callnolist', [CallCreationController::class, 'usersCallList']);
 
 
 Route::get('otherexpsubfiledownload/{id}/{fileName}', [OtherExpenseSubController::class, 'download']);
 
-Route::get("getcallhistory/list/{id}",[CallHistoryController::class,'getCallHistory']);
+
 Route::POST("calltobdm/updateAssignedCustomer",[CalltobdmController::class,'updateAssignedCustomer']);
 Route::post('getdaywisereport/list',[DayWiseReportController::class,'getDayWiseReport']);
 
@@ -304,10 +299,10 @@ Route::delete('expensedestroy/{id}',[ExpenseTypeController::class,'Expensedestro
 
 Route::post('expenses/staffList', [OtherExpensesController::class, 'get_staff_name_limits']);
 Route::post('/expenseinv', [OtherExpensesController::class, 'ExpInvoice']);
-Route::get('/updatedl/{id}', [OtherExpensesController::class, 'GetDel']);
+
 Route::post('/finalSubmit', [OtherExpensesController::class, 'finalSubmit']);
 Route::post('/expensesub', [OtherExpensesController::class, 'ExpSub']);
-Route::get('/otherexpensesubdel/{id}', [OtherExpensesController::class, 'Expensedestroy']);
+
 Route::post('/editsub', [OtherExpensesController::class, 'EditSub']);
 Route::post('otherExpcustomer/list', [OtherExpensesController::class, 'getList']);
 Route::post('callnumber', [OtherExpensesController::class, 'CallNumber']);
@@ -330,7 +325,29 @@ Route::post('expensesapp/printView', [ExpensesApprovalController::class, 'PrintV
 /**** */
 
 
-//ReactDataTable - APIs
+
+
+
+//Middleware
+Route::middleware(['token.auth'])->group(function(){
+    Route::post('districtmastertable',[DistrictMasterController::class,'DistrictMasterTable']);
+    Route::post('citymastertable',[CityMasterController::class,'CityMasterTable']);
+    Route::post('statemastertable',[StateMasterController::class,'StateMasterTable']);
+    Route::post('countrymastertable',[CountryMasterController::class,'CountryMasterTable']);
+    Route::post('competitormastertable',[CompetitorProfileCreationController::class,'CompetitorMasterTable']);
+    Route::post('customercreationmaster',[CustomerCreationProfileController::class,'CustomerCreationMaster']);
+    Route::post('permissionmastertable',[PermissionController::class,'PermissionMasterTable']);
+    Route::post('usermastertable',[UserControllerTemp::class,'UserMasterTable']);
+    Route::post('usertypemaster',[UserTypeController::class,'UserTypeMaster']);
+    Route::post('bidcreationmaster',[BidCreationCreationController::class,'BidCreationMaster']);
+    Route::post('ulbdetailsmaster',[ULBDetailsController::class,'ULBDetailsMaster']);
+    Route::post('attendancemaster',[AttendanceRegisterController::class,'AttendanceMaster']);
+    Route::post('attendancemasterreport',[AttendanceRegisterController::class,'AttendanceMasterReport']);
+    Route::post('holidaymaster',[HolidaysController::class,'HolidayMaster']);
+    Route::post('expensesapprovalmaster',[ExpensesApprovalController::class,'ExpensesApprovalMaster']);
+
+
+    //ReactDataTable - APIs
 
 
 Route::post('unitstable', [UnitMasterController::class, 'UnitMasterTable']);
@@ -357,25 +374,6 @@ Route::post('callreportstable',[DayWiseReportController::class,'CallReportTable'
 Route::post('otherexpensestable', [OtherExpensesController::class, 'OtherExpTable']);
 
 ///////////////////////////////ReactTable API Ends/////////////////////////////////////////////////////////
-
-
-//Middleware
-Route::middleware(['token.auth'])->group(function(){
-    Route::post('districtmastertable',[DistrictMasterController::class,'DistrictMasterTable']);
-    Route::post('citymastertable',[CityMasterController::class,'CityMasterTable']);
-    Route::post('statemastertable',[StateMasterController::class,'StateMasterTable']);
-    Route::post('countrymastertable',[CountryMasterController::class,'CountryMasterTable']);
-    Route::post('competitormastertable',[CompetitorProfileCreationController::class,'CompetitorMasterTable']);
-    Route::post('customercreationmaster',[CustomerCreationProfileController::class,'CustomerCreationMaster']);
-    Route::post('permissionmastertable',[PermissionController::class,'PermissionMasterTable']);
-    Route::post('usermastertable',[UserControllerTemp::class,'UserMasterTable']);
-    Route::post('usertypemaster',[UserTypeController::class,'UserTypeMaster']);
-    Route::post('bidcreationmaster',[BidCreationCreationController::class,'BidCreationMaster']);
-    Route::post('ulbdetailsmaster',[ULBDetailsController::class,'ULBDetailsMaster']);
-    Route::post('attendancemaster',[AttendanceRegisterController::class,'AttendanceMaster']);
-    Route::post('attendancemasterreport',[AttendanceRegisterController::class,'AttendanceMasterReport']);
-    Route::post('holidaymaster',[HolidaysController::class,'HolidayMaster']);
-    Route::post('expensesapprovalmaster',[ExpensesApprovalController::class,'ExpensesApprovalMaster']);
 
 
     // Masters
@@ -417,7 +415,45 @@ Route::middleware(['token.auth'])->group(function(){
     Route::post('user/list', [CallCreationController::class, 'getUserList']);
     Route::post('procurementlist/list', [CallCreationController::class, 'getProcurementList']);
     Route::post('callcreation/getCallMainList/{token}', [CallCreationController::class, 'getCallMainList']);
-    
+
+    //OtherExpense
+    Route::post('/updatedl/{id}', [OtherExpensesController::class, 'GetDel']);
+    Route::post('/otherexpensesubdel/{id}', [OtherExpensesController::class, 'Expensedestroy']);
+
+
+    //OtherAPIs
+    Route::post('ulb-list/{savedulb}', [CustomerCreationProfileController::class, 'getUlbs']);
+    Route::post('customercreation/getcustno/{stateid}', [CustomerCreationProfileController::class, 'getCustNo']);
+    Route::post('customercreation/profile/getFormNo', [CustomerCreationProfileController::class, 'getFormNo']);
+    Route::post('customerOptions', [CustomerCreationProfileController::class, 'getOptions']);
+
+    //CallLogFiles
+    Route::post('callcreation/doclist/{id}', [CallLogFilesController::class, 'getUplodedDocList']);
+    Route::post('callcreation/docdownload/{id}', [CallLogFilesController::class, 'download']);
+    Route::post('dashboard/callcount', [CallLogFilesController::class, 'getCallCounts']);
+    //CallHistory
+    Route::post("getcallhistory/list/{id}",[CallHistoryController::class,'getCallHistory']);
+
+
+    //AllBids
+    Route::post('download/BidDocs/{fileName}', [BidCreationCreationDocsController::class, 'download']);
+    Route::post('tenderstatus/getbidder/{id}', [BidManagementTenderStatusBiddersController::class, 'getBidders']);
+    Route::post('workorder/getComList/{comId}', [BidManagementWorkOrderCommunicationFilesController::class, 'getComList']);
+    Route::post('/workorder/creation/communicationfiledelete/{id}', [BidManagementWorkOrderCommunicationFilesController::class, 'communicationfiledelete']);
+    Route::post('/competitordetails/commFilesList/{id}', [BidManagementWorkOrderCommunicationFilesController::class, 'getComList']);
+    Route::post('moilization/getMobList/{mobId}', [BidManagementWorkOrderMobilizationAdvanceController::class, 'getMobList']);
+    Route::post('ProjectDetails/getProList/{proid}', [BidManagementWorkOrderProjectDetailsController::class, 'getProList']); 
+    Route::post('download/workorderimage/{woid}', [BidManagementWorkOrderWorkOrderController::class, 'wodownload']);
+    Route::post('download/agreementimage/{agid}', [BidManagementWorkOrderWorkOrderController::class, 'agdownload']);
+    Route::post('download/sitehandoverimage/{shoid}', [BidManagementWorkOrderWorkOrderController::class, 'shodownload']);
+    Route::post('workorder/creation/Workorder/getimagename/{workid}', [BidManagementWorkOrderWorkOrderController::class, 'getimagename']);
+    Route::post('download/prebidqueriesdocs/{fileName}', [BidmanagementPreBidQueriesController::class, 'download']);
+    Route::post('download/corrigendumpublishdocs/{fileName}', [BidmanagementCorrigendumPublishController::class, 'download']);
+    Route::post('download/tenderfeedocs/{id}', [BidCreationTenderFeeController::class, 'getdocs']);
+    Route::post('download/emdfeedocs/{id}', [BidCreationEMDController::class, 'getdocs']);
+    Route::post('download/bidsubmittedstatusdocs/{id}', [BidCreationBidSubmittedStatusController::class, 'getdocs']);
+    Route::post('download/letterofacceptance/workorderimage/{woid}', [BidManagementWorkOrderLetterOfAcceptenceController::class, 'wodownload']);
+    Route::post('download/BidManagementTenderOrBidStausDocs/{id}', [BidManagementTenderOrBidStausController::class, 'getdocs']);
 
 });
 
