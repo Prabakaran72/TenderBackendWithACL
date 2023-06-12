@@ -82,13 +82,11 @@ Route::post('getrolesandpermision', [UserControllerTemp::class, 'getRolesAndPerm
 
 Route::post('logout', [UserControllerTemp::class, 'logout']);
 Route::post('createState', [UserControllerTemp::class, 'login1']);
-Route::get('country/list', [CountryMasterController::class, 'getList']);
-Route::get('country/list/{savedcountry}', [CountryMasterController::class, 'getListofcountry']);
 
 
-Route::get('state/list/{id}', [StateMasterController::class, 'getStateList']);
-Route::get('state-list/{id}', [StateMasterController::class, 'getStates']);
-Route::get('state/list/{id}/{category}/{savedstate}', [StateMasterController::class, 'getStateListOptions']);
+
+
+
 
 Route::get('state/zonefilteredlist/{cid}/{id}', [StateMasterController::class, 'getZoneFilteredStateList']);
 
@@ -106,9 +104,8 @@ Route::get('state/zonefilteredlist/{cid}/{id}', [StateMasterController::class, '
 // Route::get('state/list/{id}/{category}/{savedstate}', [StateMasterController::class, 'getStateListOptions']);
 
 
-Route::get('district/list/{countryid}/{stateid}', [DistrictMasterController::class, 'getDistrictList']);
-Route::get('district/list/{countryid}/{stateid}/{saveddistrict}', [DistrictMasterController::class, 'getDistrictListofstate']);
-Route::get('city/list/{countryid}/{stateid}/{districtid}/{savedcity}', [CityMasterController::class, 'getCityList']);
+
+
 
 Route::post('customercreationmain/getmainid', [CustomerCreationMainController::class, 'getMainid']);
 Route::post('customercreation/profile', [CustomerCreationProfileController::class, 'getProfileFromData']);
@@ -123,20 +120,20 @@ Route::post('customercreationsmwprojectstatus/getlist', [CustomerCreationSWMProj
 
 
 
-Route::get('competitorprofile/getcompno/{compid}', [CompetitorProfileCreationController::class, 'getCompNo']);
-Route::get('competitorbranch/branchlist/{compid}', [CompetitorDetailsBranchesController::class, 'getbranchList']);
-Route::get('competitordetails/turnoverlist/{compid}', [CompetitorDetailsTurnOverController::class, 'getTurnOverList']);
-Route::get('competitordetails/networthlist/{compid}', [CompetitorDetailsCompanyNetWorthController::class, 'getNetWorthList']);
-Route::get('competitordetails/lineofbusinesslist/{compid}', [CompetitorDetailsLineOfBusinessController::class, 'getLineOfBusinessList']);
-Route::get('competitordetails/prosconslist/{compid}', [CompetitorDetailsProsConsController::class, 'getProsConsList']);
-Route::get('competitordetails/qclist/{compid}', [CompetitorDetailsQualityCertificatesController::class, 'getQCList']);
+
+
+
+
+
+
+
 Route::post('bidcreation/creation/docupload/list', [BidCreationCreationDocsController::class, 'getUplodedDocList']);
 Route::post('bidcreation/creation/docupload/{id}', [BidCreationCreationDocsController::class, 'update']);
 
 
 
 // Route::post('competitordetails/competitorqcertificate/updatewithimage'
-Route::get('competitordetails/wolist/{compid}', [CompetitorDetailsWorkOrderController::class, 'getWOList']);
+
 Route::post('bidcreation/creation/bidlist', [BidCreationCreationController::class, 'getBidList']);
 
 
@@ -158,7 +155,7 @@ Route::post('bidcreation/corrigendumpublish/docupload/{id}', [BidmanagementCorri
 
 
 
-Route::get('download/userfile/{id}', [UserControllerTemp::class, 'getdocs']);
+
 
 
 
@@ -169,7 +166,7 @@ Route::post('workorder/creation/Workorder/update/{workid}', [BidManagementWorkOr
 
 Route::post('download/files', [FileDownloadHandlingController::class, 'download']);
 
-Route::get('download/letterofacceptance/workorderimage/{woid}', [BidManagementWorkOrderLetterOfAcceptenceController::class, 'wodownload']);
+
 Route::post('letteracceptance/creation/update/{id}', [BidManagementWorkOrderLetterOfAcceptenceController::class, 'update']);
 
 Route::post('/workorder/creation/communicationfiles/{id}', [BidManagementWorkOrderCommunicationFilesController::class, 'store']);
@@ -177,56 +174,52 @@ Route::post('/workorder/creation/communicationfileUpload', [BidManagementWorkOrd
 Route::post('/workorder/creation/communicationfileUploadlist', [BidManagementWorkOrderCommunicationFilesController::class, 'communicationfileUploadlist']);
 
 
-Route::get('/competitorprofile/getlastcompno/{id}', [CompetitorProfileCreationController::class, 'getLastCompno']);
 
-Route::get('/download/competitorqcertificate/{id}', [CompetitorDetailsQualityCertificatesController::class, 'download']);
-Route::get('/download/competitorworkorder/{id}/{type}', [CompetitorDetailsWorkOrderController ::class, 'download']);
+
+
+
 
 Route::get('/file-import', [ImportCustomerController::class, 'importView'])->name('import-view');
 
 Route::post('/legacystatement', [BidCreationCreationController::class, 'getlegacylist']);
 
 
-Route::get('/customercreation/getstatecode/{id}', [StateMasterController::class, 'getStateCode']);
+
 
 Route::post('/tendertrack/creation/tracklist', [TenderCreationController::class, 'gettrackList']);
-Route::get('tenderstatus/complist', [CompetitorProfileCreationController::class, 'getListOfComp']);
-Route::get('bidmanagement/tenderstatus/acceptedbidders/{id}', [TenderStatusBiddersController::class, 'getAcceptedBidders']);
+
+
 Route::post('tenderstatus/bidderstenderstatus/{id}', [TenderStatusBiddersController::class, 'BiddersTenderStatus']);
-Route::get('technicalevalution/qualifiedlist/{id}', [TenderStatusTechEvaluationController::class, 'getQualifiedList']);
 
-Route::get('tenderstatus/techevaluation/{id}', [TenderStatusTechEvaluationController::class, 'getTechEvaluationList']);
-Route::get('/tenderstatus/techevaluation/download/{id}', [TenderStatusTechEvaluationController::class, 'download']);
-Route::get('/tenderstatus/financialevaluation/getleastbidder/{id}', [TenderStatusFinancialEvaluationsController::class, 'getleastbidder']);
+
+
 Route::put('tenderstatus/techevaluation/{id}', [TenderStatusTechEvaluationController::class, 'update']);
-Route::get('financialevaluation/getstoreddata/{id}',[TenderStatusFinancialEvaluationsController::class,'getStoredFinEvalData']);
 
-Route::get('/tenderstatus/awardontract/download/{id}', [TenderStatusContractAwardedController::class, 'download']);
+
+
+
+
 Route::post('communicationfilesmaster/list', [CommunicationfilesmasterController::class, 'docList']);
 Route::delete('communicationfilesmaster/deletedoc/{id}', [CommunicationfilesmasterController::class, 'deletefile']);
 
 
 
-Route::get('/dashboard/ulbdetails', [ULBDetailsController::class, 'getulbyearlydetails']);//Dashborad contents based on ulbdetails
-Route::get('/dashboard/bidanalysis', [ULBDetailsController::class, 'getbidanalysis']);//Dashborad contents based on ulbdetails
-Route::get('/dashboard/tenderanalysis', [ULBDetailsController::class, 'tenderanalysis']);//Dashborad contents based on ulbdetails
 
-Route::get('/dashboard/ulbpopdetails', [ULBDetailsController::class, 'getulbpopulationdetails']);//Dashborad contents based on ulbdetails
 Route::post('ulbreport/ulblist', [ULBDetailsController::class, 'getulbreport']);//ulb report page  
 Route::post('ulbreport/populb', [ULBDetailsController::class, 'setpopupUlb']);//ulb popup page  
 
 
 
 Route::post('usertype', [UserTypeController::class, 'store']);
-Route::get('usertype', [UserTypeController::class, 'index']);
-Route::get('usertype/options', [UserTypeController::class, 'getoptions']);
+
+
 // Route::get('userOptions', [UserControllerTemp::class, 'getoptions']);
 
 Route::get('rolelist', [UserTypeController::class, 'getRoleList']);
 Route::get('bdmoptions', [UserControllerTemp::class, 'getBdmUsersList']);
-Route::get('bdmlist', [UserControllerTemp::class, 'getBdmList']);
 
-Route::get('employeelist', [UserControllerTemp::class, 'getEmployeeList']);
+
+
 Route::post('getbdmdetails', [UserControllerTemp::class, 'getbdmdetails']); // Collecting particular BDM User details, to dispaly BDM name and All
 Route::post('filteredcustomerlist', [CustomerCreationProfileController::class, 'getFilteredCustomerList']);
 
@@ -254,7 +247,7 @@ Route::post('callupload', [CallCreationController::class, 'callfileupload']);
 Route::post('callcreation/callnolist', [CallCreationController::class, 'usersCallList']);
 
 
-Route::get('otherexpsubfiledownload/{id}/{fileName}', [OtherExpenseSubController::class, 'download']);
+
 
 
 Route::POST("calltobdm/updateAssignedCustomer",[CalltobdmController::class,'updateAssignedCustomer']);
@@ -268,9 +261,7 @@ Route::post('attendanceregister/entrylist',[AttendanceRegisterController::class,
 // Route::get('attendanceregister/{id}',[AttendanceRegisterController::class,'show']);
 // Route::put('attendanceregister/{id}', [AttendanceRegisterController::class,'update']);
 // Route::delete('attendanceregister/{id}',[AttendanceRegisterController::class,'destroy']);
-Route::get('userlist', [AttendanceRegisterController::class,'UserList']);
 
-Route::get('attendancefile/{id}/{fileName}', [AttendanceRegisterController::class, 'download']);
 Route::post('attendance/docdownload', [AttendanceRegisterController::class, 'download']);
 Route::delete('destroyfile/{id}',[AttendanceRegisterController::class,'destroyFile']);
 Route::post('getempleave/list',[AttendanceRegisterController::class,'getEmployeeLeaveList']);//For Attendance Report
@@ -289,7 +280,9 @@ Route::post('getempleave/list',[AttendanceRegisterController::class,'getEmployee
  * Expenses type
  */
 
-Route::get('otherexpsubfiledownload/{id}/{fileName}', [OtherExpenseSubController::class, 'download']);
+// Route::get('otherexpsubfiledownload/{id}/{fileName}', [OtherExpenseSubController::class, 'download']);
+Route::get('otherexpsubfiledownload/{id}/{fileName}', [OtherExpenseSubController::class, 'download']); //No results found
+
 // Route::get('callcreation/getCallMainList/{token}', [CallCreationController::class, 'getCallMainList']);     
 Route::post('fileupload/{id}', [ExpenseTypeController::class, 'Fileupload']);
 Route::post('expenseshowupdate/{id}',[ExpenseTypeController::class,'Expenseshowupdate']);
@@ -376,6 +369,43 @@ Route::post('otherexpensestable', [OtherExpensesController::class, 'OtherExpTabl
 ///////////////////////////////ReactTable API Ends/////////////////////////////////////////////////////////
 
 
+
+// Ashiq
+
+Route::post('userlist', [AttendanceRegisterController::class,'UserList']);
+Route::post('attendancefile/{id}/{fileName}', [AttendanceRegisterController::class, 'download']);
+
+Route::post('employeelist', [UserControllerTemp::class, 'getEmployeeList']);
+Route::post('usertype', [UserTypeController::class, 'index']);
+Route::post('country/list', [CountryMasterController::class, 'getList']);
+Route::post('bdmlist', [UserControllerTemp::class, 'getBdmList']);
+Route::post('state/list/{id}', [StateMasterController::class, 'getStateList']);
+Route::post('state/list/{id}/{category}/{savedstate}', [StateMasterController::class, 'getStateListOptions']);
+Route::post('state-list/{id}', [StateMasterController::class, 'getStates']);
+Route::post('district/list/{countryid}/{stateid}', [DistrictMasterController::class, 'getDistrictList']);
+Route::post('district/list/{countryid}/{stateid}/{saveddistrict}', [DistrictMasterController::class, 'getDistrictListofstate']);
+Route::post('city/list/{countryid}/{stateid}/{districtid}/{savedcity}', [CityMasterController::class, 'getCityList']);
+Route::post('competitorprofile/getcompno/{compid}', [CompetitorProfileCreationController::class, 'getCompNo']);
+Route::post('competitorbranch/branchlist/{compid}', [CompetitorDetailsBranchesController::class, 'getbranchList']);
+Route::post('competitordetails/turnoverlist/{compid}', [CompetitorDetailsTurnOverController::class, 'getTurnOverList']);
+Route::post('competitordetails/networthlist/{compid}', [CompetitorDetailsCompanyNetWorthController::class, 'getNetWorthList']);
+Route::post('competitordetails/lineofbusinesslist/{compid}', [CompetitorDetailsLineOfBusinessController::class, 'getLineOfBusinessList']);
+Route::post('competitordetails/prosconslist/{compid}', [CompetitorDetailsProsConsController::class, 'getProsConsList']);
+Route::post('competitordetails/qclist/{compid}', [CompetitorDetailsQualityCertificatesController::class, 'getQCList']);
+Route::post('competitordetails/wolist/{compid}', [CompetitorDetailsWorkOrderController::class, 'getWOList']);
+Route::post('download/userfile/{id}', [UserControllerTemp::class, 'getdocs']);
+Route::post('/competitorprofile/getlastcompno/{id}', [CompetitorProfileCreationController::class, 'getLastCompno']);
+Route::post('/download/competitorqcertificate/{id}', [CompetitorDetailsQualityCertificatesController::class, 'download']);
+Route::post('/download/competitorworkorder/{id}/{type}', [CompetitorDetailsWorkOrderController ::class, 'download']);
+Route::post('/customercreation/getstatecode/{id}', [StateMasterController::class, 'getStateCode']);
+Route::post('tenderstatus/complist', [CompetitorProfileCreationController::class, 'getListOfComp']);
+Route::post('usertype/options', [UserTypeController::class, 'getoptions']);
+
+
+
+
+///////////////////////////////////////////////////////////////////////
+
     // Masters
     Route::post('unit/list', [UnitMasterController::class, 'getunitList']);
     Route::post('unitmasters/getUnitList', [UnitMasterController::class, 'getListofUnits']);
@@ -454,7 +484,23 @@ Route::post('otherexpensestable', [OtherExpensesController::class, 'OtherExpTabl
     Route::post('download/bidsubmittedstatusdocs/{id}', [BidCreationBidSubmittedStatusController::class, 'getdocs']);
     Route::post('download/letterofacceptance/workorderimage/{woid}', [BidManagementWorkOrderLetterOfAcceptenceController::class, 'wodownload']);
     Route::post('download/BidManagementTenderOrBidStausDocs/{id}', [BidManagementTenderOrBidStausController::class, 'getdocs']);
+    
 
+    Route::post('bidmanagement/tenderstatus/acceptedbidders/{id}', [TenderStatusBiddersController::class, 'getAcceptedBidders']);
+
+    Route::post('technicalevalution/qualifiedlist/{id}', [TenderStatusTechEvaluationController::class, 'getQualifiedList']);
+    Route::post('tenderstatus/techevaluation/{id}', [TenderStatusTechEvaluationController::class, 'getTechEvaluationList']);
+    Route::post('/tenderstatus/techevaluation/download/{id}', [TenderStatusTechEvaluationController::class, 'download']);
+
+    Route::post('/tenderstatus/awardontract/download/{id}', [TenderStatusContractAwardedController::class, 'download']);
+
+    Route::post('/tenderstatus/financialevaluation/getleastbidder/{id}', [TenderStatusFinancialEvaluationsController::class, 'getleastbidder']);
+    Route::post('financialevaluation/getstoreddata/{id}',[TenderStatusFinancialEvaluationsController::class,'getStoredFinEvalData']);
+
+    Route::post('/dashboard/ulbdetails', [ULBDetailsController::class, 'getulbyearlydetails']);//Dashborad contents based on ulbdetails
+    Route::post('/dashboard/bidanalysis', [ULBDetailsController::class, 'getbidanalysis']);//Dashborad contents based on ulbdetails
+    Route::post('/dashboard/tenderanalysis', [ULBDetailsController::class, 'tenderanalysis']);//Dashborad contents based on ulbdetails
+    Route::post('/dashboard/ulbpopdetails', [ULBDetailsController::class, 'getulbpopulationdetails']);//Dashborad contents based on ulbdetails
 });
 
 
