@@ -33,4 +33,22 @@ class BidCreation_Creation extends Model
     'prebiddate',
     'EMD',
     'location'];
+
+    public function customer()
+    {
+        return $this->belongsTo(CustomerCreationProfile::class,'ulb');
+    }
+    public function tenderParticipations()
+    {
+        return $this->hasMany(BidCreationTenderParticipation::class, 'bidCreationMainId');
+    }
+
+    public function bidSubmittedStatuses()
+    {
+        return $this->hasMany(BidCreationBidSubmittedStatus::class, 'bidCreationMainId');
+    }
+    public function states()
+    {
+        return $this->belongsTo(StateMaster::class,'state');
+    }
 }

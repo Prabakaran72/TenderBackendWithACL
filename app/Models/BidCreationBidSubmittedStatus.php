@@ -19,5 +19,9 @@ class BidCreationBidSubmittedStatus extends Model
         'ext',
         'updatedby_userid'
     ];
+    public function bidCreation()
+    {
+        return $this->belongsTo(BidCreation_Creation::class, 'bidCreationMainId');
+    }
 
 }

@@ -9,4 +9,8 @@ class BidCreationTenderParticipation extends Model
 {
     use HasFactory;
     protected $fillable = ['tenderparticipation', 'bidCreationMainId'];
+    public function bidCreation()
+    {
+        return $this->belongsTo(BidCreation_Creation::class, 'bidCreationMainId');
+    }
 }
