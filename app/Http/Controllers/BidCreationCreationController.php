@@ -13,6 +13,9 @@ use App\Models\StateMaster;
 use App\Models\CustomerCreationProfile;
 use App\Models\TenderStatusContractAwarded;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Carbon;
+use App\Mail\WeeklyMail;
+use Illuminate\Support\Facades\Mail;
 
 
 class BidCreationCreationController extends Controller
@@ -994,6 +997,120 @@ END) as tenderStatus"));
             'message' => 'The provided credentials are incorrect.'
         ]);
     }
+
+}
+
+public function mailstatus(Request $request)
+{
+
+   
+
+    $details = [
+        'subject' => 'Greetings',
+        'sender' => 'vw341554@gmail.com',
+        'recipient' => 'vigneshwaran@santhila.co',
+        'body' => 'Hi GoodMorning...!'
+    ];
+
+    $currentDate = Carbon::now();
+    $oneWeekAhead = $currentDate->copy()->addWeek();
+    $currentDateAsString = $currentDate->toDateString();
+    $oneWeekAheadAsString = $oneWeekAhead->toDateString();
+
+    //    return 'currentDate = '.$currentDateAsString.'oneWeekAhead ='.$oneWeekAheadAsString;
+    $bidCreations = BidCreation_Creation::with(['tenderParticipations:bidCreationMainId,tenderparticipation', 'bidSubmittedStatuses:bidCreationMainId,bidSubmittedStatus',])
+        ->wherehas('tenderParticipations', function ($query) {
+            $query->where('tenderparticipation', 'participating');
+        })
+        ->wherehas('bidSubmittedStatuses', function ($query) {
+            $query->where('bidSubmittedStatus', '<>', 'Yes');
+        })->whereBetween('submissiondate', [$currentDateAsString, $oneWeekAheadAsString])
+        ->select('id', 'id as bidid', 'state', 'ulb', 'bidno', 'submissiondate', 'NITdate')
+        ->selectRaw("DATEDIFF(submissiondate, CURDATE()) as daysDifference")
+        ->get();
+    if ($bidCreations) {
+        $list = [];
+        foreach ($bidCreations as $item)
+         {
+
+            $customer_name = $item->customer->customer_name;
+            $country = $item->customer->countrys->country_name;
+            $state = $item->states->state_name;
+            $district_name = $item->customer->districts->district_name;
+            $city_name = $item->customer->citys->city_name;
+
+            //    $list[]=['customername'=>$customer_name,'BidNo'=>$item->bidno,'country'=>$country,'state'=>$state,'district'=>$district_name,'city'=>$city_name,'nitdate'=>$item->NITdate,'submission date'=>$item->submissiondate];
+            $list[] = ['customername' => $customer_name, 'BidNo' => $item->bidno, 'country' => $country, 'state' => $state, 'district' => $district_name, 'city' => $city_name, 'nitdate' => $item->NITdate, 'submissiondate' => $item->submissiondate, 'Remainingdays' => $item->daysDifference];
+
+        }
+
+    }
+    if (empty($list)) {
+        return false;
+    } else {
+
+        Mail::to('vigneshwaran@santhila.co')->send(new WeeklyMail($details, $list));
+
+        $emailContent = (new WeeklyMail($details, $list))->render();
+
+        return view('test',['list'=>$list]);
+    }
+
+
+    // return response()->json([
+    //     'status'=>200,
+    //     'data'=> $list
+    // ]);
+
+    // $bidCreations = BidCreation_Creation::join('bid_creation_tender_participations', 'bid_creation_tender_participations.bidCreationMainId', 'bid_creation__creations.id')
+    // ->join('bid_creation_bid_submitted_statuses', 'bid_creation_bid_submitted_statuses.bidCreationMainId', 'bid_creation__creations.id')
+    // ->where('bid_creation_tender_participations.tenderparticipation','participating')->where('bid_creation_bid_submitted_statuses.bidSubmittedStatus','<>','Yes')
+    // ->whereBetween('submissiondate', [$currentDateAsString, $oneWeekAheadAsString])
+    // ->select('bid_creation__creations.id as bidid', 'bid_creation_tender_participations.tenderparticipation as tenderparticipation', 'bid_creation_bid_submitted_statuses.bidSubmittedStatus as submitstatus','bid_creation__creations.state as state','bid_creation__creations.ulb as ulb','bid_creation__creations.bidno as bidno','bid_creation__creations.submissiondate as submissiondate','bid_creation__creations.NITdate as nitdate')
+    // ->selectRaw("DATEDIFF(submissiondate, CURDATE()) as daysDifference")
+    // ->get();
+
+    // if( $bidCreations)
+    // {
+    //     $list=[];
+    //     foreach($bidCreations as $row)
+    //     {
+
+    //         // $stateValue = StateMaster::find($row['state']);
+
+    //         // $state =  $stateValue->state_name;
+
+
+    //         $ulb = CustomerCreationProfile::find($row['ulb']);
+    //         $customer_name = $ulb->customer_name;
+    //         // $co = CountryMaster::find($ulb->country);
+    //         // $country = $co->country_name; 
+    //         // $district = DistrictMaster::find($ulb->district);
+    //         // $district_name = $district->district_name;
+    //         // $city= CityMaster::find($ulb->city);
+    //         // $city_name = $city->city_name;
+
+    //         $country = $row->customer->countrys->country_name;
+    //         $state = $row->customer->states->state_name;
+    //         $district_name = $row->customer->districts->district_name;
+    //         $city_name = $row->customer->citys->city_name;
+
+
+    //         $list[]=['BidNo'=>$row->bidno,'country'=>$country,'state'=>$state,'district'=>$district_name,'city'=>$city_name,'customername'=>$customer_name,'submissiondate'=>$row->submissiondate,'NIT date'=>$row->nitdate,'Remainingdays'=>$row->daysDifference];
+    //     }
+
+    // }
+
+
+
+
+    // return response()->json([
+    //     'status'=>200,
+    //     'data'=>$list
+    // ]);
+
+
+
 
 }
 

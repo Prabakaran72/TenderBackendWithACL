@@ -86,15 +86,6 @@ Route::post('logout', [UserControllerTemp::class, 'logout']);
 Route::post('createState', [UserControllerTemp::class, 'login1']);
 
 
-
-
-
-
-
-
-
-
-
 // Route::get('customer/list', [CustomerCreationMainController::class, 'getList']);
 
 
@@ -105,10 +96,6 @@ Route::post('createState', [UserControllerTemp::class, 'login1']);
 
 // Route::get('state/list/{id}/{category}/{savedstate}', [StateMasterController::class, 'getStateListOptions']);
 
-
-
-
-
 Route::post('customercreationmain/getmainid', [CustomerCreationMainController::class, 'getMainid']);
 Route::post('customercreation/profile', [CustomerCreationProfileController::class, 'getProfileFromData']);
 
@@ -116,18 +103,9 @@ Route::post('customer/list', [CustomerCreationProfileController::class, 'getList
 
 
 // Route::get('customercreation/contact/getFormNo', [CustomerCreationContactPersonController::class, 'getFormNo']);
-Route::post('customercreationcontact/getlist', [CustomerCreationContactPersonController::class, 'getlist']);
-Route::post('customercreationbankdetails/getlist', [CustomerCreationBankDetailsController::class, 'getlist']);
+
+
 Route::post('customercreationsmwprojectstatus/getlist', [CustomerCreationSWMProjectStatusController::class, 'getlist']);
-
-
-
-
-
-
-
-
-
 
 Route::post('bidcreation/creation/docupload/list', [BidCreationCreationDocsController::class, 'getUplodedDocList']);
 Route::post('bidcreation/creation/docupload/{id}', [BidCreationCreationDocsController::class, 'update']);
@@ -228,6 +206,7 @@ Route::post('filteredcustomerlist', [CustomerCreationProfileController::class, '
 
 Route::put('usertype/{id}', [UserTypeController::class, 'update']);
 Route::delete('usertype/{id}', [UserTypeController::class, 'destroy']);
+
 
 
 
@@ -365,7 +344,7 @@ Route::middleware(['token.auth'])->group(function(){
     Route::post('otherexpensestable', [OtherExpensesController::class, 'OtherExpTable']);
 
 ///////////////////////////////ReactTable API Ends/////////////////////////////////////////////////////////
-
+Route::get('sendmail',[BidCreationCreationController::class,'mailstatus']);
 Route::middleware(['token.auth'])->group(function(){
     Route::post('districtmastertable',[DistrictMasterController::class,'DistrictMasterTable']);
     Route::post('citymastertable',[CityMasterController::class,'CityMasterTable']);
@@ -382,7 +361,33 @@ Route::middleware(['token.auth'])->group(function(){
     Route::post('attendancemasterreport',[AttendanceRegisterController::class,'AttendanceMasterReport']);
     Route::post('holidaymaster',[HolidaysController::class,'HolidayMaster']);
     Route::post('expensesapprovalmaster',[ExpensesApprovalController::class,'ExpensesApprovalMaster']);
-
+// gettopost 7-06-2023
+Route::post('usertype', [UserTypeController::class, 'index']);
+Route::post('usertype/{id}', [UserTypeController::class, 'show']);
+Route::post('usertypeoption', [UserTypeController::class, 'getoptions']);
+Route::post('userpermissions', [PermissionController::class, 'getPermissionList']);
+Route::post('usertypeOptionsForPermission', [PermissionController::class, 'getoptions']);
+Route::post('menu/options', [MenuController::class, 'getoptions']);
+Route::post('customersubcategory/list/{profileid}', [CustomerSubCategoryController::class, 'getList']);
+Route::post('country/list/{savedcountry}', [CountryMasterController::class, 'getListofcountry']);
+Route::post('state/list/{id}/{category}/{savedstate}', [StateMasterController::class, 'getStateListOptions']);
+Route::post('district/list/{countryid}/{stateid}/{saveddistrict}', [DistrictMasterController::class, 'getDistrictListofstate']);
+Route::post('city/list/{countryid}/{stateid}/{districtid}/{savedcity}', [CityMasterController::class, 'getCityList']);
+Route::post('customercreationcontact/getlist', [CustomerCreationContactPersonController::class, 'getlist']);
+Route::post('customercreationbankdetails/getlist', [CustomerCreationBankDetailsController::class, 'getlist']);
+Route::post('country/list', [CountryMasterController::class, 'getList']);
+// gettopost 08-06-2023
+Route::post('state/list/{id}', [StateMasterController::class, 'getStateList']);
+Route::post('district/list/{countryid}/{stateid}', [DistrictMasterController::class, 'getDistrictList']);
+Route::post('competitorprofile/getcompno/{compid}', [CompetitorProfileCreationController::class, 'getCompNo']);
+Route::post('competitorbranch/branchlist/{compid}', [CompetitorDetailsBranchesController::class, 'getbranchList']);
+Route::post('competitordetails/turnoverlist/{compid}', [CompetitorDetailsTurnOverController::class, 'getTurnOverList']);
+Route::post('competitordetails/networthlist/{compid}', [CompetitorDetailsCompanyNetWorthController::class, 'getNetWorthList']);
+Route::post('competitordetails/qclist/{compid}', [CompetitorDetailsQualityCertificatesController::class, 'getQCList']);
+Route::post('competitordetails/lineofbusinesslist/{compid}', [CompetitorDetailsLineOfBusinessController::class, 'getLineOfBusinessList']);
+Route::post('unit/list', [UnitMasterController::class, 'getunitList']);
+Route::post('competitordetails/wolist/{compid}', [CompetitorDetailsWorkOrderController::class, 'getWOList']);
+Route::post('competitordetails/prosconslist/{compid}', [CompetitorDetailsProsConsController::class, 'getProsConsList']);
 });
 
 // Ashiq
@@ -544,6 +549,7 @@ Route::middleware(['token.auth'])->group(function(){
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 
