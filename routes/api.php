@@ -511,6 +511,9 @@ Route::middleware(['token.auth'])->group(function(){
     Route::post('permisions/{usertype}', [PermissionController::class, 'getSavedData']);
     Route::post('usertypeOptionsForPermission', [PermissionController::class, 'getoptions']); 
 
+    //hii
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////    
 
 });
