@@ -164,7 +164,7 @@ class TenderCreationController extends Controller
 
     public function gettrackList(Request $request)
     {
-
+return 'gettrackList';
         $qty_type = $request->quality;
         $state = $request->state;
 

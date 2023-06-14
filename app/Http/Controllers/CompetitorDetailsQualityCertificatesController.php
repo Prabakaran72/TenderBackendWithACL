@@ -275,13 +275,11 @@ class CompetitorDetailsQualityCertificatesController extends Controller
 
         if (!empty($doc[0]['filepath'])) {
             $header= [
-                `filename= $doc[0][filepath]`,
+                'filename= $doc[0][filepath]',
             ];
     
             $file = public_path() . "/uploads/competitor/qc/" . $doc[0]['filepath'];
             return response()->download($file, $doc[0]['filepath'], $header);
-
-            
 
         } else {
             return response()->json([

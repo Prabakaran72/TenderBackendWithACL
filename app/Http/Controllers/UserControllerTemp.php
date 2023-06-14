@@ -190,10 +190,9 @@ class UserControllerTemp extends Controller
         //confirmPassword                 --   confirmPassword
         //filename(hased & stored here)                 --   file 
         //email                 --   email
-
+try{
         $user = Token::where('tokenid', $request->tokenId)->first();
         $userid = $user['userid'];
-
         if ($userid) {
             $validate = $request->validate([
                 'userName' => ['required'],
@@ -205,7 +204,8 @@ class UserControllerTemp extends Controller
                 'file' => ['required'],
                 'email' => ['required'],
             ]);
-            
+            if($validate)
+            {
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
                 $filename_original = $file->getClientOriginalName();
@@ -215,7 +215,6 @@ class UserControllerTemp extends Controller
                 $filesize = ($file->getSize()) / 1000;
                 $ext =  $file->extension();
             }
-            
             $userCreation = new User;
             $userCreation->name = $request->loginId;  // to be a login id
             $userCreation->userType = $request->userType;
@@ -242,13 +241,33 @@ class UserControllerTemp extends Controller
                 "data" => $userCreation->id
             ]);
         } else {
-
             return response()->json([
                 "status" => 400,
                 "message" => "Unable to Save !"
 
             ]);
         }
+        }
+        else{
+            return response()->json([
+                "status" => 400,
+                "message" => "EmailId/Phone No Already Exists..!",
+                "error" =>"EmailId/Phone No Already Exists..!"
+
+            ]);
+        }
+    }
+    catch(\Exception $ex)
+    {
+        return response()->json([
+            "status" => 400,
+            "message" => "EmailId/Phone No Already Exists..!",
+            "errors" => "EmailId/Phone No Already Exists..!",
+            "error" =>$ex
+
+        ]);
+    }
+
     }
     
     public function show($id)

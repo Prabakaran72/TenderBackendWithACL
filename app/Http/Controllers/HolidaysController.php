@@ -136,15 +136,14 @@ class HolidaysController extends Controller
             ->select('r.id as id','r.name as name')
             ->first();
            
-            if($role->id !=1 && $role->name != 'Admin')
-            {
+            // if($role->id !=1 && $role->name != 'Admin')
+            // {
                 $holidaylist[] = ['id'=>$holiday->id,'date'=>$holiday->date,'occasion'=>$holiday->occasion, 'remarks' => $holiday->remarks];
                 return response()->json([
                     'status' => 200,
                     'holidaylist' => $holidaylist
                 ]);
-            }
-
+            // }
         }
         else 
         {
