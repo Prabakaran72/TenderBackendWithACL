@@ -55,35 +55,68 @@ class OtherExpensesController extends Controller
  public function Mainlist(Request $request)
  {
 
+    $user = Token::where('tokenid', $request->token)->first();   
+    $userid = $user['userid'];
+    // userType 
+    if($userid){
+
+        $gettype = User::where('id', $userid)->first();
+$userType = $gettype->userType;
+
+
+        $fromdate = $request->fromdate;
+        $todate = $request->todate;
+        $excutive = $request->executive;
+   
+        $other_exapp = OtherExpenses::join('users', 'other_expenses.executive_id', '=', 'users.id')
+   
+            ->when($excutive, function ($query) use ($excutive) {
+   
+                return $query->where('other_expenses.executive_id', $excutive);
+            })
+            ->when($fromdate, function ($query) use ($fromdate, $todate) {
+                return $query->whereBetween('other_expenses.entry_date', [$fromdate, $todate]);
+            })
+
+            ->when($userType, function ($query) use ($userType, $userid) {
+                if($userType!==1){
+                    return $query->where('other_expenses.executive_id', $userid);
+                }
+            })
+   
+  
+   
+
+
+            ->get(['other_expenses.*', 'users.userName', DB::raw("round((select sum(amount) from other_expense_subs where  mainid=other_expenses.id ),2) as expense_amount")]);
+   
+        if ($other_exapp) {
+            return response()->json([
+                'status' => 200,
+                'exp_app' => $other_exapp,
+                'usertype' =>$userType
+            ]);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'No data'
+            ]);
+        }
+
+
+    }else{
+
+        return response()->json([
+            'status' => 400,
+            'message' => 'Athucantication Fails'
+        ]);
+    }
+
+
      // $other_exapp = OtherExpenses::get();
-     $fromdate = $request->fromdate;
-     $todate = $request->todate;
-     $excutive = $request->executive;
-
-     $other_exapp = OtherExpenses::join('users', 'other_expenses.executive_id', '=', 'users.id')
-
-         ->when($excutive, function ($query) use ($excutive) {
-
-             return $query->where('other_expenses.executive_id', $excutive);
-         })
-         ->when($fromdate, function ($query) use ($fromdate, $todate) {
-             return $query->whereBetween('other_expenses.entry_date', [$fromdate, $todate]);
-         })
+    
 
 
-         ->get(['other_expenses.*', 'users.userName', DB::raw("round((select sum(amount) from other_expense_subs where  mainid=other_expenses.id ),2) as expense_amount")]);
-
-     if ($other_exapp) {
-         return response()->json([
-             'status' => 200,
-             'exp_app' => $other_exapp,
-         ]);
-     } else {
-         return response()->json([
-             'status' => 400,
-             'message' => 'No data'
-         ]);
-     }
  }
 /****Sub Eidt data sending Function */
 public function GetDel(Request $request, $id)

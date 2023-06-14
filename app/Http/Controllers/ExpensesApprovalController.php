@@ -19,13 +19,39 @@ class ExpensesApprovalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-
-        $exp_app = ExpensesApproval::get();
-
-        if ($exp_app) {
+        $executiveId = $request->input('executive');
+        $fromDate = $request->input('fromdate');
+        $toDate = $request->input('todate');
+        $exp_app = ExpensesApproval::leftJoin('users as b', 'Staff_id', '=', 'b.id')
+        ->select('*', 'b.userName')
+        ->when($executiveId, function ($query) use ($executiveId) {
+            
+            return $query->where('Staff_id', $executiveId);
+        })
+        ->when($fromDate && $toDate, function ($query) use ($fromDate , $toDate) {
+       
+            return $query->whereBetween('entry_date', [$fromDate, $toDate]);
+        })
+        ->get();
+    
+    // if ($request->has('executive')) {
+    //     
+    //     $exp_app->where('Staff_id', $executiveId);
+    // }
+    
+    // if ($request->has('fromdate') && $request->has('todate')) {
+    //     $fromDate = $request->input('fromdate');
+    //     $toDate = $request->input('todate');
+    //     $exp_app->whereBetween('entry_date', [$fromDate, $toDate]);
+    // }
+    
+    
+    
+    
+            if ($exp_app) {
             return response()->json([
                 'status' => 200,
                 'exp_app' => $exp_app,
@@ -37,7 +63,7 @@ class ExpensesApprovalController extends Controller
             ]);
         }
     }
-    public function get_staff_name()
+    public function get_staff_name() 
     {
 
         $get_staff = User::get();
@@ -330,6 +356,7 @@ if($get_other){
        * hr_date
        */
 if($approval_for=='HOApprove'|| $approval_for=='HOApprove_reject'){
+
     $UpdateStartToApp = ExpensesApproval::where('id', $main_id)->update([
 
         'ho_approval' => $approve_status,
@@ -360,7 +387,7 @@ else if($approval_for=='HRApprove' || $approval_for=='HRApprove_reject'){
     ]);
 
 }
-
+echo $UpdateStartToApp;
 if ($UpdateStartToApp) {
    
        $status=200;

@@ -28,6 +28,7 @@ return array(
     'App\\Http\\Controllers\\BidmanagementCorrigendumPublishController' => $baseDir . '/app/Http/Controllers/BidmanagementCorrigendumPublishController.php',
     'App\\Http\\Controllers\\BidmanagementPreBidQueriesController' => $baseDir . '/app/Http/Controllers/BidmanagementPreBidQueriesController.php',
     'App\\Http\\Controllers\\BusinessForecastController' => $baseDir . '/app/Http/Controllers/BusinessForecastController.php',
+    'App\\Http\\Controllers\\BusinessForecastStatusController' => $baseDir . '/app/Http/Controllers/BusinessForecastStatusController.php',
     'App\\Http\\Controllers\\CallCloseStatusController' => $baseDir . '/app/Http/Controllers/CallCloseStatusController.php',
     'App\\Http\\Controllers\\CallCreationController' => $baseDir . '/app/Http/Controllers/CallCreationController.php',
     'App\\Http\\Controllers\\CallHistoryController' => $baseDir . '/app/Http/Controllers/CallHistoryController.php',

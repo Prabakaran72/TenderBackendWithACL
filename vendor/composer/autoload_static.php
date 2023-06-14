@@ -569,6 +569,7 @@ class ComposerStaticInit0656bec1eff9c87176498b3c3cb7cbc9
         'App\\Http\\Controllers\\BidmanagementCorrigendumPublishController' => __DIR__ . '/../..' . '/app/Http/Controllers/BidmanagementCorrigendumPublishController.php',
         'App\\Http\\Controllers\\BidmanagementPreBidQueriesController' => __DIR__ . '/../..' . '/app/Http/Controllers/BidmanagementPreBidQueriesController.php',
         'App\\Http\\Controllers\\BusinessForecastController' => __DIR__ . '/../..' . '/app/Http/Controllers/BusinessForecastController.php',
+        'App\\Http\\Controllers\\BusinessForecastStatusController' => __DIR__ . '/../..' . '/app/Http/Controllers/BusinessForecastStatusController.php',
         'App\\Http\\Controllers\\CallCloseStatusController' => __DIR__ . '/../..' . '/app/Http/Controllers/CallCloseStatusController.php',
         'App\\Http\\Controllers\\CallCreationController' => __DIR__ . '/../..' . '/app/Http/Controllers/CallCreationController.php',
         'App\\Http\\Controllers\\CallHistoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/CallHistoryController.php',

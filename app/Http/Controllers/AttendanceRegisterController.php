@@ -549,7 +549,7 @@ class AttendanceRegisterController extends Controller
                     'lr.to_date',
                     'lr.start_time',
                     'lr.reason',
-                    'r.id as role_ID',
+                    'r.id as role_ID'
                 );
                    
                 if($userID)

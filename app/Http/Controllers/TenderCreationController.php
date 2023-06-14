@@ -185,7 +185,11 @@ class TenderCreationController extends Controller
                     return $query1->where('state', $state);
                 }
             })
-
+            ->when($request->has('fromdate') && $request->has('todate'), function ($query) use ($request) {
+                $fromDate = $request->input('fromdate');
+                $toDate = $request->input('todate');
+                return $query->whereRaw("DATE(bid_creation__creations.created_at) BETWEEN ? AND ?", [$fromDate, $toDate]);
+            })
             ->orderBy('created_at', 'desc')
             ->get();
         if ($tendertracker)
