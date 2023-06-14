@@ -37,4 +37,18 @@ class CustomerCreationProfile extends Model
     protected $attributes = [ 
         'delete_status'=> 0,
     ]; 
+
+    public function countrys()
+    {
+        return $this->belongsTo(CountryMaster::class,'country');
+    }
+   
+    public function districts()
+    {  
+        return $this->belongsTo(DistrictMaster::class,'district');
+    }
+    public function citys()
+    {
+        return $this->belongsTo(CityMaster::class,'city');
+    }
 }

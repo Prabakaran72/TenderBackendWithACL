@@ -82,14 +82,8 @@ Route::post('getrolesandpermision', [UserControllerTemp::class, 'getRolesAndPerm
 
 Route::post('logout', [UserControllerTemp::class, 'logout']);
 Route::post('createState', [UserControllerTemp::class, 'login1']);
-Route::get('country/list', [CountryMasterController::class, 'getList']);
-Route::get('country/list/{savedcountry}', [CountryMasterController::class, 'getListofcountry']);
-Route::get('customersubcategory/list/{profileid}', [CustomerSubCategoryController::class, 'getList']);
-
-Route::get('state/list/{id}', [StateMasterController::class, 'getStateList']);
 Route::get('state-list/{id}', [StateMasterController::class, 'getStates']);
-Route::get('state/list/{id}/{category}/{savedstate}', [StateMasterController::class, 'getStateListOptions']);
-Route::get('unit/list', [UnitMasterController::class, 'getunitList']);
+
 Route::get('state/zonefilteredlist/{cid}/{id}', [StateMasterController::class, 'getZoneFilteredStateList']);
 
 Route::get('tendercreation/list/{id}', [TenderCreationController::class, 'getTenderList']);
@@ -105,11 +99,6 @@ Route::get('tendercreation-list/{id}', [TenderCreationController::class, 'getTen
 // Route::get('tendertype/{id}', [TenderTypeMasterController::class, 'show']);
 Route::get('tendertype/list', [TenderTypeMasterController::class, 'getList']);
 // Route::get('state/list/{id}/{category}/{savedstate}', [StateMasterController::class, 'getStateListOptions']);
-
-
-Route::get('district/list/{countryid}/{stateid}', [DistrictMasterController::class, 'getDistrictList']);
-Route::get('district/list/{countryid}/{stateid}/{saveddistrict}', [DistrictMasterController::class, 'getDistrictListofstate']);
-Route::get('city/list/{countryid}/{stateid}/{districtid}/{savedcity}', [CityMasterController::class, 'getCityList']);
 Route::get('ulb-list/{savedulb}', [CustomerCreationProfileController::class, 'getUlbs']);
 Route::post('customercreationmain/getmainid', [CustomerCreationMainController::class, 'getMainid']);
 Route::post('customercreation/profile', [CustomerCreationProfileController::class, 'getProfileFromData']);
@@ -120,26 +109,19 @@ Route::get('tendercreation/list', [TenderTypeMasterController::class, 'getList']
 Route::get('customerOptions', [CustomerCreationProfileController::class, 'getOptions']);
 
 // Route::get('customercreation/contact/getFormNo', [CustomerCreationContactPersonController::class, 'getFormNo']);
-Route::post('customercreationcontact/getlist', [CustomerCreationContactPersonController::class, 'getlist']);
-Route::post('customercreationbankdetails/getlist', [CustomerCreationBankDetailsController::class, 'getlist']);
+
+
 Route::post('customercreationsmwprojectstatus/getlist', [CustomerCreationSWMProjectStatusController::class, 'getlist']);
 Route::get('projecttype/list/{profileid}', [ProjectTypeController::class, 'getList']);
 Route::get('projecttype/list', [ProjectTypeController::class, 'getListofProjectType']);
 Route::get('projectstatus/list/{profileid}', [ProjectStatusController::class, 'getList']);
-Route::get('competitorprofile/getcompno/{compid}', [CompetitorProfileCreationController::class, 'getCompNo']);
-Route::get('competitorbranch/branchlist/{compid}', [CompetitorDetailsBranchesController::class, 'getbranchList']);
-Route::get('competitordetails/turnoverlist/{compid}', [CompetitorDetailsTurnOverController::class, 'getTurnOverList']);
-Route::get('competitordetails/networthlist/{compid}', [CompetitorDetailsCompanyNetWorthController::class, 'getNetWorthList']);
-Route::get('competitordetails/lineofbusinesslist/{compid}', [CompetitorDetailsLineOfBusinessController::class, 'getLineOfBusinessList']);
-Route::get('competitordetails/prosconslist/{compid}', [CompetitorDetailsProsConsController::class, 'getProsConsList']);
-Route::get('competitordetails/qclist/{compid}', [CompetitorDetailsQualityCertificatesController::class, 'getQCList']);
 Route::post('bidcreation/creation/docupload/list', [BidCreationCreationDocsController::class, 'getUplodedDocList']);
 Route::post('bidcreation/creation/docupload/{id}', [BidCreationCreationDocsController::class, 'update']);
 Route::get('download/BidDocs/{fileName}', [BidCreationCreationDocsController::class, 'download']);
 
 
 // Route::post('competitordetails/competitorqcertificate/updatewithimage'
-Route::get('competitordetails/wolist/{compid}', [CompetitorDetailsWorkOrderController::class, 'getWOList']);
+
 Route::post('bidcreation/creation/bidlist', [BidCreationCreationController::class, 'getBidList']);
 
 Route::get('moilization/getMobList/{mobId}', [BidManagementWorkOrderMobilizationAdvanceController::class, 'getMobList']);
@@ -225,8 +207,8 @@ Route::post('ulbreport/populb', [ULBDetailsController::class, 'setpopupUlb']);//
 
 
 Route::post('usertype', [UserTypeController::class, 'store']);
-Route::get('usertype', [UserTypeController::class, 'index']);
-Route::get('usertype/options', [UserTypeController::class, 'getoptions']);
+
+
 // Route::get('userOptions', [UserControllerTemp::class, 'getoptions']);
 
 Route::get('rolelist', [UserTypeController::class, 'getRoleList']);
@@ -238,19 +220,16 @@ Route::post('getbdmdetails', [UserControllerTemp::class, 'getbdmdetails']); // C
 Route::post('filteredcustomerlist', [CustomerCreationProfileController::class, 'getFilteredCustomerList']);
 
 
-Route::get('usertype/{id}', [UserTypeController::class, 'show']);
+
 Route::put('usertype/{id}', [UserTypeController::class, 'update']);
 Route::delete('usertype/{id}', [UserTypeController::class, 'destroy']);
 
 Route::get('menus', [MenuController::class, 'getMenus']);
-Route::get('menu/options', [MenuController::class, 'getoptions']);
 Route::get('rolehaspermission/{tokenid}', [UserControllerTemp::class, 'getRolehasPermission']);
 
 Route::post('setpermission', [PermissionController::class, 'store']);
-Route::get('userpermissions', [PermissionController::class, 'getPermissionList']);
 Route::delete('userpermission/{role_id}', [PermissionController::class, 'destroy']);
 Route::get('permisions/{usertype}', [PermissionController::class, 'getSavedData']);
-Route::get('usertypeOptionsForPermission', [PermissionController::class, 'getoptions']);
 Route::get('/calltype/list',[CallTypeController::class, 'getCallTypeList']);
 
 Route::get('bizzlist/list/{id}', [CallCreationController::class, 'getBizzList']);
@@ -366,7 +345,7 @@ Route::post('callreportstable',[DayWiseReportController::class,'CallReportTable'
 Route::post('otherexpensestable', [OtherExpensesController::class, 'OtherExpTable']);
 
 ///////////////////////////////ReactTable API Ends/////////////////////////////////////////////////////////
-
+Route::get('sendmail',[BidCreationCreationController::class,'mailstatus']);
 Route::middleware(['token.auth'])->group(function(){
     Route::post('districtmastertable',[DistrictMasterController::class,'DistrictMasterTable']);
     Route::post('citymastertable',[CityMasterController::class,'CityMasterTable']);
@@ -383,8 +362,35 @@ Route::middleware(['token.auth'])->group(function(){
     Route::post('attendancemasterreport',[AttendanceRegisterController::class,'AttendanceMasterReport']);
     Route::post('holidaymaster',[HolidaysController::class,'HolidayMaster']);
     Route::post('expensesapprovalmaster',[ExpensesApprovalController::class,'ExpensesApprovalMaster']);
-
+// gettopost 7-06-2023
+Route::post('usertype', [UserTypeController::class, 'index']);
+Route::post('usertype/{id}', [UserTypeController::class, 'show']);
+Route::post('usertypeoption', [UserTypeController::class, 'getoptions']);
+Route::post('userpermissions', [PermissionController::class, 'getPermissionList']);
+Route::post('usertypeOptionsForPermission', [PermissionController::class, 'getoptions']);
+Route::post('menu/options', [MenuController::class, 'getoptions']);
+Route::post('customersubcategory/list/{profileid}', [CustomerSubCategoryController::class, 'getList']);
+Route::post('country/list/{savedcountry}', [CountryMasterController::class, 'getListofcountry']);
+Route::post('state/list/{id}/{category}/{savedstate}', [StateMasterController::class, 'getStateListOptions']);
+Route::post('district/list/{countryid}/{stateid}/{saveddistrict}', [DistrictMasterController::class, 'getDistrictListofstate']);
+Route::post('city/list/{countryid}/{stateid}/{districtid}/{savedcity}', [CityMasterController::class, 'getCityList']);
+Route::post('customercreationcontact/getlist', [CustomerCreationContactPersonController::class, 'getlist']);
+Route::post('customercreationbankdetails/getlist', [CustomerCreationBankDetailsController::class, 'getlist']);
+Route::post('country/list', [CountryMasterController::class, 'getList']);
+// gettopost 08-06-2023
+Route::post('state/list/{id}', [StateMasterController::class, 'getStateList']);
+Route::post('district/list/{countryid}/{stateid}', [DistrictMasterController::class, 'getDistrictList']);
+Route::post('competitorprofile/getcompno/{compid}', [CompetitorProfileCreationController::class, 'getCompNo']);
+Route::post('competitorbranch/branchlist/{compid}', [CompetitorDetailsBranchesController::class, 'getbranchList']);
+Route::post('competitordetails/turnoverlist/{compid}', [CompetitorDetailsTurnOverController::class, 'getTurnOverList']);
+Route::post('competitordetails/networthlist/{compid}', [CompetitorDetailsCompanyNetWorthController::class, 'getNetWorthList']);
+Route::post('competitordetails/qclist/{compid}', [CompetitorDetailsQualityCertificatesController::class, 'getQCList']);
+Route::post('competitordetails/lineofbusinesslist/{compid}', [CompetitorDetailsLineOfBusinessController::class, 'getLineOfBusinessList']);
+Route::post('unit/list', [UnitMasterController::class, 'getunitList']);
+Route::post('competitordetails/wolist/{compid}', [CompetitorDetailsWorkOrderController::class, 'getWOList']);
+Route::post('competitordetails/prosconslist/{compid}', [CompetitorDetailsProsConsController::class, 'getProsConsList']);
 });
+
 
 
 // Route::get('holidaytable',[HolidaysController::class,'HolidayMasterTable']);

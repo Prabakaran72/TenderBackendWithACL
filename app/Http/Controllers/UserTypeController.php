@@ -33,9 +33,9 @@ class UserTypeController extends Controller
 
     public function getoptions()
     {
-        //
+        
         $userType = Role::where('activeStatus', 'active')->orderBy('id', 'asc')->get();
-      
+    
     
         if ($userType)
             return response()->json([

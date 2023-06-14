@@ -38,7 +38,7 @@ class WeeklyMail extends Mailable
     {
         return new Envelope(
             from: new Address('vw341554@gmail.com','vigneshwaran'),
-            subject: 'Reminder: Pending Bid Submission',
+            subject: 'Urgent Notice - Tender Closing Soon',
         
         );
     }
