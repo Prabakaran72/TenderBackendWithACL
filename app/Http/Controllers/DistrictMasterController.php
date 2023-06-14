@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\DistrictMaster;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Token;
+use Illuminate\Support\Facades\DB;
 
 class DistrictMasterController extends Controller
 {
@@ -209,6 +211,53 @@ class DistrictMasterController extends Controller
         return  response()->json([
             'districtList' =>  $districtList
         ]);
+    }
+
+    public function DistrictMasterTable(Request $request)
+    {
+        $user = Token::where('tokenid', $request->tokenid)->first();   
+        $userid = $user['userid'];
+    
+        if($userid)
+        {
+            $tableName = 'district_masters';
+            $header=['COUNTRY','STATE','DISTRICT NAME','STATUS'];
+            $specificColumns = ['country_id','state_id','district_name','district_status'];
+            $columnNames = DB::select("SHOW COLUMNS FROM $tableName");
+            $filteredColumns = array_intersect($specificColumns, array_column($columnNames, 'Field'));
+            $district = DistrictMaster::join("state_masters",'district_masters.state_id','state_masters.id')
+            ->join("country_masters",'country_masters.id','district_masters.country_id')
+            ->where([
+                'country_masters.country_status'=>'Active',
+                'state_masters.state_status'=>'Active',
+            ])
+            ->select('country_masters.country_name','state_masters.state_name', 'district_masters.district_name','district_masters.id','district_masters.district_status') 
+            ->orderBy('country_masters.country_name', 'asc')
+            ->orderBy('state_masters.state_name', 'asc')
+            ->orderBy('district_masters.district_name', 'asc')
+            ->get();
+
+            $modifiedAccessor = array_map(function ($value)
+             {
+                if ($value === "country_id")
+                 {
+                    return "country_name";
+                } elseif ($value === "state_id") 
+                {
+                    return "state_name";
+                }
+                return $value;
+            }, $filteredColumns);
+                
+            return response()->json([
+                'data'=>$district,
+                'header'=>$header,
+                'title'=>'District Master',
+                'accessor'=> $modifiedAccessor,
+               
+                
+            ]);
+        }
     }
     
 }

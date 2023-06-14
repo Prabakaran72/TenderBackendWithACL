@@ -62,6 +62,7 @@ use App\Http\Controllers\ExpenseTypeController;
 use App\Http\Controllers\AttendanceEntryController;
 use App\Http\Controllers\AttendanceTypeController;
 use App\Http\Controllers\CallCreationController;
+use App\Http\Controllers\BusinessForecastStatusController;
 use App\Http\Controllers\CallLogFilesController;
 use App\Http\Controllers\OtherExpenseSubController;
 use App\Http\Controllers\OtherExpenseController;
@@ -71,6 +72,7 @@ use App\Http\Controllers\AttendanceRegisterController;
 use App\Http\Controllers\ExpensesApprovalController;
 use App\Http\Controllers\OtherExpensesController;
 use App\Http\Controllers\HolidaysController;
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -364,7 +366,24 @@ Route::middleware(['token.auth'])->group(function(){
 
 ///////////////////////////////ReactTable API Ends/////////////////////////////////////////////////////////
 
+Route::middleware(['token.auth'])->group(function(){
+    Route::post('districtmastertable',[DistrictMasterController::class,'DistrictMasterTable']);
+    Route::post('citymastertable',[CityMasterController::class,'CityMasterTable']);
+    Route::post('statemastertable',[StateMasterController::class,'StateMasterTable']);
+    Route::post('countrymastertable',[CountryMasterController::class,'CountryMasterTable']);
+    Route::post('competitormastertable',[CompetitorProfileCreationController::class,'CompetitorMasterTable']);
+    Route::post('customercreationmaster',[CustomerCreationProfileController::class,'CustomerCreationMaster']);
+    Route::post('permissionmastertable',[PermissionController::class,'PermissionMasterTable']);
+    Route::post('usermastertable',[UserControllerTemp::class,'UserMasterTable']);
+    Route::post('usertypemaster',[UserTypeController::class,'UserTypeMaster']);
+    Route::post('bidcreationmaster',[BidCreationCreationController::class,'BidCreationMaster']);
+    Route::post('ulbdetailsmaster',[ULBDetailsController::class,'ULBDetailsMaster']);
+    Route::post('attendancemaster',[AttendanceRegisterController::class,'AttendanceMaster']);
+    Route::post('attendancemasterreport',[AttendanceRegisterController::class,'AttendanceMasterReport']);
+    Route::post('holidaymaster',[HolidaysController::class,'HolidayMaster']);
+    Route::post('expensesapprovalmaster',[ExpensesApprovalController::class,'ExpensesApprovalMaster']);
 
+});
 
 // Ashiq
 

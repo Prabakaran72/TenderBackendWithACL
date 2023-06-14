@@ -6,6 +6,7 @@ use App\Models\CityMaster;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Models\Token;
 
 class CityMasterController extends Controller
 {
@@ -270,5 +271,54 @@ class CityMasterController extends Controller
             'cityList' =>  $cityList,
             'sqlquery' => $query
         ]);
+    }
+
+    public function CityMasterTable(Request $request){
+        $user = Token::where('tokenid', $request->tokenid)->first();   
+        $userid = $user['userid'];
+        $accessor =[];
+        if($userid)
+        {
+            $tableName = 'city_masters';
+            $header=['Country','State','District','City','Status'];
+            $city = DB::table('city_masters')
+            ->join('country_masters','country_masters.id','city_masters.country_id')
+            ->join('state_masters','state_masters.id','city_masters.state_id')
+            ->join('district_masters','district_masters.id','city_masters.district_id')
+            ->where([
+                'country_masters.country_status'=>'Active',
+                'state_masters.state_status'=>'Active',
+                'district_masters.district_status'=>'Active',
+            ])
+            ->select('country_masters.country_name','state_masters.state_name', 'district_masters.district_name', 'city_masters.city_name','city_masters.id','city_masters.city_status' ) 
+            ->orderBy('country_masters.country_name', 'asc')
+            ->orderBy('state_masters.state_name', 'asc')
+            ->orderBy('district_masters.district_name', 'asc')
+            ->orderBy('city_masters.city_name', 'asc')       
+            ->get();
+
+           foreach($city[0] as $key => $value ){
+
+            if($key === 'id'){
+                continue;
+            }
+                $accessor[]=$key;
+           }
+           
+            if ($city)
+                return response()->json([
+                    'data' => $city,
+                    'header'=> $header,
+                    'title'=>'District Master',
+                    'accessor'=>  $accessor,
+                ]);
+            else {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'The provided credentials are incorrect.'
+                ]);
+            }
+        }
+       
     }
 }

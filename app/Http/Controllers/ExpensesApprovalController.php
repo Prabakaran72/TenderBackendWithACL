@@ -449,8 +449,37 @@ return response()->json([
                 'exapp' => $exp_app,
                 'withCall' =>$withCall,
                 'otherExpense'=>$otherExpense,
-            ]);
-           
+            ]);   
+            }
+
+            public function ExpensesApprovalMaster(){
+                $exp_app =  DB::table('expenses_approvals')->get();
+                $accessor =[];
                 
+                $header =['Entry Date','Expense Bill No','Staff Name','Total Amount','HO Approval','CEO Approal','HR Approal',''];
+                
+                foreach($exp_app[0] as $key => $value ){
+        
+                    if($key === 'entry_date' || $key === 'ex_app_no' || $key === 'total_amount' || $key === 'hr_approval' || $key === 'ceo_approval' || $key === 'ho_approval')
+                    {
+                        $accessor[]=$key;
+                    }
+                        
+                   }
+                  
+                if ($exp_app) {
+                    return response()->json([
+                        'status' => 200,
+                        'data' => $exp_app,
+                        'header'=> $header,
+                        'title'=>'List Reimbursement Form',
+                        'accessor'=>  $accessor,
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => 400,
+                        'message' => 'No data'
+                    ]);
+                }
             }
 }
