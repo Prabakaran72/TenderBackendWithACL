@@ -9,6 +9,7 @@ class UnitMasterController extends Controller
 {
     public function index()
     {
+        
         $unit = UnitMaster::orderBy('created_at', 'desc')->get();
 
         if ($unit)
@@ -22,6 +23,7 @@ class UnitMasterController extends Controller
                 'message' => 'The provided credentials are incorrect.'
             ]);
         }
+    
     }
 
 
@@ -139,22 +141,26 @@ class UnitMasterController extends Controller
     }
 
 
-    public function getunitList(){
-
-        $units = UnitMaster::where("unit_status", "=", "Active")
-        ->get();
-
+    public function getunitList()
+    {
         
-        $unitList = array();
-        foreach($units as $unit){
-            $unitList[] = ["value" => $unit['id'], "label" =>  $unit['unit_name']] ;
-        }
-        return  response()->json([
-            'unitList' =>  $unitList
-        ]);
+            $units = UnitMaster::where("unit_status", "=", "Active")
+            ->get();
+
+            
+            $unitList = array();
+            foreach($units as $unit){
+                $unitList[] = ["value" => $unit['id'], "label" =>  $unit['unit_name']] ;
+            }
+            return  response()->json([
+                'unitList' =>  $unitList
+            ]);
+        
     }
 
-    public function getListofUnits(){
+    public function getListofUnits()
+    {
+        
 
         $units = UnitMaster::where("unit_status", "=", "Active")
         ->get();
@@ -167,6 +173,7 @@ class UnitMasterController extends Controller
         return  response()->json([
             'unitList' =>  $unitList
         ]);
+    
     }
 
     public function UnitMasterTable(Request $request)

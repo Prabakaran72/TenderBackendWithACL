@@ -247,7 +247,7 @@ class StateMasterController extends Controller
 
         DB::enableQueryLog();
         $states = StateMaster::where("country_id",$countryId)
-        ->where("category",$cat)
+        ->where("category",$category)
         ->whereIn("country_id",function($query){
             $query->select('id')
             ->from('country_masters')

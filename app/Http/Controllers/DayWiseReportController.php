@@ -194,7 +194,7 @@ public function CallReportTable(Request $request)
     if($user['userid'])
     {
         $header = ['Call No','Customer Name','Status','Next Follow Up Date','Started','Finished'];
-        $accessor = ['callid','customer_name','action','next_followup_date','call_date','close_date'];
+        $accessor = ['callid','customer_name','status','next_followup_date','call_date','close_date'];
 
         $from_date = $request->from_date;
         $to_date = $request->to_date;
@@ -218,7 +218,7 @@ public function CallReportTable(Request $request)
                            'u.userType',
                            'u.userName',
                            'clc.executive_id',
-                           'clc.action',
+                           'clc.action as status',
                            'clc.call_date',
                            'clc.close_date',
                            'clc.next_followup_date',

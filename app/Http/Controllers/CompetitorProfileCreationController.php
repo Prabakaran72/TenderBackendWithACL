@@ -54,7 +54,9 @@ class CompetitorProfileCreationController extends Controller
             ]);
         }
 
-        $validator = Validator::make($request->all(), ['compName' => 'required|string','compNo'=>'required|string', 'state'=>'required|integer', 'registrationType'=>'required|string', 'registerationYear'=>'required|integer','country'=>'required|integer','district'=>'required|integer','city'=>'required|integer','address'=>'required|string','pincode'=>'required|integer','panNo'=>'required|string','mobile'=>'required|integer','email'=>'required|string','gstNo'=>'required|string','directors'=>'required|string','companyType'=>'required|string','manpower'=>'required|integer','cr_userid'=>'required|integer'
+    //     $validator = Validator::make($request->all(), ['compName' => 'required|string','compNo'=>'required|string', 'state'=>'required|integer', 'registrationType'=>'required|string', 'registerationYear'=>'required|integer','country'=>'required|integer','district'=>'required|integer','city'=>'required|integer','address'=>'required|string','pincode'=>'required|integer','panNo'=>'required|string','mobile'=>'required|integer','email'=>'required|string','gstNo'=>'required|string','directors'=>'required|string','companyType'=>'required|string','manpower'=>'required|integer','cr_userid'=>'required|integer'
+    // ]);
+        $validator = Validator::make($request->all(), ['compName' => 'required|string','compNo'=>'required|string', 'state'=>'required|integer', 'country'=>'required|integer','district'=>'required|integer','city'=>'required|integer','cr_userid'=>'required|integer'
     ]);
         if ($validator->fails()) {
             return response()->json([
@@ -105,7 +107,10 @@ class CompetitorProfileCreationController extends Controller
     $request->request->add(['edited_userid' => $user['userid']]);
     //Here is no need of token id when insert $request into table, so remove it form $request
     $request->request->remove('tokenId');
-    $validator = Validator::make($request->all(), ['compName' => 'required|string','compNo'=>'required|string', 'state'=>'required|integer','registrationType'=>'required|integer', 'registerationYear'=>'required|integer','country'=>'required|integer','district'=>'required|integer','city'=>'required|integer','address'=>'required|string','pincode'=>'required|integer','panNo'=>'required|string','mobile'=>'required|integer','email'=>'required|string','gstNo'=>'required|string','directors'=>'required|string','companyType'=>'required|string','manpower'=>'required|integer',
+    // $validator = Validator::make($request->all(), ['compName' => 'required|string','compNo'=>'required|string', 'state'=>'required|integer','registrationType'=>'required|integer', 'registerationYear'=>'required|integer','country'=>'required|integer','district'=>'required|integer','city'=>'required|integer','address'=>'required|string','pincode'=>'required|integer','panNo'=>'required|string','mobile'=>'required|integer','email'=>'required|string','gstNo'=>'required|string','directors'=>'required|string','companyType'=>'required|string','manpower'=>'required|integer',
+    // ]);
+
+    $validator = Validator::make($request->all(), ['compName' => 'required|string','compNo'=>'required|string', 'state'=>'required|integer', 'country'=>'required|integer','district'=>'required|integer','city'=>'required|integer','edited_userid'=>'required|integer'
     ]);
 if ($validator->fails()) {
         return response()->json([

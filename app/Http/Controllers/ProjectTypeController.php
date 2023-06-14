@@ -188,7 +188,8 @@ class ProjectTypeController extends Controller
     }
 
     
-    public function getList($profileid){
+    public function getList($profileid)
+    {
         
         DB::enableQueryLog(); 
 
@@ -213,9 +214,11 @@ class ProjectTypeController extends Controller
             'projectTypeList' =>  $producttypeList,
             'sqlquery' => $query
         ]);
+    
     }
 
-    public function getListofProjectType(){
+    public function getListofProjectType()
+    {
         
         DB::enableQueryLog(); 
 
@@ -240,6 +243,7 @@ class ProjectTypeController extends Controller
             'projectTypeList' =>  $producttypeList,
             'sqlquery' => $query
         ]);
+    
     }
 
     public function ProjectTypeTable(Request $request)
