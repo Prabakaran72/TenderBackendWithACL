@@ -17,7 +17,7 @@ class ProjectStatusController extends Controller
      */
     public function index()
     {
-        //
+        
         $ProjectStatus = ProjectStatus::orderBy('created_at', 'desc')->get();
       
     
@@ -185,7 +185,8 @@ class ProjectStatusController extends Controller
         }
     }
 
-    public function getList($profileid){
+    public function getList($profileid)
+    {
         
         DB::enableQueryLog(); 
 
@@ -210,6 +211,7 @@ class ProjectStatusController extends Controller
             'projectstatusList' =>  $producttypeList,
             'sqlquery' => $query
         ]);
+    
     }
 
     public function ProjectStatusTable(Request $request)
