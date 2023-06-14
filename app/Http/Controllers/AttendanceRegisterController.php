@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\AttendanceType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Spatie\Permission\Models\Role;
 
 
 class AttendanceRegisterController extends Controller
@@ -113,7 +114,8 @@ class AttendanceRegisterController extends Controller
                 if ($another_table || $inserted_id) {
                     return response()->json([
                         'status' => 200,
-                        'message' => 'Attendance Entry Added Successfully!'
+                        'message' => 'Attendance Entry Added Successfully!',
+                        'id'=>$inserted_id
                     ]);
                 } else {
                     return response()->json([
@@ -125,7 +127,8 @@ class AttendanceRegisterController extends Controller
                 if ($inserted_id) {
                     return response()->json([
                         'status' => 200,
-                        'message' => 'Attendance Entry Added Successfully!'
+                        'message' => 'Attendance Entry Added Successfully!',
+                        'id'=>$inserted_id
                     ]);
                 } else {
                     return response()->json([
@@ -284,6 +287,7 @@ class AttendanceRegisterController extends Controller
      */
     public function destroy($id)
     {
+      
         try {
             $leaveregister = LeaveRegister::destroy($id);
             if ($leaveregister) {
@@ -497,37 +501,89 @@ class AttendanceRegisterController extends Controller
 
     public function getEmployeeLeaveList(Request $request)
     {
-       
-
-        $userID = $request->user_id;
+        $userID = $request->user_id; //selected user id
         $roleID = $request->role_id;
-       
+        $user = Token::where('tokenid', $request->token)->first();
+        
+        $userRoleID = User::find($user['userid']);
+        // $userRole = Role::find($userRoleID['userType']);
+        // return $userRoleID;
         
         if(empty($request->from_date))
         {
             $month = Carbon::now()->month;
             $year = Carbon::now()->year;
-           
-           
         }
         else
         {
-             $date = Carbon::parse($request->from_date);
+            $date = Carbon::parse($request->from_date);
             //$date = Carbon::createFromFormat('m-Y', $request->from_date);
             $year = $date->year;
             $month = $date->month;
-           
-           
-          
         }
     
         $user_list = [];
+        // $userListModal=new User;
+        // $userListQuery='';
+        // if(empty($userID))
+        // {
+        //     $userListQuery="where('userType','!=',1)";
+        // }
+        // else{
+        //     $userListQuery="where('userType','!=',1)";
+        // }
+        // if(empty($roleID))
+        // {
+        //     $userListQuery = 
+        // }
+        // else{
+        //     $userListQuery = where('userType',$roleID);
+        // }
+
+
+
         if(empty($userID)){
-            $users = User::where('userType','!=',1)->get();
+            if(empty($roleID))
+            {
+                // if($userRoleID['userType'] === 1)
+                // {
+                //     $users = User::where('userType','!=',1)->where('userType',$roleID)->get();
+                // }
+                // else{
+                    $users = User::where('userType','!=',1)->get();
+                // }
+            }
+            else{
+                // if($userRoleID['userType'] === 1)
+                // {
+                    $users = User::where('userType','!=',1)->where('userType',$roleID)->get();
+                // }
+                // else{
+                //     $users = User::where('userType','!=',1)->get();
+                // }
+                
+            }
         }
         else{
-            $users = User::where('id',$userID)->where('userType','!=',1)->get();
-           
+            if(empty($roleID))
+            {
+                if($userRoleID['userType'] === 1)
+                {
+                    $users = User::where('id',$userID)->get();
+                }
+                else{
+                    $users = User::where('id',$userID)->where('userType','!=',1)->get();
+                }
+            }
+            else{
+                // if($userRoleID['userType'] === 1)
+                // {
+                //     $users = User::where('id',$userID)->get();
+                // }
+                // else{
+                    $users = User::where('id',$userID)->where('userType','!=',1)->get();
+                // }
+            }
         }
        
         foreach($users as $row)
@@ -549,7 +605,7 @@ class AttendanceRegisterController extends Controller
                     'lr.to_date',
                     'lr.start_time',
                     'lr.reason',
-                    'r.id as role_ID',
+                    'r.id as role_ID'
                 );
                    
                 if($userID)
@@ -558,7 +614,14 @@ class AttendanceRegisterController extends Controller
                 }
                 if($roleID)
                 {
-                    $leave->where('r.id',$roleID)->where('r.id','!=',1);
+                    if($userRoleID['userType']  === 1)
+                    {
+                        $leave->where('r.id',$roleID);
+                    }
+                    else{
+                        $leave->where('r.id',$roleID)->where('r.id','!=',1);
+                    }
+                    
                 }
                 
                     $leave->whereMonth('lr.from_date','=',$month);
