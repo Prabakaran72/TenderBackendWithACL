@@ -370,7 +370,7 @@ Route::post('usertypeOptionsForPermission', [PermissionController::class, 'getop
 Route::post('menu/options', [MenuController::class, 'getoptions']);
 Route::post('customersubcategory/list/{profileid}', [CustomerSubCategoryController::class, 'getList']);
 Route::post('country/list/{savedcountry}', [CountryMasterController::class, 'getListofcountry']);
-Route::post('state/list/{id}/{category}/{savedstate}', [StateMasterController::class, 'getStateListOptions']);
+// Route::post('state/list/{id}/{category}/{savedstate}', [StateMasterController::class, 'getStateListOptions']);
 Route::post('district/list/{countryid}/{stateid}/{saveddistrict}', [DistrictMasterController::class, 'getDistrictListofstate']);
 Route::post('city/list/{countryid}/{stateid}/{districtid}/{savedcity}', [CityMasterController::class, 'getCityList']);
 Route::post('customercreationcontact/getlist', [CustomerCreationContactPersonController::class, 'getlist']);
@@ -633,6 +633,7 @@ Route::resources([
     'otherexpensesub' => OtherExpenseSubController::class,
     'attendanceregister'=>AttendanceRegisterController::class,
     'holidays'=>HolidaysController::class,
+    
 ]);
 
 

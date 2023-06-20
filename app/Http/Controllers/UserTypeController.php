@@ -54,7 +54,7 @@ class UserTypeController extends Controller
             'name' => 'required|unique:roles,name',
         ]);
     
-        $user = Token::where('tokenid', $request->tokenId)->first();   
+        $user = Token::where('tokenid', $request->tokenid)->first();   
         // return  $user;
         $userid = $user['userid'];
 
